@@ -14,9 +14,15 @@ import { actionTypes } from '../context/reducer';
 
 const Register = ()=>{
     const [password,setPassword] = useState('');
-    const [passwordHidden, setPasswordHidden] = useState(true);
     const [passVisible, setPassVisible] = useState(false);
     const[email,setEmail] = useState('');
+    const [firstName,setFirstName] = useState('');
+    const [lastName,setLastName] = useState('');
+    const [sex,setSex] = useState('');
+    const [birthDate,setbirthDate] = useState('');
+    const [type,setType] = useState('');
+    const [city,setCity] = useState('');
+    const [country,setCountry] = useState('');
     const [{user,jwtoken}, dispatch] = useStateValue();
 
     const navigate = useNavigate();
@@ -32,24 +38,31 @@ const Register = ()=>{
         makePassVisible();
     },[passVisible]);
 
-    const handleLogin = async (email, pass)=>{
+    const handleRegister = async (email, pass, firstName, lastName,sex,birthDate,type, city, country)=>{
         try{
             const notificationId = toast.loading("Por favor espere...",{
                 closeOnClick:true
             });
-            if(email !=='' && pass !== ''){
+            if(email !=='' && pass !== '' && firstName !=='' && lastName !=='',sex !=='' ,birthDate !== '',type !== ''){
                 const response = await axios({
                     method:'post',
                     url:'http://localhost:4000/criptopass/auth/register',
                     data:{
                         email,
-                        password:pass
+                        password:pass,
+                        first_name:firstName,
+                        last_name: lastName,
+                        sex,
+                        birth_date: birthDate,
+                        type,
+                        city,
+                        country
                     },
                     headers:{
                         "Content-Type":"application/json"
                     }
                 });
-                if(response.status===200){
+                if(response.status===201){
                     const {status,msg,data} = response.data;
                     toast.update(notificationId,{type:'success',render:msg,isLoading:false});
                     dispatch({
@@ -62,7 +75,7 @@ const Register = ()=>{
                         user: data.user
                     });
                     localStorage.setItem('user',JSON.stringify(data.user));
-                    setTimeout(()=>navigate('/transfer'),6000);
+                    setTimeout(()=>navigate('/transfer'),3000);
                 } else{
                     toast.update(notificationId,{type:'error',render:msg,isLoading:false});
                 }
@@ -101,17 +114,23 @@ const Register = ()=>{
                         placeholder='Contraseña' value={password} onChange={(e)=>setPassword(e.target.value)}  />
                         <span className='absolute' onClick={()=>setPassVisible(!passVisible)}>{passVisible ? <AiOutlineEyeInvisible className='text-[20px] font-bold text-primary' /> : <AiOutlineEye className='text-[20px] font-bold text-primary' />}</span>
                     </div>
-
-                
-                </div><br/>
+                </div>
+                <div>
+                <label>Correo electrónico</label><br/>
+                    <input type='email' id='email' required={true} placeholder='joe_smith@brum.com'
+                    className='border-2 border-primary' value={email} onChange={(e)=>setEmail(e.target.value)}
+                    />
+                </div>
+                <br/>
                 <div className='flex justify-center items-center'>
                     <button
                     className='bg-secondary border-secondary border-2 rounded-md text-white text-[20px] py-2 px-4'
-                    onClick={()=>handleLogin(email,password)}
+                    onClick={()=>handleRegister(email,password)}
                     >Iniciar sesión</button>
                 </div>
 
             </div>
+            <ToastContainer position='top-center' />
         </div>
     )
 };
