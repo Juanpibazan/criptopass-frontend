@@ -1,0 +1,40 @@
+@font-face {
+  font-family: garetFont;
+  src: url('./fonts/garet/Garet-Book.otf');
+}
+
+@font-face{
+  font-family: openSauceFont;
+  src: url('./fonts/open-sauce-one/OpenSauceOne-Regular.ttf');
+}
+
+.profile-icon-submenu{
+  display:none;
+}
+
+.profile-icon-container:hover ~.profile-icon-submenu, .profile-icon-submenu:hover, .profile-icon-container:active ~.profile-icon-submenu, .profile-icon-submenu:active{
+  display:block;
+
+}
+
+.app-grid-container{
+  display: grid;
+  grid-template-areas: "nav nav"
+                        "sidebar hero"
+                        "footer footer";
+  grid-template-columns: 300px 1fr;
+  gap: 10px;
+  padding: 10px 15px;
+}
+
+.navbar{
+  grid-area: nav;
+}
+
+.sidebar{
+  grid-area: sidebar;
+}
+
+.footer{
+  grid-area: footer;
+}
