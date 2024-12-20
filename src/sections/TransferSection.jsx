@@ -4,6 +4,9 @@ import React, {useState,useEffect} from 'react';
 const TransferSection = ()=>{
 
     const [fromAddress,setFromAddress] = useState('');
+    const [liquidAmount,setLiquidAmount] = useState(0.00);
+    const [developerFee,setDeveloperFee] = useState(0.025);
+    const [transferCost, setTransferCost] = useState(0.00);
 
     return (
         <div>
@@ -19,7 +22,13 @@ const TransferSection = ()=>{
                         Fee de CriptoPass: 0.5 USDT
                         Monto total a transferir a través de Criptopass: 20.5 USDT
                     </li>
-                    <li>Cada tipo de transferencia tiene un costo particular. A continuación los costos:</li>
+                    <li>Cada tipo de transferencia tiene un costo particular. A continuación los costos:
+                        <ul>
+                        <li>ACH: $0.50</li>
+                        <li>Same Day ACH: $1</li>
+                        <li>Wire: $20</li>
+                        </ul>
+                    </li>
                 </ol>
             </div>
             <div className='my-4'>
@@ -36,10 +45,46 @@ const TransferSection = ()=>{
                                 type='text' required={true} placeholder='0xe15804194f8ced608d950eca9a2d421ef54a961d' value={fromAddress} onChange={(e)=>setFromAddress(e.target.value)}/>
                             </div>
                             <div className='w-[50%]'>
+                                <label className='font-bold'>Monto líquido que desea que llegue a destino:</label><br/>
+                                <input
+                                className='w-full border-secondary border-2 rounded-sm'
+                                type='text' required={true} placeholder='20.00' value={fromAddress} onChange={(e)=>setFromAddress(e.target.value)}/>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className='py-4 px-4 bg-tertiary w-full'>
+                        <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Datos de Destino</h3>
+                        <div className='flex justify-start items-center gap-4'>
+                            <div className='w-[50%]'>
+                                <label className='font-bold'>Dirección Billetera Spot de Binance (en Ethereum):</label><br/>
+                                <input
+                                className='w-full border-secondary border-2 rounded-sm'
+                                type='text' required={true} placeholder='0xe15804194f8ced608d950eca9a2d421ef54a961d' value={fromAddress} onChange={(e)=>setFromAddress(e.target.value)}/>
+                            </div>
+                            <div className='w-[50%]'>
                                 <label className='font-bold'>Monto a transferir en USDT</label><br/>
                                 <input
                                 className='w-full border-secondary border-2 rounded-sm'
                                 type='text' required={true} placeholder='20.00' value={fromAddress} onChange={(e)=>setFromAddress(e.target.value)}/>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className='py-4 px-4 bg-tertiary w-full'>
+                        <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Costos relacionados</h3>
+                        <div className='flex justify-start items-center gap-4'>
+                            <div className='w-[50%]'>
+                                <label className='font-bold'>Costo de la transferencia:</label><br/>
+                                <input disabled={true}
+                                className='w-full border-secondary border-2 rounded-sm text'
+                                type='text' value={fromAddress}/>
+                            </div>
+                            <div className='w-[50%]'>
+                                <label className='font-bold'>Comision de Criptopass:</label><br/>
+                                <input disabled={true}
+                                className='w-full border-secondary border-2 rounded-sm'
+                                type='text' value={`${developerFee*100} %`}/>
                             </div>
 
                         </div>
