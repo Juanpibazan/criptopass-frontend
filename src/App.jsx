@@ -12,6 +12,7 @@ import Login from './sections/Login';
 import Register from './sections/Register';
 import Transfers from './sections/Transfers';
 import Home from './sections/Home';
+import Profile from './sections/Profile';
 
 import { useStateValue } from './context/StateProvider';
 import { actionTypes } from './context/reducer';
@@ -31,6 +32,7 @@ function App() {
         <Route path='/transfers' element={<Transfers />} />
         <Route path='/transfer' element={<TransferSection />} />
         <Route path='/home' element={<Home />} />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
       <Footer />
 
