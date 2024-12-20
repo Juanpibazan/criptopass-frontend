@@ -46,7 +46,7 @@ const Register = ()=>{
             if(type !=='' &&  email !=='' && pass !== '' && first_name !=='' && last_name !=='' && sex !=='' && birth_date !=='' && city !=='' && country !==''){
                 const response = await axios({
                     method:'post',
-                    url:'http://localhost:4000/criptopass/auth/register',
+                    url:'https://criptopass-api.onrender.com/criptopass/auth/register',
                     data:{
                         email,
                         password:pass,
