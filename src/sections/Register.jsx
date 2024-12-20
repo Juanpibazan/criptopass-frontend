@@ -19,7 +19,7 @@ const Register = ()=>{
     const [firstName,setFirstName] = useState('');
     const [lastName,setLastName] = useState('');
     const [sex,setSex] = useState('');
-    const [birthDate,setbirthDate] = useState('');
+    const [birthDate,setBirthDate] = useState('');
     const [type,setType] = useState('');
     const [city,setCity] = useState('');
     const [country,setCountry] = useState('');
@@ -38,22 +38,22 @@ const Register = ()=>{
         makePassVisible();
     },[passVisible]);
 
-    const handleRegister = async (email, pass, firstName, lastName,sex,birthDate,type, city, country)=>{
+    const handleRegister = async (email, pass, first_name,last_name, sex, birth_date, type, city, country)=>{
         try{
             const notificationId = toast.loading("Por favor espere...",{
                 closeOnClick:true
             });
-            if(email !=='' && pass !== '' && firstName !=='' && lastName !=='',sex !=='' ,birthDate !== '',type !== ''){
+            if(type !=='' &&  email !=='' && pass !== '' && first_name !=='' && last_name !=='' && sex !=='' && birth_date !=='' && city !=='' && country !==''){
                 const response = await axios({
                     method:'post',
                     url:'http://localhost:4000/criptopass/auth/register',
                     data:{
                         email,
                         password:pass,
-                        first_name:firstName,
-                        last_name: lastName,
+                        first_name,
+                        last_name,
                         sex,
-                        birth_date: birthDate,
+                        birth_date,
                         type,
                         city,
                         country
@@ -63,8 +63,10 @@ const Register = ()=>{
                     }
                 });
                 if(response.status===201){
+                    console.log('This is the RESPONSE: ',response);
                     const {status,msg,data} = response.data;
                     toast.update(notificationId,{type:'success',render:msg,isLoading:false});
+                    console.log('This is the DATA: ',data);
                     dispatch({
                         type: actionTypes.SET_JWT,
                         jwtoken: data.token
@@ -74,8 +76,9 @@ const Register = ()=>{
                         type: actionTypes.SET_USER,
                         user: data.user
                     });
+                    console.log(data.user);
                     localStorage.setItem('user',JSON.stringify(data.user));
-                    setTimeout(()=>navigate('/transfer'),3000);
+                    setTimeout(()=>navigate('/home'),1000);
                 } else{
                     toast.update(notificationId,{type:'error',render:msg,isLoading:false});
                 }
@@ -86,10 +89,10 @@ const Register = ()=>{
 
         } catch(e){
             console.log(e);
-            toast(e.response.data.msg,{
-                type:'error',
-                position:'top-center'
-            });
+            //toast(e.response.data.msg,{
+                //type:'error',
+               // position:'top-center'
+            //});
         }
 
     };
@@ -102,31 +105,71 @@ const Register = ()=>{
             <div>
                 <h1 className='text-[30px] text-primary'>Iniciar sesión</h1>
                 <div>
+                <label>Tipo de Cuenta</label><br/>
+                <select id='account-type' className='border-2 border-primary' required={true} value={type} onChange={(e)=>setType(e.target.value)}>
+                        <option value=''>Por favor selecciona una opción:</option>
+                        <option value='individual'>Individual</option>
+                        <option value='business'>Corporativa</option>
+                    </select>
+                </div><br/>
+                <div>
                     <label>Correo electrónico</label><br/>
-                    <input type='email' id='email' required={true} placeholder='joe_smith@brum.com'
+                    <input type='email' id='email' required={true} placeholder='pedro@brum.com'
                     className='border-2 border-primary' value={email} onChange={(e)=>setEmail(e.target.value)}
                     />
-                </div>
+                </div><br/>
                 <div>
                     <label>Contraseña</label><br/>
-                    <div className='flex justify-end items-center'>
+                    <div className='flex justify-between items-center w-[220px]'>
                         <input type='password' id='password' required={true} className='border-2 border-primary'
                         placeholder='Contraseña' value={password} onChange={(e)=>setPassword(e.target.value)}  />
-                        <span className='absolute' onClick={()=>setPassVisible(!passVisible)}>{passVisible ? <AiOutlineEyeInvisible className='text-[20px] font-bold text-primary' /> : <AiOutlineEye className='text-[20px] font-bold text-primary' />}</span>
+                        <span className='flex justify-self-end' onClick={()=>setPassVisible(!passVisible)}>{passVisible ? <AiOutlineEyeInvisible className='text-[20px] font-bold text-primary' /> : <AiOutlineEye className='text-[20px] font-bold text-primary' />}</span>
                     </div>
-                </div>
+                </div><br/>
                 <div>
-                <label>Correo electrónico</label><br/>
-                    <input type='email' id='email' required={true} placeholder='joe_smith@brum.com'
-                    className='border-2 border-primary' value={email} onChange={(e)=>setEmail(e.target.value)}
+                <label>Nombres</label><br/>
+                    <input type='text' id='first-name' required={true} placeholder='Pedro Pablo'
+                    className='border-2 border-primary' value={firstName} onChange={(e)=>setFirstName(e.target.value)}
                     />
                 </div>
                 <br/>
+                <div>
+                <label>Apellidos</label><br/>
+                    <input type='text' id='last-name' required={true} placeholder='Barrera Justiniano'
+                    className='border-2 border-primary' value={lastName} onChange={(e)=>setLastName(e.target.value)}
+                    />
+                </div><br/>
+                <div>
+                <label>Género</label><br/>
+                    <select id='sex' className='border-2 border-primary' required={true} value={sex} onChange={(e)=>setSex(e.target.value)}>
+                        <option value=''>Por favor selecciona una opción:</option>
+                        <option value='F'>Femenino</option>
+                        <option value='M'>Masculino</option>
+                    </select>
+                </div><br/>
+                <div>
+                <label>Fecha de Nacimiento</label><br/>
+                    <input type='date' id='birth-date' required={true}
+                    className='border-2 border-primary' value={birthDate} onChange={(e)=>setBirthDate(e.target.value)}
+                    />
+                </div><br/>
+                <div>
+                <label>Ciudad</label><br/>
+                    <input type='text' id='city' required={true} placeholder='Santa Cruz'
+                    className='border-2 border-primary' value={city} onChange={(e)=>setCity(e.target.value)}
+                    />
+                </div><br/>
+                <div>
+                <label>País</label><br/>
+                    <input type='text' id='country' required={true} placeholder='Bolivia'
+                    className='border-2 border-primary' value={country} onChange={(e)=>setCountry(e.target.value)}
+                    />
+                </div><br/>
                 <div className='flex justify-center items-center'>
-                    <button
-                    className='bg-secondary border-secondary border-2 rounded-md text-white text-[20px] py-2 px-4'
-                    onClick={()=>handleRegister(email,password)}
-                    >Iniciar sesión</button>
+                    <input type='submit'
+                    className='bg-secondary border-secondary border-2 rounded-md text-white text-[20px] py-2 px-4 cursor-pointer'
+                    onClick={()=>handleRegister(email,password,firstName,lastName,sex,birthDate,type,city,country)}
+                    value='Iniciar sesión' />
                 </div>
 
             </div>

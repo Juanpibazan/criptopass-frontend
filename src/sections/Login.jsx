@@ -62,7 +62,7 @@ const Login = ()=>{
                         user: data.user
                     });
                     localStorage.setItem('user',JSON.stringify(data.user));
-                    setTimeout(()=>navigate('/transfer'),2000);
+                    setTimeout(()=>navigate('/home'),300);
                 } else{
                     toast.update(notificationId,{type:'error',render:msg,isLoading:false});
                 }

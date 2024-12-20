@@ -24,7 +24,13 @@ const Header = ()=>{
             type:actionTypes.SET_USER,
             user:null
         });
+        dispatch({
+            type: actionTypes.SET_JWT,
+            jwtoken: null
+        });
         localStorage.removeItem('user');
+        localStorage.removeItem('jwtoken');
+        setTimeout(()=>navigate('/login'),500);
     };
 
     const handleNavigate = (endpoint) =>{
@@ -40,10 +46,13 @@ const Header = ()=>{
             <h1 className='font-bold text-[30px] text-primary'>{activeTitle}</h1>
             {user ? (
                 <div className='w-[30%] flex flex-row justify-evenly items-center'>
-                    <div className='w-[70%] flex flex-row justify-between items-center'>
-                        <button className='py-2 px-4 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary'>Transferir USDT a USD</button>
-                        <button className='py-2 px-4 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white'>Registrar Destinatario</button>
-                    </div>
+                    {user.verified===1 && (
+                        <div className='w-[70%] flex flex-row justify-between items-center'>
+                            <button className='py-2 px-4 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary'>Transferir USDT a USD</button>
+                            <button className='py-2 px-4 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white'>Registrar Cuenta Destino</button>
+                        </div>
+                    )}
+
                     <div className='w-[20%] flex flex-col justify-start items-end'>
                         <div className='text-center profile-icon-container'>
                             <RxAvatar className='text-[30px] text-secondary' />

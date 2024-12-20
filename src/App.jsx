@@ -10,9 +10,15 @@ import TransferSection from './sections/TransferSection';
 import SideBar from './sections/SideBar';
 import Login from './sections/Login';
 import Register from './sections/Register';
+import Transfers from './sections/Transfers';
+import Home from './sections/Home';
+
+import { useStateValue } from './context/StateProvider';
+import { actionTypes } from './context/reducer';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [{user},dispatch] = useStateValue();
 
   return (
     <div className='App app-grid-container'>
@@ -22,7 +28,9 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/header' element={<Header />} />
+        <Route path='/transfers' element={<Transfers />} />
         <Route path='/transfer' element={<TransferSection />} />
+        <Route path='/home' element={<Home />} />
       </Routes>
       <Footer />
 

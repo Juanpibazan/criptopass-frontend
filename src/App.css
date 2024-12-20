@@ -14,7 +14,7 @@
 
 .profile-icon-container:hover ~.profile-icon-submenu, .profile-icon-submenu:hover, .profile-icon-container:active ~.profile-icon-submenu, .profile-icon-submenu:active{
   display:block;
-
+  
 }
 
 .app-grid-container{

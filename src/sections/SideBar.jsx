@@ -1,5 +1,5 @@
 import React, {useState,useEffect, useRef} from 'react';
-import {FaBell, FaWallet} from 'react-icons/fa';
+import {FaBell, FaWallet, FaInfoCircle} from 'react-icons/fa';
 import {SiTether} from 'react-icons/si';
 import {BiTransfer} from 'react-icons/bi';
 import {TbCheckupList} from 'react-icons/tb';
@@ -10,10 +10,10 @@ import { actionTypes } from '../context/reducer';
 
 
 const SideBar = ()=>{
-
-    const [activeTab,setActiveTab] = useState('Bienvenido/a');
+    const [{activeTitle,user},dispatch] = useStateValue();
+    const [activeTab,setActiveTab] = useState(user ? 'Bienvenido/a': '');
     const transferRef = useRef();
-    const [{activeTitle},dispatch] = useStateValue();
+
 
     const handleClick = (text)=>{
         if(!text.includes('Bienvenido/a')){
@@ -28,9 +28,9 @@ const SideBar = ()=>{
         } else{
             dispatch({
                 type: actionTypes.SET_ACTIVE_TITLE,
-                activeTitle: 'Bienvenido/a'
+                activeTitle: activeTab
             });
-            localStorage.setItem('activeTitle','Bienvenido/a');
+            localStorage.setItem('activeTitle',activeTab);
         }
 
     };
@@ -47,6 +47,8 @@ const SideBar = ()=>{
 
     return (
         <div className='sidebar'>
+        {user ? (
+            <div >
             <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <FaBell />
@@ -73,6 +75,21 @@ const SideBar = ()=>{
                 <TbCheckupList />
                 Aprende Cripto
             </Link>
+        </div>
+        ) : (
+        <div>
+            <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
+            onClick={(e)=>handleClick(e.target.innerHTML)}>
+                <FaInfoCircle />
+                Conócenos
+            </Link>
+            <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
+            onClick={(e)=>handleClick(e.target.innerHTML)}>
+                <TbCheckupList />
+                Aprende Cripto
+            </Link>
+        </div>
+        )}
         </div>
     )
 };
