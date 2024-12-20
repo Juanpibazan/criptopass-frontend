@@ -86,6 +86,7 @@ const Profile = ()=>{
                     user.kyc_link=data.kyc_link;
                     user.kyc_status=data.kyc_status;
                 }
+                localStorage.setItem('user',JSON.stringify(user));
                 console.log(user);
             }
         };
