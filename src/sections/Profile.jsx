@@ -13,7 +13,8 @@ const Profile = ()=>{
     const [email,setEmail] = useState(user ? user.email : '');
     const [fullName,setFullName] = useState(user ? `${user.first_name} ${user.last_name}` : '');
     const [type,setType] = useState(user ? user.type : '');
-    const [kycStatus,setKycStatus] = useState();
+    const [kycStatus,setKycStatus] = useState(user ? user.kyc_status : '');
+    const [kycLink, setkycLink] = useState(user ? user.kyc_link : '');
 
 
     const startKYC = async (apiKey,fullName,email,type)=>{
@@ -80,14 +81,17 @@ const Profile = ()=>{
                 }
             });
             if(kyc_link_record.status===200){
+                setkycLink(kyc_link_record.data.kyc_link);
                 const {msg,data} = kyc_link_record.data;
-                if(!user.kyc_link_id){
+                if(!user.kyc_link_id || user.kyc_link_id ===''){
                     user.kyc_link_id=data.id;
                     user.kyc_link=data.kyc_link;
                     user.kyc_status=data.kyc_status;
+                    localStorage.setItem('user',JSON.stringify(user));
+                    console.log('Inside IF',user);
                 }
                 localStorage.setItem('user',JSON.stringify(user));
-                console.log(user);
+                console.log('Inside IF',useruser);
             }
         };
         getKYC();
@@ -99,7 +103,7 @@ const Profile = ()=>{
             <div>
                 <div className='border-primary border-3 rounded-md py-2 px-4'>
                     <h2 className='font-openSauce font-bold text-[25px]'>KYC</h2>
-                    {user.kyc_link === '' || !user.kyc_link ? (
+                    {kycLink ==='' ? (
                     <button className='bg-tertiary border-2 border-tertiary
                     text-primary font-garet font-bold rounded-md py-2 px-4'
                     onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type)}
