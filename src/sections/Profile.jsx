@@ -91,7 +91,7 @@ const Profile = ()=>{
                     console.log('Inside IF',user);
                 }
                 localStorage.setItem('user',JSON.stringify(user));
-                console.log('Inside IF',useruser);
+                console.log('Outside IF',user);
             }
         };
         getKYC();
@@ -110,7 +110,7 @@ const Profile = ()=>{
                     >Comenzar proceso KYC</button>
                     ) : (
                         <div >
-                            <p><strong>Status: </strong><span className={ `${user.kyc_status==='approved' ? 'bg-green-300' : bg-tertiary} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4 w-[20%]`}>{user.kyc_status}</span></p>
+                            <p><strong>Status: </strong><span className={ `${kycStatus==='approved' ? 'bg-green-300' : bg-tertiary} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4 w-[20%]`}>{kycStatus}</span></p>
                         </div>
                     )}
                 </div>

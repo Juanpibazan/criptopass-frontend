@@ -89,10 +89,10 @@ const Register = ()=>{
 
         } catch(e){
             console.log(e);
-            //toast(e.response.data.msg,{
-                //type:'error',
-               // position:'top-center'
-            //});
+            toast(e.response.data.msg,{
+                type:'error',
+                position:'top-center'
+            });
         }
 
     };
