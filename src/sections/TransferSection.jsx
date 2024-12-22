@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect, act} from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,11 +13,12 @@ const TransferSection = ()=>{
     const [{user,jwtoken},dispatch] = useStateValue();
     const [fromAddress,setFromAddress] = useState('');
     const [liquidAmount,setLiquidAmount] = useState(0.00);
-    const [developerFee,setDeveloperFee] = useState(0.025);
+    const [developerFee,setDeveloperFee] = useState(0.00);
     const [transferType, setTransferType] = useState('');
     const [transferCost, setTransferCost] = useState(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
     const [destinatarios,setDestinatarios] = useState([]);
     const [externalAccount,setExternalAccount] = useState('');
+    const [totalAmount,setTotalAmount] = useState(parseFloat(liquidAmount).toFixed(2)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee).toFixed(2));
 
     const fetchDestinatarios = async ()=>{
         try {
@@ -53,8 +54,214 @@ const TransferSection = ()=>{
     };
 
     useEffect(()=>{
-        setTransferCost(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0)
+        setTransferCost(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
     },[transferType]);
+
+    useEffect(()=>{
+        const sumedAmount = parseFloat(liquidAmount)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee);
+        setTotalAmount(sumedAmount.toFixed(2));
+    },[liquidAmount,transferCost]);
+
+    const createTransfer = async (apiKey,fromAddress,transferType,externalAccount,totalAmount,customer_id,developerFee)=>{
+        try {
+            const notificationId = toast.loading("Por favor espere...",{
+                closeOnClick:true
+            });
+            if( !user.idempotencyKeys || user.idempotencyKeys.find((item)=>item.endpoint !=='/transfers')){
+                const idempotency_key = uuidv4();
+                console.log(idempotency_key);
+                if(!user.idempotencyKeys){
+                    dispatch({
+                        type:actionTypes.SET_USER,
+                        user: {
+                            ...user,
+                            idempotencyKeys: [{
+                                idempotency_key,
+                                endpoint:'/transfers'
+                            }]
+                        }
+                    });
+                    localStorage.setItem('user',JSON.stringify({
+                        ...user,
+                        idempotencyKeys:[{
+                            idempotency_key,
+                            endpoint:'/transfers'
+                        }]
+                    }));
+                }
+                else{
+                    dispatch({
+                        type:actionTypes.SET_USER,
+                        user: {
+                            ...user,
+                            idempotencyKeys: [...user.idempotencyKeys,{
+                                idempotency_key,
+                                endpoint:'/transfers'
+                            }]
+                        }
+                    });
+                    localStorage.setItem('user',JSON.stringify({
+                        ...user,
+                        idempotencyKeys: [...user.idempotencyKeys,{
+                            idempotency_key,
+                            endpoint:'/transfers'
+                        }]
+                    }));
+                }
+
+                const transferResponse = await axios({
+                    method:'post',
+                    url:'https://criptopass-api.onrender.com/bridge/transfers/',
+                    data:{
+                        source: {
+                            source_currency:"usdt",
+                            source_payment_rail:"ethereum",
+                            from_address:fromAddress
+                        },
+                        destination:{
+                            destination_currency:"usd",
+                            destination_payment_rail: transferType,
+                            external_account_id: externalAccount
+                        },
+                        amount:`${totalAmount}`,
+                        on_behalf_of:customer_id,
+                        developer_fee:`${developerFee}`
+                    },
+                    headers:{
+                        "Content-Type":"application/json",
+                        "Authorization":`Bearer ${jwtoken}`,
+                        "Api-Key":apiKey,
+                        "Idempotency-Key":idempotency_key
+                    }
+                });
+                if(transferResponse.status===201){
+                    const {status,msg,data} = transferResponse.data;
+                    toast.update(notificationId,{type:'success',render:msg,isLoading:false});
+                    dispatch({
+                        type: actionTypes.SET_USER,
+                        user: {
+                            ...user,
+                            transfers: user.transfers ? [
+                                ...user.transfers,
+                                {
+                                    id: data.id,
+                                    state: data.state,
+                                    to_address: data.source_deposit_instructions.to_address
+                                }
+                            ] : [
+                                {
+                                    id: data.id,
+                                    state: data.state,
+                                    to_address: data.source_deposit_instructions.to_address
+                                }
+                            ]
+                        }
+                    });
+                    localStorage.setItem('user',JSON.stringify({
+                            ...user,
+                            transfers: user.transfers ? [
+                                ...user.transfers,
+                                {
+                                    id: data.id,
+                                    state: data.state,
+                                    to_address: data.source_deposit_instructions.to_address
+                                }
+                            ] : [
+                                {
+                                    id: data.id,
+                                    state: data.state,
+                                    to_address: data.source_deposit_instructions.to_address
+                                }
+                            ]
+                        }
+                    ));
+                } else{
+                    const {status,msg,data} = transferResponse.data;
+                    toast.update(notificationId,{type:'error',render:msg,isLoading:false});
+                }
+    
+            } else{
+                console.log('Segundo camino');
+                const idempotency_key = user.idempotencyKeys.find((item)=>item.endpoint==='/transfers');
+                if(idempotency_key){
+                    const transferResponse = await axios({
+                        method:'post',
+                        url:'https://criptopass-api.onrender.com/bridge/transfers/',
+                        data:{
+                            source: {
+                                source_currency:"usdt",
+                                source_payment_rail:"ethereum",
+                                from_address:fromAddress
+                            },
+                            destination:{
+                                destination_currency:"usd",
+                                destination_payment_rail: transferType,
+                                external_account_id: externalAccount
+                            },
+                            amount:`${totalAmount}`,
+                            on_behalf_of:customer_id,
+                            developer_fee:`${developerFee}`
+                        },
+                        headers:{
+                            "Content-Type":"application/json",
+                            "Authorization":`Bearer ${jwtoken}`,
+                            "Api-Key":apiKey,
+                            "Idempotency-Key":idempotency_key
+                        }
+                    });
+                    if(transferResponse.status===201){
+                        const {status,msg,data} = transferResponse.data;
+                        toast.update(notificationId,{type:'success',render:msg,isLoading:false});
+                        dispatch({
+                            type: actionTypes.SET_USER,
+                            user: {
+                                ...user,
+                                transfers: user.transfers ? [
+                                    ...user.transfers,
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address
+                                    }
+                                ] : [
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address
+                                    }
+                                ]
+                            }
+                        });
+                        localStorage.setItem('user',JSON.stringify({
+                            ...user,
+                            transfers: user.transfers ? [
+                                ...user.transfers,
+                                {
+                                    id: data.id,
+                                    state: data.state,
+                                    to_address: data.source_deposit_instructions.to_address
+                                }
+                            ] : [
+                                {
+                                    id: data.id,
+                                    state: data.state,
+                                    to_address: data.source_deposit_instructions.to_address
+                                }
+                            ]
+                        }));
+                    }
+                }
+    
+            }
+        } catch(e){
+            console.log(e);
+            toast(e.response.data.msg,{
+                type:'error',
+                position:'top-center'
+            });
+        }
+
+    };
 
     return (
         <div>
@@ -167,26 +374,32 @@ const TransferSection = ()=>{
                         </div>
                     </div>
                     <div className='py-4 px-4 bg-tertiary w-full'>
-                        <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Calculo de los montos finales</h3>
+                        <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Cálculo de los montos finales</h3>
                         <div className='flex justify-start items-center gap-4'>
                             <div className='w-[50%]'>
                                 <label className='font-bold'>Monto final de transferencia <span className='text-primary font-bold font-garet'>(Monto líquido que desea que llegue a destino + Costo de la transferencia + Comision de Criptopass)</span>:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm text'
-                                type='text' value={parseFloat(liquidAmount)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee)}/>
+                                type='text' value={totalAmount}/>
                             </div>
                             <div className='w-[50%]'>
-                                <label className='font-bold'>Comision de Binance:</label><br/>
+                                <label className='font-bold'>Comisión de Binance:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm'
-                                type='text' value={`${developerFee*100} %`}/>
+                                type='text' value='6 USDT'/>
                             </div>
                             
 
                         </div>
                         <div className='py-8 flex justify-self-end'>
-                            <button className='bg-secondary border-primary border-2 rounded-sm font-bold font-garet text-primary px-4 py-2 '>Comenzar Transferencia</button>
+                            <button className='bg-secondary border-primary border-2 rounded-sm font-bold font-garet text-primary px-4 py-2 '
+                            onClick={()=>createTransfer(import.meta.env.VITE_BRIDGE_API_KEY,fromAddress,transferType,'3c4d63ec-3df4-4322-98b5-226b084269b9',totalAmount,user.customer_id,developerFee)}
+                            >Comenzar Transferencia</button>
                         </div>
+                    </div>
+                    <div className='absolute z-150 top-[50%] left-[50%] bg-secondary border-primary border-4 rounded-md shadow-md hidden'>
+                        <h3>Resumen de Transferencia</h3>
+                        <p>Lee cuidadosamente y confirma si todo está correcto:</p>
                     </div>
                 </div>
             </div>

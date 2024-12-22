@@ -13,6 +13,9 @@ const Transfers = ()=>{
     return (
         <div>
             Transfers history
+            <div>
+                table
+            </div>
         </div>
     )
 };
