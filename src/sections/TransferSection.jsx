@@ -427,7 +427,7 @@ const TransferSection = ()=>{
                         </div>
                         <div className='py-8 flex justify-self-end'>
                             <button className='bg-secondary border-primary border-2 rounded-sm font-bold font-garet text-primary px-4 py-2'
-                            onClick={()=>createTransfer(import.meta.env.VITE_BRIDGE_API_KEY,fromAddress,transferType,'3c4d63ec-3df4-4322-98b5-226b084269b9',totalAmount,user.customer_id,developerFee)}
+                            onClick={()=>createTransfer(import.meta.env.VITE_BRIDGE_API_KEY,fromAddress,transferType,externalAccount,totalAmount,user.customer_id,developerFee)}
                             >Comenzar Transferencia</button>
                         </div>
                     </div>
