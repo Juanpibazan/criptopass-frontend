@@ -19,7 +19,7 @@ const TransferSection = ()=>{
     const [destinatarios,setDestinatarios] = useState([]);
     const [externalAccount,setExternalAccount] = useState('');
     const [totalAmount,setTotalAmount] = useState(parseFloat(liquidAmount).toFixed(2)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee).toFixed(2));
-    const [transferInitiated,setTransferInitiated] = useState(true);
+    const [transferInitiated,setTransferInitiated] = useState(false);
     const [lastTransfer,setLastTransfer] = useState({});
 
     const fetchDestinatarios = async ()=>{
