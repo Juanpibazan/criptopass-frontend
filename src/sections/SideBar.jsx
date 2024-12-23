@@ -64,7 +64,7 @@ const SideBar = ()=>{
                 <SiTether />
                 Compra USDT
             </Link>
-            <Link to='/transfer' className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
+            <Link to='/transfers' className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)} ref={transferRef}
             >
                 <BiTransfer />

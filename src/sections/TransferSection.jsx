@@ -19,6 +19,8 @@ const TransferSection = ()=>{
     const [destinatarios,setDestinatarios] = useState([]);
     const [externalAccount,setExternalAccount] = useState('');
     const [totalAmount,setTotalAmount] = useState(parseFloat(liquidAmount).toFixed(2)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee).toFixed(2));
+    const [transferInitiated,setTransferInitiated] = useState(true);
+    const [lastTransfer,setLastTransfer] = useState({});
 
     const fetchDestinatarios = async ()=>{
         try {
@@ -146,13 +148,17 @@ const TransferSection = ()=>{
                                 {
                                     id: data.id,
                                     state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address
+                                    to_address: data.source_deposit_instructions.to_address,
+                                    transfer_type: data.destination.payment_rail,
+                                    receipt: data.receipt
                                 }
                             ] : [
                                 {
                                     id: data.id,
                                     state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address
+                                    to_address: data.source_deposit_instructions.to_address,
+                                    transfer_type: data.destination.payment_rail,
+                                    receipt: data.receipt
                                 }
                             ]
                         }
@@ -164,17 +170,29 @@ const TransferSection = ()=>{
                                 {
                                     id: data.id,
                                     state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address
+                                    to_address: data.source_deposit_instructions.to_address,
+                                    transfer_type: data.destination.payment_rail,
+                                    receipt: data.receipt
                                 }
                             ] : [
                                 {
                                     id: data.id,
                                     state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address
+                                    to_address: data.source_deposit_instructions.to_address,
+                                    transfer_type: data.destination.payment_rail,
+                                    receipt: data.receipt
                                 }
                             ]
                         }
                     ));
+                    setLastTransfer({
+                        id: data.id,
+                        state: data.state,
+                        to_address: data.source_deposit_instructions.to_address,
+                        transfer_type: data.destination.payment_rail,
+                        receipt: data.receipt
+                    });
+                    setTransferInitiated(!transferInitiated);
                 } else{
                     const {status,msg,data} = transferResponse.data;
                     toast.update(notificationId,{type:'error',render:msg,isLoading:false});
@@ -221,13 +239,17 @@ const TransferSection = ()=>{
                                     {
                                         id: data.id,
                                         state: data.state,
-                                        to_address: data.source_deposit_instructions.to_address
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
                                     }
                                 ] : [
                                     {
                                         id: data.id,
                                         state: data.state,
-                                        to_address: data.source_deposit_instructions.to_address
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
                                     }
                                 ]
                             }
@@ -239,16 +261,28 @@ const TransferSection = ()=>{
                                 {
                                     id: data.id,
                                     state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address
+                                    to_address: data.source_deposit_instructions.to_address,
+                                    transfer_type: data.destination.payment_rail,
+                                    receipt: data.receipt
                                 }
                             ] : [
                                 {
                                     id: data.id,
                                     state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address
+                                    to_address: data.source_deposit_instructions.to_address,
+                                    transfer_type: data.destination.payment_rail,
+                                    receipt: data.receipt
                                 }
                             ]
                         }));
+                        setLastTransfer({
+                            id: data.id,
+                            state: data.state,
+                            to_address: data.source_deposit_instructions.to_address,
+                            transfer_type: data.destination.payment_rail,
+                            receipt: data.receipt
+                        });
+                        setTransferInitiated(!transferInitiated);
                     }
                 }
     
@@ -392,14 +426,22 @@ const TransferSection = ()=>{
 
                         </div>
                         <div className='py-8 flex justify-self-end'>
-                            <button className='bg-secondary border-primary border-2 rounded-sm font-bold font-garet text-primary px-4 py-2 '
+                            <button className='bg-secondary border-primary border-2 rounded-sm font-bold font-garet text-primary px-4 py-2'
                             onClick={()=>createTransfer(import.meta.env.VITE_BRIDGE_API_KEY,fromAddress,transferType,'3c4d63ec-3df4-4322-98b5-226b084269b9',totalAmount,user.customer_id,developerFee)}
                             >Comenzar Transferencia</button>
                         </div>
                     </div>
-                    <div className='absolute z-150 top-[50%] left-[50%] bg-secondary border-primary border-4 rounded-md shadow-md hidden'>
-                        <h3>Resumen de Transferencia</h3>
-                        <p>Lee cuidadosamente y confirma si todo está correcto:</p>
+                    <div className={`min-h-screen w-[80%] absolute z-150
+                        flex flex-col justify-center items-center gap-5
+                        bg-secondary yellow-400 border-primary border-4 rounded-md shadow-md ${transferInitiated ? 'block' :'hidden'}`}>
+                        <h3 className='text-[50px] text-white font-bold font-openSauce'>Transferencia iniciada exitosamente</h3>
+                        <ul className='list-disc'>
+                            <li className='text-[20px] font-bold'>Código de la transferencia: <strong className='text-tertiary'>{user.transfers ? user.transfers.find(item =>item.id===lastTransfer.id) : ''}</strong></li>
+                            <li className='text-[20px] font-bold'>Estado: <strong className='text-tertiary'>{user.transfers ? user.transfers.find(item =>item.state===lastTransfer.state) : ''}</strong></li>
+                            <li className='text-[20px] font-bold'>Cantidad Final: <strong className='text-tertiary'>{totalAmount}</strong></li>
+                            <li className='text-[20px] font-bold'>Cuenta a transferir USDT desde Binance: <strong className='text-tertiary'>{user.transfers ? user.trasfers.find(item=>item.to_address===lastTransfer.to_address) : ''}</strong></li>
+                        </ul>
+                        <Link to='/transfers' onClick={()=>setTransferInitiated(false)} className='py-2 px-4 bg-primary text-white text-[20px] border-primary border-2 rounded-sm'>Ir a transferencias</Link>
                     </div>
                 </div>
             </div>
