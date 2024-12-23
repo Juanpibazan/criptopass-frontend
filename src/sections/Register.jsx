@@ -103,7 +103,7 @@ const Register = ()=>{
                 <img src={CriptopassLogo} />
             </div>
             <div>
-                <h1 className='text-[30px] text-primary'>Iniciar sesión</h1>
+                <h1 className='text-[30px] text-primary text-center'>Crear Cuenta</h1>
                 <div>
                 <label>Tipo de Cuenta</label><br/>
                 <select id='account-type' className='border-2 border-primary' required={true} value={type} onChange={(e)=>setType(e.target.value)}>
@@ -169,7 +169,7 @@ const Register = ()=>{
                     <input type='submit'
                     className='bg-secondary border-secondary border-2 rounded-md text-white text-[20px] py-2 px-4 cursor-pointer'
                     onClick={()=>handleRegister(email,password,firstName,lastName,sex,birthDate,type,city,country)}
-                    value='Iniciar sesión' />
+                    value='Registrarse' />
                 </div>
 
             </div>

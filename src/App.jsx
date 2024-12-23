@@ -13,7 +13,7 @@ import Register from './sections/Register';
 import Transfers from './sections/Transfers';
 import Home from './sections/Home';
 import Profile from './sections/Profile';
-import RegistroDestinatarios from './sections/RegsitroDestinatarios';
+import RegistroDestinatarios from './sections/RegistroDestinatarios';
 
 import { useStateValue } from './context/StateProvider';
 import { actionTypes } from './context/reducer';

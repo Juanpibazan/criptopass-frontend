@@ -87,7 +87,7 @@ const Login = ()=>{
                 <img src={CriptopassLogo} />
             </div>
             <div>
-                <h1 className='text-[30px] text-primary'>Iniciar sesión</h1>
+                <h1 className='text-[30px] text-primary text-center'>Iniciar sesión</h1>
                 <div>
                     <label>Correo electrónico</label><br/>
                     <input type='email' id='email' required={true} placeholder='joe_smith@brum.com'

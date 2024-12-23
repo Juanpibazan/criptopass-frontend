@@ -13,8 +13,8 @@ const Profile = ()=>{
     const [email,setEmail] = useState(user ? user.email : '');
     const [fullName,setFullName] = useState(user ? `${user.first_name} ${user.last_name}` : '');
     const [type,setType] = useState(user ? user.type : '');
-    const [kycStatus,setKycStatus] = useState(user ? user.kyc_status : '');
-    const [kycLink, setkycLink] = useState(user ? user.kyc_link : '');
+    const [kycStatus,setKycStatus] = useState(user.kyc_status ? user.kyc_status : 'not started');
+    const [kycLink, setkycLink] = useState(user.kyc_link ? user.kyc_link : '');
 
 
     const startKYC = async (apiKey,fullName,email,type)=>{
@@ -110,7 +110,7 @@ const Profile = ()=>{
                     >Comenzar proceso KYC</button>
                     ) : (
                         <div >
-                            <p><strong>Status: </strong><span className={ `${kycStatus==='approved' ? 'bg-green-300' : bg-tertiary} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4 w-[20%]`}>{kycStatus}</span></p>
+                            <p><strong>Status: </strong><span className={ `${kycStatus==='approved' ? 'bg-green-300' : 'bg-tertiary'} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4 w-[20%]`}>{kycStatus}</span></p>
                         </div>
                     )}
                 </div>

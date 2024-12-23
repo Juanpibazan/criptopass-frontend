@@ -75,7 +75,7 @@ const Header = ()=>{
                     {user.customer_id !=='' && user.kyc_status ==='approved' && (
                         <div className='w-[80%] flex flex-row justify-between items-center'>
                             <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/transfer' className='py-2 px-4 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary'>Transferir USDT a USD</Link>
-                            <button className='py-2 px-4 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white'>Registrar Cuenta Destino</button>
+                            <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/register-recipient-accounts' className='py-2 px-4 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white'>Registrar Cuenta Destino</Link>
                         </div>
                     )}
 
