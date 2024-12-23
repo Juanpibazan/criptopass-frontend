@@ -15,9 +15,10 @@ const RegistroDestinatarios = ()=>{
     const [searchItems, setSearchItems] = useState([]);
 
     const handleSearch = async (string)=>{
-        setDropdownShowing(!dropdownShowing);
-        setSearchString(string);
         try{
+            setDropdownShowing(!dropdownShowing);
+            setSearchString(string);
+        if(string.length>=5){
         const foundCustomer = await axios({
             method:'get',
             url:`http://localhost:4000/bridge/customers/find/${string}`,
@@ -40,6 +41,9 @@ const RegistroDestinatarios = ()=>{
                 position:'top-center'
             })
         }
+    } else{
+        setSearchItems([]);
+    }
     }catch(e){
             console.log(e);
             toast(e.response.data.msg,{
