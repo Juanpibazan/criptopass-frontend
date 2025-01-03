@@ -17,7 +17,7 @@ const Transfers = ()=>{
                 closeOnClick:true
             });
             const fetchTransfers = async ()=>{
-                const transfersReponse = await axios({
+                const transfersResponse = await axios({
                     method:'get',
                     url:`https://criptopass-api.onrender.com/bridge/transfers/${user.customer_id}`,
                     headers:{
@@ -26,13 +26,20 @@ const Transfers = ()=>{
                         "Authorization":`Bearer ${jwtoken}`
                     }
                 });
-                const {msg,data} = transfersReponse.data.data;
-                if(transfersReponse.status===200){
+                const {msg,data} = transfersResponse.data.data;
+                if(transfersResponse.status===200){
                     toast.update(notificationId,{render:msg,type:'success',isLoading:false});
                     console.log(data);
                     setTransfers(data);
 
-                } else{
+                }
+                else if(transfersResponse.status===401){
+                                    toast.update(notificationId,{render:'Sesión finalizada. Vueleve a iniciar sesión!',type:'warning',isLoading:false});
+                                    setTimeout(() => {
+                                        return navigate('/login',{replace:true})
+                                    }, 1000);
+                } 
+                else{
                     toast.update(notificationId,{render:msg,type:'error',isLoading:false});
                     return msg;
                 }

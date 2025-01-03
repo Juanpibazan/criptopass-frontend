@@ -3,10 +3,11 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
+import { options } from '../../../backend/src/routes/bridge/transferRoutes';
 
 
 const TransferSection = ()=>{
@@ -21,6 +22,8 @@ const TransferSection = ()=>{
     const [totalAmount,setTotalAmount] = useState(parseFloat(liquidAmount).toFixed(2)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee).toFixed(2));
     const [transferInitiated,setTransferInitiated] = useState(false);
     const [lastTransfer,setLastTransfer] = useState({});
+
+    const navigate = useNavigate();
 
     const fetchDestinatarios = async ()=>{
         try {
@@ -193,7 +196,13 @@ const TransferSection = ()=>{
                         receipt: data.receipt
                     });
                     setTransferInitiated(!transferInitiated);
-                } else{
+                } else if(transferResponse.status===401){
+                    toast.update(notificationId,{render:'Sesión finalizada. Vueleve a iniciar sesión!',type:'warning',isLoading:false});
+                    setTimeout(() => {
+                        return navigate('/login',{replace:true})
+                    }, 1000);
+                } 
+                else{
                     const {status,msg,data} = transferResponse.data;
                     toast.update(notificationId,{type:'error',render:msg,isLoading:false});
                 }
