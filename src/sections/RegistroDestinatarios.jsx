@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
+import SessionEnded from '../Components/SessionEnded';
 
 const RegistroDestinatarios = ()=>{
     const [{activeTitle, user,jwtoken},dispatch] = useStateValue();
@@ -14,6 +15,7 @@ const RegistroDestinatarios = ()=>{
     const [searchString,setSearchString] = useState('');
     const [searchItems, setSearchItems] = useState([]);
     const [destinyAlias,setDestinyAlias] = useState('');
+    const [lastResponseStatus,setLastResponseStatus] = useState();
 
     const handleSearch = async (string)=>{
         try{
@@ -28,6 +30,7 @@ const RegistroDestinatarios = ()=>{
                 "Authorization":`Bearer ${jwtoken}`
             }
         });
+        setLastResponseStatus(foundCustomer.status);
         const {msg,data} = foundCustomer.data;
         if(foundCustomer.status===200){
             if(data.length===0){
@@ -73,10 +76,12 @@ const RegistroDestinatarios = ()=>{
                     "Authorization":`Bearer ${jwtoken}`
                 }
             });
+            setLastResponseStatus(response.status);
             const {msg} = response.data;
             if(response.status===201){
                 toast.update(notificationId,{render:msg,type:'success',isLoading:false});
-            } else{
+            }
+            else{
                 toast.update(notificationId,{render:msg,type:'error',isLoading:false});
             }
     } catch(e){
@@ -90,6 +95,10 @@ const RegistroDestinatarios = ()=>{
     
     return (
         <div className='px-4 py-2'>
+            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'block' : 'hidden'}`}>
+                <SessionEnded/>
+            </div>
+            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'hidden' : 'block'}`}>
             <div className='flex justify-start items-center gap-10'>
                 <div>
                     <h3 className='text-[20px] text-primary font-openSauce font-bold'>Buscar destinatario por email</h3>
@@ -114,6 +123,7 @@ const RegistroDestinatarios = ()=>{
             className='my-4 bg-secondary text-white font-garet px-4 py-2 border-secondary border-2 rounded-md'
             onClick={()=>addDestiny()}
             >Agregar destinatario</button>
+            </div>
             <ToastContainer position='top-center' />
         </div>
     )

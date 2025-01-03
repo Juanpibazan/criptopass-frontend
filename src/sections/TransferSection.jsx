@@ -7,6 +7,7 @@ import { Link,useNavigate } from 'react-router-dom';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
+import SessionEnded from '../Components/SessionEnded';
 
 
 const TransferSection = ()=>{
@@ -21,6 +22,7 @@ const TransferSection = ()=>{
     const [totalAmount,setTotalAmount] = useState(parseFloat(liquidAmount).toFixed(2)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee).toFixed(2));
     const [transferInitiated,setTransferInitiated] = useState(false);
     const [lastTransfer,setLastTransfer] = useState({});
+    const [lastResponseStatus,setLastResponseStatus] = useState();
 
     const navigate = useNavigate();
 
@@ -38,6 +40,7 @@ const TransferSection = ()=>{
                     "Authorization":`Bearer ${jwtoken}`
                 }
             });
+            setLastResponseStatus(destinatariosResponse.status);
             if(destinatariosResponse.status===200){
                 toast.update(notificationId,{type:'success',render:destinatariosResponse.data.msg,isLoading:false});
                 setDestinatarios(destinatariosResponse.data.data);
@@ -138,6 +141,7 @@ const TransferSection = ()=>{
                         "Idempotency-Key":idempotency_key
                     }
                 });
+                setLastResponseStatus(transferResponse.status);
                 if(transferResponse.status===201){
                     const {status,msg,data} = transferResponse.data;
                     toast.update(notificationId,{type:'success',render:msg,isLoading:false});
@@ -195,12 +199,7 @@ const TransferSection = ()=>{
                         receipt: data.receipt
                     });
                     setTransferInitiated(!transferInitiated);
-                } else if(transferResponse.status===401){
-                    toast.update(notificationId,{render:'Sesión finalizada. Vueleve a iniciar sesión!',type:'warning',isLoading:false});
-                    setTimeout(() => {
-                        return navigate('/login',{replace:true})
-                    }, 1000);
-                } 
+                }
                 else{
                     const {status,msg,data} = transferResponse.data;
                     toast.update(notificationId,{type:'error',render:msg,isLoading:false});
@@ -235,6 +234,7 @@ const TransferSection = ()=>{
                             "Idempotency-Key":idempotency_key
                         }
                     });
+                    setLastResponseStatus(transferResponse.status);
                     if(transferResponse.status===201){
                         const {status,msg,data} = transferResponse.data;
                         toast.update(notificationId,{type:'success',render:msg,isLoading:false});
@@ -307,7 +307,11 @@ const TransferSection = ()=>{
 
     return (
         <div>
-            <div>
+            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'block' : 'hidden'}`}>
+            <SessionEnded/>
+            </div>
+            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'hidden' : 'block'}`}>
+            <div >
                 <h3 className='text-[25px] text-secondary font-bold font-openSauce'>Aspectos a considerar antes de empezar el proceso de transferencia</h3>
                 <ol className='list-decimal text-primary font-bold'>
                     <li>La cuenta Destino ya debe estar registrada en Criptopass y debes tenerla agregada en destinatarios.</li>
@@ -452,6 +456,7 @@ const TransferSection = ()=>{
                         <Link to='/transfers' onClick={()=>setTransferInitiated(false)} className='py-2 px-4 bg-primary text-white text-[20px] border-primary border-2 rounded-sm'>Ir a transferencias</Link>
                     </div>
                 </div>
+            </div>
             </div>
             <ToastContainer position='top-center' />
         </div>
