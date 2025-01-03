@@ -7,7 +7,6 @@ import { Link,useNavigate } from 'react-router-dom';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
-import { options } from '../../../backend/src/routes/bridge/transferRoutes';
 
 
 const TransferSection = ()=>{
