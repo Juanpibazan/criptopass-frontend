@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
+import SessionEnded from '../Components/SessionEnded';
 
 
 const Profile = ()=>{
@@ -15,6 +16,7 @@ const Profile = ()=>{
     const [type,setType] = useState(user ? user.type : '');
     const [kycStatus,setKycStatus] = useState(user.kyc_status ? user.kyc_status : 'not started');
     const [kycLink, setkycLink] = useState(user.kyc_link ? user.kyc_link : '');
+    const [lastResponseStatus,setLastResponseStatus] = useState();
 
 
     const startKYC = async (apiKey,fullName,email,type)=>{
@@ -38,6 +40,7 @@ const Profile = ()=>{
                     "Authorization": `Bearer ${jwtoken}`
                 }
             });
+            setLastResponseStatus(response.status);
             if(response.status===200){
                 const {status,msg,data} = response.data;
                 toast.update(notificationId,{render:msg,type:'success',isLoading:false});
@@ -80,6 +83,7 @@ const Profile = ()=>{
                     "Authorization":`Bearer ${jwtoken}`
                 }
             });
+            setLastResponseStatus(kyc_link_record.status);
             if(kyc_link_record.status===200){
                 setkycLink(kyc_link_record.data.kyc_link);
                 const {msg,data} = kyc_link_record.data;
@@ -100,7 +104,10 @@ const Profile = ()=>{
     return (
         <div>
             {/*<h1 className='font-openSauce font-bold text-[30px]'>Mi Perfil</h1>*/}
-            <div>
+            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'block' : 'hidden'}`}>
+                <SessionEnded/>
+            </div>
+            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'hidden': 'block'}`}>
                 <div className='border-primary border-3 rounded-md py-2 px-4'>
                     <h2 className='font-openSauce font-bold text-[25px]'>KYC</h2>
                     {kycLink ==='' ? (
