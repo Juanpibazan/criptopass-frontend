@@ -30,7 +30,7 @@ const RegistroDestinatarios = ()=>{
                 "Authorization":`Bearer ${jwtoken}`
             }
         });
-        setLastResponseStatus(foundCustomer.status);
+        //setLastResponseStatus(foundCustomer.status);
         const {msg,data} = foundCustomer.data;
         if(foundCustomer.status===200){
             if(data.length===0){
@@ -76,7 +76,7 @@ const RegistroDestinatarios = ()=>{
                     "Authorization":`Bearer ${jwtoken}`
                 }
             });
-            setLastResponseStatus(response.status);
+            //setLastResponseStatus(response.status);
             const {msg} = response.data;
             if(response.status===201){
                 toast.update(notificationId,{render:msg,type:'success',isLoading:false});
@@ -92,13 +92,44 @@ const RegistroDestinatarios = ()=>{
             });
     }
     };
+
+    const isTokenExpired = (token)=>{
+        if(!token){
+            return true;
+        }
+
+        try{
+            const decoded = jwtDecode(token);
+            const {exp} = decoded;
+            const currentTime = Date.now()/1000;
+            if(exp<currentTime){
+                return true;
+            } else{
+                return false;
+            }
+        } catch(e){
+            console.log('Error al decodificar el jwt',e);
+            return true;
+        }
+    };
+
+    setInterval(()=>{
+        if(isTokenExpired(jwtoken)){
+            /*toast('La sesión finalizó, por favor vuelve a iniciarla.',{
+                position:'top-center',
+                type:'error',
+                closeOnClick:true
+            }); */
+            setLastResponseStatus(401);
+        }
+    },1000*60);
     
     return (
         <div className='px-4 py-2'>
-            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'block' : 'hidden'}`}>
+            <div className={`${lastResponseStatus===401 ? 'block' : 'hidden'}`}>
                 <SessionEnded/>
             </div>
-            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'hidden' : 'block'}`}>
+            <div className={`${lastResponseStatus===401 ? 'hidden' : 'block'}`}>
             <div className='flex justify-start items-center gap-10'>
                 <div>
                     <h3 className='text-[20px] text-primary font-openSauce font-bold'>Buscar destinatario por email</h3>
@@ -116,7 +147,8 @@ const RegistroDestinatarios = ()=>{
                 </div>
                 <div>
                     <label className='text-[20px] text-primary font-openSauce font-bold'>Asignar un alias/nickname al destinatario</label><br/>
-                    <input type='text' placeholder='Mi propia cuenta/Cuenta de mi BFF/Cuenta del proveedor 1' value={destinyAlias} onChange={(e)=>setDestinyAlias(e.target.value)} />
+                    <input className='border-secondary border-2 rounded-sm'
+                    type='text' placeholder='Mi propia cuenta/Cuenta de mi BFF/Cuenta del proveedor 1' value={destinyAlias} onChange={(e)=>setDestinyAlias(e.target.value)} />
                 </div>
             </div>
             <button

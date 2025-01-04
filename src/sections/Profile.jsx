@@ -101,13 +101,44 @@ const Profile = ()=>{
         getKYC();
     },[]);
 
+    const isTokenExpired = (token)=>{
+        if(!token){
+            return true;
+        }
+
+        try{
+            const decoded = jwtDecode(token);
+            const {exp} = decoded;
+            const currentTime = Date.now()/1000;
+            if(exp<currentTime){
+                return true;
+            } else{
+                return false;
+            }
+        } catch(e){
+            console.log('Error al decodificar el jwt',e);
+            return true;
+        }
+    };
+
+    setInterval(()=>{
+        if(isTokenExpired(jwtoken)){
+            /*toast('La sesión finalizó, por favor vuelve a iniciarla.',{
+                position:'top-center',
+                type:'error',
+                closeOnClick:true
+            }); */
+            setLastResponseStatus(401);
+        }
+    },1000*60);
+
     return (
         <div>
             {/*<h1 className='font-openSauce font-bold text-[30px]'>Mi Perfil</h1>*/}
-            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'block' : 'hidden'}`}>
+            <div className={`${lastResponseStatus===401 ? 'block' : 'hidden'}`}>
                 <SessionEnded/>
             </div>
-            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'hidden': 'block'}`}>
+            <div className={`${lastResponseStatus===401 ? 'hidden': 'block'}`}>
                 <div className='border-primary border-3 rounded-md py-2 px-4'>
                     <h2 className='font-openSauce font-bold text-[25px]'>KYC</h2>
                     {kycLink ==='' ? (

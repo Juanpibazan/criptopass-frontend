@@ -3,6 +3,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {jwtDecode} from 'jwt-decode';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
@@ -29,7 +30,7 @@ const Transfers = ()=>{
                     }
                 });
                 const {msg,data} = transfersResponse.data.data;
-                setLastResponseStatus(transfersResponse.status);
+                //setLastResponseStatus(transfersResponse.status);
                 console.log(transfersResponse.status);
                 if(transfersResponse.status===200){
                     toast.update(notificationId,{render:msg,type:'success',isLoading:false});
@@ -56,32 +57,64 @@ const Transfers = ()=>{
         }
     },[]);
 
+    const isTokenExpired = (token)=>{
+        if(!token){
+            return true;
+        }
+
+        try{
+            const decoded = jwtDecode(token);
+            const {exp} = decoded;
+            const currentTime = Date.now()/1000;
+            if(exp<currentTime){
+                return true;
+            } else{
+                return false;
+            }
+        } catch(e){
+            console.log('Error al decodificar el jwt',e);
+            return true;
+        }
+    };
+
+    setInterval(()=>{
+        if(isTokenExpired(jwtoken)){
+            /*toast('La sesión finalizó, por favor vuelve a iniciarla.',{
+                position:'top-center',
+                type:'error',
+                closeOnClick:true
+            }); */
+            setLastResponseStatus(401);
+        }
+    },1000*60);
+
     return (
         <div>
-            {lastResponseStatus===401 || !lastResponseStatus ? (
+            {lastResponseStatus===401 ? (
                 <SessionEnded />
             ) : (
                 <div>
                 <h1 className='text-[25px] text-primary font-bold'>Transferencias</h1>
-                    <div className='border-4 border-secondary rounded-sm min-h-screen' >
-                            <div className='flex justify-between items-center border-2 border-secondary rounded-sm my-4 mx-2'>
-                                <h3 className='px-2'>Código</h3>
-                                <h3 className='px-2'>Estado</h3>
-                                <h3 className='px-2'>Cantidad Final (USDT)</h3>
-                                <h3 className='px-2'>Cuenta a transferir USDT desde Binance</h3>
-                            </div>
+                    <table className='border-4 border-secondary rounded-sm min-h-screen' >
+                            <tr className='border-2 border-secondary rounded-sm my-4 mx-2'>
+                                <th className='px-2 border-secondary border-2 text-left'>Código</th>
+                                <th className='px-2 border-secondary border-2 text-left'>Estado</th>
+                                <th className='px-2 border-secondary border-2 text-left'>Cantidad Final (USDT)</th>
+                                <th className='px-2 border-secondary border-2 text-left'>Cuenta a transferir USDT desde Binance</th>
+                            </tr>
+                            <tbody>
                             {transfers.map((transfer,index)=>{
                                 return (
-                                    <div key={transfer.id} className='flex justify-between start items-center py-4 text-[10px]'>
-                                        <h4 className='px-2'>{transfer.id}</h4>
-                                        <h4 className={transfer.state==='awaiting_funds' ? 'text-yellow-200 px-2' : transfer.state==='canceled' ? 'text-red-500 px-2' : transfer.state==='approved' ? 'text-green-300 px-2' : 'text-slate-600 px-2'}>{transfer.state}</h4>
-                                        <h4 className='px-2'>{transfer.receipt.final_amount}</h4>
-                                        <h4 className='px-2'>{transfer.source_deposit_instructions.to_address}</h4>
-                                    </div>
+                                    <tr key={transfer.id} className='py-4 text-[10px]'>
+                                        <td className='px-2 border-secondary border-2'>{transfer.id}</td>
+                                        <td className={`${transfer.state==='awaiting_funds' ? 'text-yellow-200 px-2' : transfer.state==='canceled' ? 'text-red-500 px-2' : transfer.state==='payment_processed' ? 'text-green-300 px-2' : 'text-slate-700 px-2'}  border-secondary border-2`}>{transfer.state}</td>
+                                        <td className='px-2 border-secondary border-2'>{transfer.receipt.final_amount}</td>
+                                        <td className='px-2 border-secondary border-2'>{transfer.source_deposit_instructions.to_address}</td>
+                                    </tr>
                                 )
                             })}
-                        
-                    </div>
+                            </tbody>
+                    </table>
                 </div>
             )}
 

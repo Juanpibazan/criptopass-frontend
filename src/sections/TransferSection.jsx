@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link,useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
@@ -40,7 +41,7 @@ const TransferSection = ()=>{
                     "Authorization":`Bearer ${jwtoken}`
                 }
             });
-            setLastResponseStatus(destinatariosResponse.status);
+            //setLastResponseStatus(destinatariosResponse.status);
             if(destinatariosResponse.status===200){
                 toast.update(notificationId,{type:'success',render:destinatariosResponse.data.msg,isLoading:false});
                 setDestinatarios(destinatariosResponse.data.data);
@@ -141,7 +142,7 @@ const TransferSection = ()=>{
                         "Idempotency-Key":idempotency_key
                     }
                 });
-                setLastResponseStatus(transferResponse.status);
+                //setLastResponseStatus(transferResponse.status);
                 if(transferResponse.status===201){
                     const {status,msg,data} = transferResponse.data;
                     toast.update(notificationId,{type:'success',render:msg,isLoading:false});
@@ -234,7 +235,7 @@ const TransferSection = ()=>{
                             "Idempotency-Key":idempotency_key
                         }
                     });
-                    setLastResponseStatus(transferResponse.status);
+                    //setLastResponseStatus(transferResponse.status);
                     if(transferResponse.status===201){
                         const {status,msg,data} = transferResponse.data;
                         toast.update(notificationId,{type:'success',render:msg,isLoading:false});
@@ -305,12 +306,43 @@ const TransferSection = ()=>{
 
     };
 
+    const isTokenExpired = (token)=>{
+        if(!token){
+            return true;
+        }
+
+        try{
+            const decoded = jwtDecode(token);
+            const {exp} = decoded;
+            const currentTime = Date.now()/1000;
+            if(exp<currentTime){
+                return true;
+            } else{
+                return false;
+            }
+        } catch(e){
+            console.log('Error al decodificar el jwt',e);
+            return true;
+        }
+    };
+
+    setInterval(()=>{
+        if(isTokenExpired(jwtoken)){
+            /*toast('La sesión finalizó, por favor vuelve a iniciarla.',{
+                position:'top-center',
+                type:'error',
+                closeOnClick:true
+            }); */
+            setLastResponseStatus(401);
+        }
+    },1000*60);
+
     return (
         <div>
-            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'block' : 'hidden'}`}>
+            <div className={`${lastResponseStatus===401 ? 'block' : 'hidden'}`}>
             <SessionEnded/>
             </div>
-            <div className={`${lastResponseStatus===401 || !lastResponseStatus ? 'hidden' : 'block'}`}>
+            <div className={`${lastResponseStatus===401 ? 'hidden' : 'block'}`}>
             <div >
                 <h3 className='text-[25px] text-secondary font-bold font-openSauce'>Aspectos a considerar antes de empezar el proceso de transferencia</h3>
                 <ol className='list-decimal text-primary font-bold'>
@@ -339,12 +371,12 @@ const TransferSection = ()=>{
                     <div className='py-4 px-4 bg-tertiary w-full'>
                         <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Datos de origen</h3>
                         <div className='flex justify-start items-center gap-4'>
-                            <div className='w-[50%]'>
+                            {/*<div className='w-[50%]'>
                                 <label className='font-bold'>Dirección Billetera Spot de Binance (en Ethereum):</label><br/>
                                 <input
                                 className='w-full border-secondary border-2 rounded-sm'
                                 type='text' required={true} placeholder='0xe15804194f8ced608d950eca9a2d421ef54a961d' value={fromAddress} onChange={(e)=>setFromAddress(e.target.value)}/>
-                            </div>
+                            </div> */}
                             <div className='w-[50%]'>
                                 <label className='font-bold'>Monto líquido que desea que llegue a destino:</label><br/>
                                 <input
