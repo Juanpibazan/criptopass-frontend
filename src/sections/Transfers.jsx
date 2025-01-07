@@ -107,7 +107,7 @@ const Transfers = ()=>{
                                 return (
                                     <tr key={transfer.id} className='py-4 text-[10px]'>
                                         <td className='px-2 border-secondary border-2'>{transfer.id}</td>
-                                        <td className={`${transfer.state==='awaiting_funds' ? 'text-yellow-200 px-2' : transfer.state==='canceled' ? 'text-red-500 px-2' : transfer.state==='payment_processed' ? 'text-green-300 px-2' : 'text-slate-700 px-2'}  border-secondary border-2`}>{transfer.state}</td>
+                                        <td className={`${transfer.state==='awaiting_funds' ? 'text-yellow-600 px-2' : transfer.state==='canceled' ? 'text-red-500 px-2' : transfer.state==='payment_processed' ? 'text-green-500 px-2' : 'text-slate-700 px-2'}  border-secondary border-2`}>{transfer.state}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.receipt.final_amount}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.source_deposit_instructions.to_address}</td>
                                     </tr>

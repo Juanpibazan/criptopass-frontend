@@ -75,10 +75,9 @@ const TransferSection = ()=>{
             const notificationId = toast.loading("Por favor espere...",{
                 closeOnClick:true
             });
-            if( !user.idempotencyKeys || user.idempotencyKeys.find((item)=>item.endpoint !=='/transfers')){
-                const idempotency_key = uuidv4();
-                console.log(idempotency_key);
                 if(!user.idempotencyKeys){
+                    const idempotency_key = uuidv4();
+                    console.log(idempotency_key);
                     dispatch({
                         type:actionTypes.SET_USER,
                         user: {
@@ -96,120 +95,6 @@ const TransferSection = ()=>{
                             endpoint:'/transfers'
                         }]
                     }));
-                }
-                else{
-                    dispatch({
-                        type:actionTypes.SET_USER,
-                        user: {
-                            ...user,
-                            idempotencyKeys: [...user.idempotencyKeys,{
-                                idempotency_key,
-                                endpoint:'/transfers'
-                            }]
-                        }
-                    });
-                    localStorage.setItem('user',JSON.stringify({
-                        ...user,
-                        idempotencyKeys: [...user.idempotencyKeys,{
-                            idempotency_key,
-                            endpoint:'/transfers'
-                        }]
-                    }));
-                }
-
-                const transferResponse = await axios({
-                    method:'post',
-                    url:'https://criptopass-api.onrender.com/bridge/transfers/',
-                    data:{
-                        source: {
-                            source_currency:"usdt",
-                            source_payment_rail:"ethereum",
-                            from_address:fromAddress
-                        },
-                        destination:{
-                            destination_currency:"usd",
-                            destination_payment_rail: transferType,
-                            external_account_id: externalAccount
-                        },
-                        amount:`${totalAmount}`,
-                        on_behalf_of:customer_id,
-                        developer_fee:`${developerFee}`
-                    },
-                    headers:{
-                        "Content-Type":"application/json",
-                        "Authorization":`Bearer ${jwtoken}`,
-                        "Api-Key":apiKey,
-                        "Idempotency-Key":idempotency_key
-                    }
-                });
-                //setLastResponseStatus(transferResponse.status);
-                if(transferResponse.status===201){
-                    const {status,msg,data} = transferResponse.data;
-                    toast.update(notificationId,{type:'success',render:msg,isLoading:false});
-                    dispatch({
-                        type: actionTypes.SET_USER,
-                        user: {
-                            ...user,
-                            transfers: user.transfers ? [
-                                ...user.transfers,
-                                {
-                                    id: data.id,
-                                    state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address,
-                                    transfer_type: data.destination.payment_rail,
-                                    receipt: data.receipt
-                                }
-                            ] : [
-                                {
-                                    id: data.id,
-                                    state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address,
-                                    transfer_type: data.destination.payment_rail,
-                                    receipt: data.receipt
-                                }
-                            ]
-                        }
-                    });
-                    localStorage.setItem('user',JSON.stringify({
-                            ...user,
-                            transfers: user.transfers ? [
-                                ...user.transfers,
-                                {
-                                    id: data.id,
-                                    state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address,
-                                    transfer_type: data.destination.payment_rail,
-                                    receipt: data.receipt
-                                }
-                            ] : [
-                                {
-                                    id: data.id,
-                                    state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address,
-                                    transfer_type: data.destination.payment_rail,
-                                    receipt: data.receipt
-                                }
-                            ]
-                        }
-                    ));
-                    setLastTransfer({
-                        id: data.id,
-                        state: data.state,
-                        to_address: data.source_deposit_instructions.to_address,
-                        transfer_type: data.destination.payment_rail,
-                        receipt: data.receipt
-                    });
-                    setTransferInitiated(!transferInitiated);
-                }
-                else{
-                    const {status,msg,data} = transferResponse.data;
-                    toast.update(notificationId,{type:'error',render:msg,isLoading:false});
-                }
-    
-            } else{
-                console.log('Segundo camino');
-                const idempotency_key = user.idempotencyKeys.find((item)=>item.endpoint==='/transfers');
-                if(idempotency_key){
                     const transferResponse = await axios({
                         method:'post',
                         url:'https://criptopass-api.onrender.com/bridge/transfers/',
@@ -235,9 +120,249 @@ const TransferSection = ()=>{
                             "Idempotency-Key":idempotency_key
                         }
                     });
-                    //setLastResponseStatus(transferResponse.status);
                     if(transferResponse.status===201){
                         const {status,msg,data} = transferResponse.data;
+                        console.log("DATA 1 : ",data);
+                        toast.update(notificationId,{type:'success',render:msg,isLoading:false});
+                        dispatch({
+                            type: actionTypes.SET_USER,
+                            user: {
+                                ...user,
+                                idempotencyKeys:[],
+                                transfers: user.transfers ? [
+                                    ...user.transfers,
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ] : [
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ]
+                            }
+                        });
+                        console.log('ya se hizo el primer dispatch');
+                        /*dispatch({
+                            type:actionTypes.SET_USER,
+                            user:{
+                                ...user,
+                                idempotencyKeys: []
+                            }
+                        });*/
+                        localStorage.setItem('user',JSON.stringify({
+                                ...user,
+                                idempotencyKeys:[],
+                                transfers: user.transfers ? [
+                                    ...user.transfers,
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ] : [
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ]
+                            }
+                        ));
+                        console.log('ya se hizo el primer setItem()');
+                        /*localStorage.setItem('user',JSON.stringify({
+                            ...user,
+                            idempotencyKeys: []
+                        }));*/
+                        setLastTransfer({
+                            id: data.id,
+                            state: data.state,
+                            to_address: data.source_deposit_instructions.to_address,
+                            transfer_type: data.destination.payment_rail,
+                            receipt: data.receipt
+                        });
+                        setTransferInitiated(!transferInitiated);
+                    } else{
+                        const {status,msg} = transferResponse.data;
+                        toast.update(notificationId,{type:'error',render:msg,isLoading:false});
+                    }
+                } else if(user.idempotencyKeys.length===0){
+                    //const idempotency_key = user.idempotencyKeys.length===0 ? uuidv4() : user.idempotencyKeys.find((item)=>item.endpoint === '/transfers').idempotency_key;
+                    const idempotency_key = uuidv4();
+                    dispatch({
+                        type:actionTypes.SET_USER,
+                        user: {
+                            ...user,
+                            idempotencyKeys: [{
+                                idempotency_key,
+                                endpoint:'/transfers'
+                            }]
+                        }
+                    });
+                    localStorage.setItem('user',JSON.stringify({
+                        ...user,
+                        idempotencyKeys: [{
+                            idempotency_key,
+                            endpoint:'/transfers'
+                        }]
+                    }));
+                    const transferResponse = await axios({
+                        method:'post',
+                        url:'https://criptopass-api.onrender.com/bridge/transfers/',
+                        data:{
+                            source: {
+                                source_currency:"usdt",
+                                source_payment_rail:"ethereum",
+                                from_address:fromAddress
+                            },
+                            destination:{
+                                destination_currency:"usd",
+                                destination_payment_rail: transferType,
+                                external_account_id: externalAccount
+                            },
+                            amount:`${totalAmount}`,
+                            on_behalf_of:customer_id,
+                            developer_fee:`${developerFee}`
+                        },
+                        headers:{
+                            "Content-Type":"application/json",
+                            "Authorization":`Bearer ${jwtoken}`,
+                            "Api-Key":apiKey,
+                            "Idempotency-Key":idempotency_key
+                        }
+                    });
+                    if(transferResponse.status===201){
+                        const {status,msg,data} = transferResponse.data;
+                        console.log("DATA 2 : ",data);
+                        dispatch({
+                            type: actionTypes.SET_USER,
+                            user: {
+                                ...user,
+                                transfers: user.transfers ? [
+                                    ...user.transfers,
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ] : [
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ]
+                            }
+                        });
+                        toast.update(notificationId,{type:'success',render:msg,isLoading:false});
+                        dispatch({
+                            type:actionTypes.SET_USER,
+                            user:{
+                                ...user,
+                                idempotencyKeys: []
+                            }
+                        });
+                        localStorage.setItem('user',JSON.stringify({
+                                ...user,
+                                transfers: user.transfers ? [
+                                    ...user.transfers,
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ] : [
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ]
+                            }
+                        ));
+                        localStorage.setItem('user',JSON.stringify({
+                            ...user,
+                            idempotencyKeys: []
+                        }));
+                        setLastTransfer({
+                            id: data.id,
+                            state: data.state,
+                            to_address: data.source_deposit_instructions.to_address,
+                            transfer_type: data.destination.payment_rail,
+                            receipt: data.receipt
+                        });
+                        setTransferInitiated(!transferInitiated);
+                    } else{
+                        const {status,msg,data} = transferResponse.data;
+                        toast.update(notificationId,{type:'error',render:msg,isLoading:false});
+                    }
+                    
+                } else if(user.idempotencyKeys.find((item)=>item.endpoint ==='/transfers')){
+                    const idempotency_key = user.idempotencyKeys.find((item)=>item.endpoint === '/transfers').idempotency_key;
+                    dispatch({
+                        type:actionTypes.SET_USER,
+                        user: {
+                            ...user,
+                            idempotencyKeys: [...user.idempotencyKeys,{
+                                idempotency_key,
+                                endpoint:'/transfers'
+                            }]
+                        }
+                    });
+                    localStorage.setItem('user',JSON.stringify({
+                        ...user,
+                        idempotencyKeys: [...user.idempotencyKeys,{
+                            idempotency_key,
+                            endpoint:'/transfers'
+                        }]
+                    }));
+                    const transferResponse = await axios({
+                        method:'post',
+                        url:'https://criptopass-api.onrender.com/bridge/transfers/',
+                        data:{
+                            source: {
+                                source_currency:"usdt",
+                                source_payment_rail:"ethereum",
+                                from_address:fromAddress
+                            },
+                            destination:{
+                                destination_currency:"usd",
+                                destination_payment_rail: transferType,
+                                external_account_id: externalAccount
+                            },
+                            amount:`${totalAmount}`,
+                            on_behalf_of:customer_id,
+                            developer_fee:`${developerFee}`
+                        },
+                        headers:{
+                            "Content-Type":"application/json",
+                            "Authorization":`Bearer ${jwtoken}`,
+                            "Api-Key":apiKey,
+                            "Idempotency-Key":idempotency_key
+                        }
+                    });
+                    if(transferResponse.status===201){
+                        const {status,msg,data} = transferResponse.data;
+                        console.log("DATA 3 : ",data);
                         toast.update(notificationId,{type:'success',render:msg,isLoading:false});
                         dispatch({
                             type: actionTypes.SET_USER,
@@ -263,26 +388,38 @@ const TransferSection = ()=>{
                                 ]
                             }
                         });
+                        dispatch({
+                            type:actionTypes.SET_USER,
+                            user:{
+                                ...user,
+                                idempotencyKeys: [...user.idempotencyKeys.filter((item)=>item.endpoint !== '/transfers')]
+                            }
+                        });
+                        localStorage.setItem('user',JSON.stringify({
+                                ...user,
+                                transfers: user.transfers ? [
+                                    ...user.transfers,
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ] : [
+                                    {
+                                        id: data.id,
+                                        state: data.state,
+                                        to_address: data.source_deposit_instructions.to_address,
+                                        transfer_type: data.destination.payment_rail,
+                                        receipt: data.receipt
+                                    }
+                                ]
+                            }
+                        ));
                         localStorage.setItem('user',JSON.stringify({
                             ...user,
-                            transfers: user.transfers ? [
-                                ...user.transfers,
-                                {
-                                    id: data.id,
-                                    state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address,
-                                    transfer_type: data.destination.payment_rail,
-                                    receipt: data.receipt
-                                }
-                            ] : [
-                                {
-                                    id: data.id,
-                                    state: data.state,
-                                    to_address: data.source_deposit_instructions.to_address,
-                                    transfer_type: data.destination.payment_rail,
-                                    receipt: data.receipt
-                                }
-                            ]
+                            idempotencyKeys: [...user.idempotencyKeys.filter((item)=>item.endpoint !== '/transfers')]
                         }));
                         setLastTransfer({
                             id: data.id,
@@ -292,9 +429,13 @@ const TransferSection = ()=>{
                             receipt: data.receipt
                         });
                         setTransferInitiated(!transferInitiated);
+                    } else{
+                        const {status,msg,data} = transferResponse.data;
+                        toast.update(notificationId,{type:'error',render:msg,isLoading:false});
                     }
-                }
-    
+            } else {
+                toast.update(notificationId,{type:'error',render:'Error',isLoading:false});
+
             }
         } catch(e){
             console.log(e);
@@ -483,7 +624,7 @@ const TransferSection = ()=>{
                             <li className='text-[20px] font-bold'>Código de la transferencia: <strong className='text-tertiary'>{user.transfers ? user.transfers.find(item =>item.id===lastTransfer.id) : ''}</strong></li>
                             <li className='text-[20px] font-bold'>Estado: <strong className='text-tertiary'>{user.transfers ? user.transfers.find(item =>item.state===lastTransfer.state) : ''}</strong></li>
                             <li className='text-[20px] font-bold'>Cantidad Final: <strong className='text-tertiary'>{totalAmount}</strong></li>
-                            <li className='text-[20px] font-bold'>Cuenta a transferir USDT desde Binance: <strong className='text-tertiary'>{user.transfers ? user.trasfers.find(item=>item.to_address===lastTransfer.to_address) : ''}</strong></li>
+                            <li className='text-[20px] font-bold'>Cuenta a transferir USDT desde Binance: <strong className='text-tertiary'>{user.transfers ? user.transfers.find(item=>item.to_address===lastTransfer.to_address) : ''}</strong></li>
                         </ul>
                         <Link to='/transfers' onClick={()=>setTransferInitiated(false)} className='py-2 px-4 bg-primary text-white text-[20px] border-primary border-2 rounded-sm'>Ir a transferencias</Link>
                     </div>

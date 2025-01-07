@@ -59,9 +59,9 @@ const Login = ()=>{
                     localStorage.setItem('jwtoken',data.token);
                     dispatch({
                         type: actionTypes.SET_USER,
-                        user: data.user
+                        user: {...data.user,transfers:null}
                     });
-                    localStorage.setItem('user',JSON.stringify(data.user));
+                    localStorage.setItem('user',JSON.stringify({...data.user,transfers:null}));
                     setTimeout(()=>navigate('/home'),300);
                 } else{
                     toast.update(notificationId,{type:'error',render:msg,isLoading:false});

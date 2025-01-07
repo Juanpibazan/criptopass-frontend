@@ -3,6 +3,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { jwtDecode } from 'jwt-decode';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
@@ -132,6 +133,29 @@ const Profile = ()=>{
         }
     },1000*60);
 
+    const removeIdempotence = ()=>{
+                    dispatch({
+                        type:actionTypes.SET_USER,
+                        user:{
+                            ...user,
+                            idempotencyKeys: [...user.idempotencyKeys.filter((item)=>item.endpoint !== '/transfers')]
+                        }
+                    });
+                    localStorage.setItem('user',JSON.stringify({
+                        ...user,
+                        idempotencyKeys: [...user.idempotencyKeys.filter((item)=>item.endpoint !== '/transfers')]
+                    }));
+    };
+
+    const findIdempotence = ()=>{
+        const idempotence = user.idempotencyKeys.find((item)=>item.endpoint==='/transfers');
+        console.log(idempotence);
+    };
+
+    const findLastTransfer = ()=>{
+        console.log('last transfer',user.transfers.find(item =>item.id==="04d417b3-f6bc-4f12-9164-2ac02ce00697"));
+    };
+
     return (
         <div>
             {/*<h1 className='font-openSauce font-bold text-[30px]'>Mi Perfil</h1>*/}
@@ -153,6 +177,15 @@ const Profile = ()=>{
                     )}
                 </div>
             </div>
+            <button
+            onClick={()=>removeIdempotence()}
+            className='bg-slate-500 text-white py-2 px-4'>Eliminar idempotency keys</button>
+            <button
+            onClick={()=>findIdempotence()}
+            className='bg-slate-500 text-white py-2 px-4'>Encontrar idempotency keys</button>
+            <button
+            onClick={()=>findLastTransfer()}
+            className='bg-slate-500 text-white py-2 px-4'>Encontrar last transfer</button>
         </div>
     )
 };

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { jwtDecode } from 'jwt-decode';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
@@ -102,6 +103,8 @@ const RegistroDestinatarios = ()=>{
             const decoded = jwtDecode(token);
             const {exp} = decoded;
             const currentTime = Date.now()/1000;
+            console.log('Expire en:',exp);
+            console.log('current dt:',currentTime);
             if(exp<currentTime){
                 return true;
             } else{
