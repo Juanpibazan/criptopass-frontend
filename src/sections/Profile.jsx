@@ -29,6 +29,7 @@ const Profile = ()=>{
             const response = await axios({
                 method:'post',
                 url:'https://criptopass-api.onrender.com/bridge/customers/kyc_links',
+                //url:'http://localhost:4000/bridge/customers/kyc_links',
                 data:{
                     fullName,
                     email,
@@ -78,7 +79,7 @@ const Profile = ()=>{
         const getKYC = async ()=>{
             const kyc_link_record = await axios({
                 method:'get',
-                url:`https://criptopass-api.onrender.com/bridge/customers/kyc_links/${email}`,
+                url:`https://criptopass-api.onrender.com/bridge/customers/kyc_links?email=${email}`,
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${jwtoken}`
