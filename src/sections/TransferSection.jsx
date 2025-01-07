@@ -245,6 +245,13 @@ const TransferSection = ()=>{
                     if(transferResponse.status===201){
                         const {status,msg,data} = transferResponse.data;
                         console.log("DATA 2 : ",data);
+                        setLastTransfer({
+                            id: data.id,
+                            state: data.state,
+                            to_address: data.source_deposit_instructions.to_address,
+                            transfer_type: data.destination.payment_rail,
+                            receipt: data.receipt
+                        });
                         dispatch({
                             type: actionTypes.SET_USER,
                             user: {
@@ -303,13 +310,6 @@ const TransferSection = ()=>{
                             ...user,
                             idempotencyKeys: []
                         }));
-                        setLastTransfer({
-                            id: data.id,
-                            state: data.state,
-                            to_address: data.source_deposit_instructions.to_address,
-                            transfer_type: data.destination.payment_rail,
-                            receipt: data.receipt
-                        });
                         setTransferInitiated(!transferInitiated);
                     } else{
                         const {status,msg,data} = transferResponse.data;
@@ -621,10 +621,10 @@ const TransferSection = ()=>{
                         bg-secondary yellow-400 border-primary border-4 rounded-md shadow-md ${transferInitiated ? 'block' :'hidden'}`}>
                         <h3 className='text-[50px] text-white font-bold font-openSauce'>Transferencia iniciada exitosamente</h3>
                         <ul className='list-disc'>
-                            <li className='text-[20px] font-bold'>Código de la transferencia: <strong className='text-tertiary'>{user.transfers ? user.transfers.find(item =>item.id===lastTransfer.id) : ''}</strong></li>
-                            <li className='text-[20px] font-bold'>Estado: <strong className='text-tertiary'>{user.transfers ? user.transfers.find(item =>item.state===lastTransfer.state) : ''}</strong></li>
+                            <li className='text-[20px] font-bold'>Código de la transferencia: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.id : ''}</strong></li>
+                            <li className='text-[20px] font-bold'>Estado: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.state : ''}</strong></li>
                             <li className='text-[20px] font-bold'>Cantidad Final: <strong className='text-tertiary'>{totalAmount}</strong></li>
-                            <li className='text-[20px] font-bold'>Cuenta a transferir USDT desde Binance: <strong className='text-tertiary'>{user.transfers ? user.transfers.find(item=>item.to_address===lastTransfer.to_address) : ''}</strong></li>
+                            <li className='text-[20px] font-bold'>Cuenta a transferir USDT desde Binance: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.to_address : ''}</strong></li>
                         </ul>
                         <Link to='/transfers' onClick={()=>setTransferInitiated(false)} className='py-2 px-4 bg-primary text-white text-[20px] border-primary border-2 rounded-sm'>Ir a transferencias</Link>
                     </div>
