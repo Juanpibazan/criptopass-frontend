@@ -177,7 +177,7 @@ const Profile = ()=>{
                     )}
                 </div>
             </div>
-            <button
+            {/*<button
             onClick={()=>removeIdempotence()}
             className='bg-slate-500 text-white py-2 px-4'>Eliminar idempotency keys</button>
             <button
@@ -185,7 +185,7 @@ const Profile = ()=>{
             className='bg-slate-500 text-white py-2 px-4'>Encontrar idempotency keys</button>
             <button
             onClick={()=>findLastTransfer()}
-            className='bg-slate-500 text-white py-2 px-4'>Encontrar last transfer</button>
+            className='bg-slate-500 text-white py-2 px-4'>Encontrar last transfer</button> */}
         </div>
     )
 };
