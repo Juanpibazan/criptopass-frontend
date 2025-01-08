@@ -72,10 +72,10 @@ const Header = ()=>{
             <h1 className='font-bold text-[30px] text-primary'>{activeTitle}</h1>
             {user ? (
                 <div className='w-[30%] flex flex-row justify-evenly items-center'>
-                    {user.customer_id !=='' && user.kyc_status ==='approved' && (
+                    {user.customer_id !=='' && user.kyc_status ==='approved' && user.tos_status === 'approved' && (
                         <div className='w-[80%] flex flex-row justify-between items-center'>
                             <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/transfer' className='py-2 px-4 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary'>Transferir USDT a USD</Link>
-                            <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/register-recipient-accounts' className='py-2 px-4 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white'>Registrar Cuenta Destino</Link>
+                            <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/register-external-account' className='py-2 px-4 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white'>Registrar Una Cuenta Externa</Link>
                         </div>
                     )}
 

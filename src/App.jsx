@@ -14,6 +14,7 @@ import Transfers from './sections/Transfers';
 import Home from './sections/Home';
 import Profile from './sections/Profile';
 import RegistroDestinatarios from './sections/RegistroDestinatarios';
+import RegistroCuentaExterna from './sections/RegistroCuentaExterna';
 
 import { useStateValue } from './context/StateProvider';
 import { actionTypes } from './context/reducer';
@@ -35,6 +36,7 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/register-recipient-accounts' element={<RegistroDestinatarios />} />
+        <Route path='/register-external-account' element={<RegistroCuentaExterna/>} />
       </Routes>
       <Footer />
 
