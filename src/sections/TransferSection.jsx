@@ -529,10 +529,10 @@ const TransferSection = ()=>{
                     </div>
                     <div className='py-4 px-4 bg-tertiary w-full'>
                         <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Datos de Destino</h3>
-                        <div className='flex justify-start items-center gap-4'>
+                        <div className='flex justify-start items-start gap-4'>
                             <div className='w-[50%] flex flex-col justify-start items-start gap-2'>
                                 <label className='font-bold'>Cuenta Destino:</label><br/>
-                                <div className='flex justify-start items-center gap-2'>
+                                <div className='flex justify-start items-start gap-2'>
                                     <button className='bg-primary text-white py-2 px-4 border-primary border-2 rounded-sm' onClick={()=>fetchDestinatarios()}>Buscar destinatarios</button>
                                     <Link to='/register-recipient-accounts' className='bg-secondary text-white py-2 px-4 border-secondary border-2 rounded-sm' >Registrar destinatarios</Link>
                                 </div>
@@ -555,7 +555,7 @@ const TransferSection = ()=>{
                                     </select>
                                 )}
                             </div>
-                            <div className='w-[50%]'>
+                            <div className='w-[50%] h-full flex flex-col justify-between items-start'>
                                 <label className='font-bold'>Tipo de Transferencia:</label><br/>
                                 <select
                                 className='w-full border-secondary border-2 rounded-sm' required={true} value={transferType} onChange={(e)=>setTransferType(e.target.value)}>
@@ -594,14 +594,14 @@ const TransferSection = ()=>{
                     </div>
                     <div className='py-4 px-4 bg-tertiary w-full'>
                         <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Cálculo de los montos finales</h3>
-                        <div className='flex justify-start items-center gap-4'>
+                        <div className='flex justify-start items-start gap-4'>
                             <div className='w-[50%]'>
                                 <label className='font-bold'>Monto final de transferencia <span className='text-primary font-bold font-garet'>(Monto líquido que desea que llegue a destino + Costo de la transferencia + Comision de Criptopass)</span>:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm text'
                                 type='text' value={totalAmount}/>
                             </div>
-                            <div className='w-[50%]'>
+                            <div className='w-[50%] h-full flex flex-col justify-between items-start'>
                                 <label className='font-bold'>Comisión de Binance:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm'
