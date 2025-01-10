@@ -85,7 +85,7 @@ const Header = ()=>{
                         </div>
                         <ul className='absolute pt-8 profile-icon-submenu'>
                             <li className='border-b-2 border-primary py-2'><Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/profile'>Mi Perfil</Link></li>
-                            <li className='border-b-2 border-primary py-2'><Link >Mis Destinatarios</Link></li>
+                            <li className='border-b-2 border-primary py-2'><Link to='/register-recipient-accounts'>Mis Destinatarios</Link></li>
                             <li className='border-b-2 border-primary py-2'><Link onClick={logOut}>Cerrar sesión</Link></li>
                         </ul>
                     </div>

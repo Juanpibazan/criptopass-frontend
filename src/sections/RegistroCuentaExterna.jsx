@@ -27,6 +27,210 @@ const RegistroCuentaExterna = ()=>{
         country:''
     });
 
+    const createExternalAcount = async (apiKey,customer_id,bank_name, account_number,routing_number,account_type,account_owner_name,address)=>{
+        try{
+            const notificationId = toast.loading("Por favor espere...",{
+                closeOnClick:true
+            });
+                if(!user.idempotencyKeys){
+                    const idempotency_key = uuidv4();
+                    console.log(idempotency_key);
+                    dispatch({
+                        type:actionTypes.SET_USER,
+                        user: {
+                            ...user,
+                            idempotencyKeys: [{
+                                idempotency_key,
+                                endpoint:'/external_accounts'
+                            }]
+                        }
+                    });
+                    localStorage.setItem('user',JSON.stringify({
+                        ...user,
+                        idempotencyKeys:[{
+                            idempotency_key,
+                            endpoint:'/external_accounts'
+                        }]
+                    }));
+                    const externalAccountResponse = await axios({
+                        method:'post',
+                        url:`https://criptopass-api.onrender.com/bridge/customers/${customer_id}/external_accounts`,
+                        data:{
+                                type: "raw",
+                                bank_name, 
+                                account_number,
+                                routing_number,
+                                account_name: account_type,
+                                account_owner_name,
+                                active: true,
+                                address
+                            },
+                        headers:{
+                            "Content-Type":"application/json",
+                            "Authorization":`Bearer ${jwtoken}`,
+                            "Api-Key":apiKey,
+                            "Idempotency-Key":idempotency_key
+                        }
+                    });
+                    if(externalAccountResponse.status===201){
+                        const {status,msg,data} = externalAccountResponse.data;
+                                            console.log("DATA 1 : ",data);
+                                            toast.update(notificationId,{type:'success',render:msg,isLoading:false});
+                                            dispatch({
+                                                type: actionTypes.SET_USER,
+                                                user: {
+                                                    ...user,
+                                                    idempotencyKeys:[],
+                                                    
+                                                }
+                                            });
+                                            console.log('ya se hizo el primer dispatch');
+                                            /*dispatch({
+                                                type:actionTypes.SET_USER,
+                                                user:{
+                                                    ...user,
+                                                    idempotencyKeys: []
+                                                }
+                                            });*/
+                                            localStorage.setItem('user',JSON.stringify({
+                                                    ...user,
+                                                    idempotencyKeys:[]
+                                                }
+                                            ));
+                    } else{
+                        const {status,msg} = externalAccountResponse.data;
+                        toast.update(notificationId,{render:msg,type:'error',isLoading:false});
+                    }
+                } else if(user.idempotencyKeys.length===0){
+                    //const idempotency_key = user.idempotencyKeys.length===0 ? uuidv4() : user.idempotencyKeys.find((item)=>item.endpoint === '/transfers').idempotency_key;
+                    const idempotency_key = uuidv4();
+                    dispatch({
+                        type:actionTypes.SET_USER,
+                        user: {
+                            ...user,
+                            idempotencyKeys: [{
+                                idempotency_key,
+                                endpoint:'/external_accounts'
+                            }]
+                        }
+                    });
+                    localStorage.setItem('user',JSON.stringify({
+                        ...user,
+                        idempotencyKeys: [{
+                            idempotency_key,
+                            endpoint:'/external_accounts'
+                        }]
+                    }));
+                    const externalAccountResponse = await axios({
+                        method:'post',
+                        url:`https://criptopass-api.onrender.com/bridge/customers/${customer_id}/external_accounts`,
+                        data:{
+                                type: "raw",
+                                bank_name, 
+                                account_number,
+                                routing_number,
+                                account_name: account_type,
+                                account_owner_name,
+                                active: true,
+                                address
+                            },
+                        headers:{
+                            "Content-Type":"application/json",
+                            "Authorization":`Bearer ${jwtoken}`,
+                            "Api-Key":apiKey,
+                            "Idempotency-Key":idempotency_key
+                        }
+                    });
+                    if(externalAccountResponse.status===201){
+                        const {status,msg,data} = externalAccountResponse.data;
+                        console.log("DATA 2 : ",data);
+                        toast.update(notificationId,{type:'success',render:msg,isLoading:false});
+                        dispatch({
+                            type:actionTypes.SET_USER,
+                            user:{
+                                ...user,
+                                idempotencyKeys: []
+                            }
+                        });
+                        localStorage.setItem('user',JSON.stringify({
+                            ...user,
+                            idempotencyKeys: []
+                        }));
+                    } else{
+                        const {status,msg} = externalAccountResponse.data;
+                        toast.update(notificationId,{type:'error',render:msg,isLoading:false});
+                    }
+            } else if(user.idempotencyKeys.find((item)=>item.endpoint ==='/external_accounts')){
+                const idempotency_key = user.idempotencyKeys.find((item)=>item.endpoint === '/external_accounts').idempotency_key;
+                dispatch({
+                    type:actionTypes.SET_USER,
+                    user: {
+                        ...user,
+                        idempotencyKeys: [...user.idempotencyKeys,{
+                            idempotency_key,
+                            endpoint:'/external_accounts'
+                        }]
+                    }
+                });
+                localStorage.setItem('user',JSON.stringify({
+                    ...user,
+                    idempotencyKeys: [...user.idempotencyKeys,{
+                        idempotency_key,
+                        endpoint:'/external_accounts'
+                    }]
+                }));
+                const externalAccountResponse = await axios({
+                    method:'post',
+                    url:`https://criptopass-api.onrender.com/bridge/customers/${customer_id}/external_accounts`,
+                    data:{
+                        type: "raw",
+                        bank_name, 
+                        account_number,
+                        routing_number,
+                        account_name: account_type,
+                        account_owner_name,
+                        active: true,
+                        address
+                    },
+                    headers:{
+                        "Content-Type":"application/json",
+                        "Authorization":`Bearer ${jwtoken}`,
+                        "Api-Key":apiKey,
+                        "Idempotency-Key":idempotency_key
+                    }
+                });
+                if(externalAccountResponse.status===201){
+                    const {status,msg,data} = externalAccountResponse.data;
+                    console.log("DATA 3 : ",data);
+                    toast.update(notificationId,{type:'success',render:msg,isLoading:false});
+                    dispatch({
+                        type:actionTypes.SET_USER,
+                        user:{
+                            ...user,
+                            idempotencyKeys: [...user.idempotencyKeys.filter((item)=>item.endpoint !== '/external_accounts')]
+                        }
+                    });
+                    localStorage.setItem('user',JSON.stringify({
+                        ...user,
+                        idempotencyKeys: [...user.idempotencyKeys.filter((item)=>item.endpoint !== '/external_accounts')]
+                    }));
+                } else{
+                    const {status,msg} = externalAccountResponse.data;
+                    toast.update(notificationId,{type:'error',render:msg,isLoading:false});
+                }
+        } else{
+            toast.update(notificationId,{type:'error',render:'Error',isLoading:false});
+        }
+            
+        } catch(e){
+            console.log(e);
+            toast(e.response.data.msg,{
+                type:'error',
+                position:'top-center'
+            });
+        }
+    };
+
 
     return (
         <div>
@@ -96,6 +300,9 @@ const RegistroCuentaExterna = ()=>{
                         </div>
                         </div>
                     </div>
+                </div>
+                <div className='flex justify-end items-center bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold'>
+                    <button className='text-right' onClick={()=>createExternalAcount(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,routingNumber,accountType,accountOwnerName,address)}>Registrar Cuenta Externa</button>
                 </div>
             </div>
         </div>
