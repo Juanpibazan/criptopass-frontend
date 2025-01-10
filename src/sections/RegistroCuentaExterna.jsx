@@ -33,19 +33,23 @@ const RegistroCuentaExterna = ()=>{
             <div className='flex flex-col justify-start items-start gap-4'>
                 <div className='w-[50%]'>
                     <label>Nombre del Banco</label><br/>
-                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Lead Bank' />
+                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Lead Bank'
+                    value={bankName} onChange={(e)=>setBankName(e.target.value)}/>
                 </div>
                 <div className='w-[50%]'>
                     <label>Número de Cuenta</label><br/>
-                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='210535431174' />
+                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='210535431174'
+                    value={accountNumber} onChange={(e)=>setAccountNumber(e.target.value)}/>
                 </div>
                 <div className='w-[50%]'>
                     <label>Número de Routing</label><br/>
-                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='204318456' />
+                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='204318456'
+                    value={routingNumber} onChange={(e)=>setRoutingNumber(e.target.value)}/>
                 </div>
                 <div className='w-[50%]'>
                     <label>Tipo de Cuenta</label><br/>
-                    <select className='w-full border-2 border-secondary rounded-sm'>
+                    <select className='w-full border-2 border-secondary rounded-sm'
+                    value={accountType} onChange={(e)=>setAccounttype(e.target.value)}>
                         <option className='bg-slate-200' value=''>Selecciona una opción</option>
                         <option className='bg-secondary' value='Checking'>Cuenta de Cheques</option>
                         <option className='bg-secondary' value='Saving'>Cuenta de Ahorros</option>
@@ -53,26 +57,43 @@ const RegistroCuentaExterna = ()=>{
                 </div>
                 <div className='w-[50%]'>
                     <label>Nombre del Dueño de la Cuenta</label><br/>
-                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei' />
+                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei'
+                    value={accountOwnerName} onChange={(e)=>setAccountOwnerName(e.target.value)}/>
                 </div>
                 <div className='w-full'>
                     <h3>Dirección</h3>
                     <div className='w-full flex flex-row justify-start items-center gap-4 flex-wrap'>
                         <div className='w-[50%]'>
-                            <label>Nombre del Dueño de la Cuenta</label><br/>
-                            <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei' />
+                            <label>Linea de Dirección 1</label><br/>
+                            <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='101 Main St.'
+                            value={address.street_line_1} onChange={(e)=>setAddress({...address,street_line_1:e.target.value})}/>
                         </div>
                         <div className='w-[50%]'>
-                            <label>Nombre del Dueño de la Cuenta</label><br/>
-                            <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei' />
+                            <label>Linea de Dirección 2</label><br/>
+                            <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder=''
+                            value={address.street_line_2} onChange={(e)=>setAddress({...address,street_line_2:e.target.value})}/>
+                        </div>
+                        <div className='w-full flex flex-row justify-start items-center gap-4'>
+                        <div>
+                            <label>Ciudad</label><br/>
+                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='Los Angeles'
+                            value={address.city} onChange={(e)=>setAddress({...address,city:e.target.value})}/>
                         </div>
                         <div>
-                            <label>Nombre del Dueño de la Cuenta</label><br/>
-                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei' />
+                            <label>Estado</label><br/>
+                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='California'
+                            value={address.state} onChange={(e)=>setAddress({...address,state:e.target.value})}/>
                         </div>
                         <div>
-                            <label>Nombre del Dueño de la Cuenta</label><br/>
-                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei' />
+                            <label>Código Postal</label><br/>
+                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='90001'
+                            value={address.postal_code} onChange={(e)=>setAddress({...address,postal_code:e.target.value})}/>
+                        </div>
+                        <div>
+                            <label>País</label><br/>
+                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='USA'
+                            value={address.country} onChange={(e)=>setAddress({...address,country:e.target.value})}/>
+                        </div>
                         </div>
                     </div>
                 </div>
