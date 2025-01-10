@@ -55,6 +55,7 @@ const RegistroCuentaExterna = ()=>{
                     const externalAccountResponse = await axios({
                         method:'post',
                         url:`https://criptopass-api.onrender.com/bridge/customers/${customer_id}/external_accounts`,
+                        //url:`http://localhost:4000/bridge/customers/${customer_id}/external_accounts`,
                         data:{
                                 type: "raw",
                                 bank_name, 
