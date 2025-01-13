@@ -28,10 +28,10 @@ const RegistroCuentaExterna = ()=>{
     });
 
     const createExternalAcount = async (apiKey,customer_id,bank_name, account_number,routing_number,account_type,account_owner_name,address)=>{
+        const notificationId = toast.loading("Por favor espere...",{
+            closeOnClick:true
+        });
         try{
-            const notificationId = toast.loading("Por favor espere...",{
-                closeOnClick:true
-            });
                 if(!user.idempotencyKeys){
                     const idempotency_key = uuidv4();
                     console.log(idempotency_key);
@@ -306,6 +306,7 @@ const RegistroCuentaExterna = ()=>{
                     <button className='text-right' onClick={()=>createExternalAcount(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,routingNumber,accountType,accountOwnerName,address)}>Registrar Cuenta Externa</button>
                 </div>
             </div>
+            <ToastContainer position='top-center' />
         </div>
     )
 };

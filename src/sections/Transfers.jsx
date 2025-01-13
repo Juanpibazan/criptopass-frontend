@@ -12,22 +12,26 @@ import SessionEnded from '../Components/SessionEnded';
 const Transfers = ()=>{
     const [{user,jwtoken},dispatch] = useStateValue();
     const [transfers,setTransfers] = useState([]);
+    const [limit,setLimit] = useState(10);
     const [lastResponseStatus,setLastResponseStatus] = useState();
 
     useEffect( ()=>{
-        try{
-            const notificationId = toast.loading("Por favor espere...",{
-                closeOnClick:true
-            });
+            const controller = new AbortController();
+            const {signal} = controller;
             const fetchTransfers = async ()=>{
+                const notificationId = toast.loading("Por favor espere...",{
+                    closeOnClick:true
+                });
+                try{
                 const transfersResponse = await axios({
                     method:'get',
-                    url:`https://criptopass-api.onrender.com/bridge/transfers/${user.customer_id}`,
+                    url:`https://criptopass-api.onrender.com/bridge/transfers/${user.customer_id}?limit=${limit}`,
                     headers:{
                         "Content-Type":"application/json",
                         "Api-Key": import.meta.env.VITE_BRIDGE_API_KEY,
                         "Authorization":`Bearer ${jwtoken}`
-                    }
+                    },
+                    signal
                 });
                 const {msg,data} = transfersResponse.data.data;
                 //setLastResponseStatus(transfersResponse.status);
@@ -42,20 +46,24 @@ const Transfers = ()=>{
                     toast.update(notificationId,{render:msg,type:'error',isLoading:false});
                     return msg;
                 }
-            };
-            fetchTransfers();
             //console.log('my_transfers: ',my_transfers);
             
-        }
-        catch(e){
-            console.log(e);
-            console.log('Llega hasta aca en el catch, antes del useNavigate()');
-            toast(e.response.data.msg,{
-                type:'error',
-                position:'top-center'
-            });
-        }
-    },[]);
+            }
+            catch(e){
+                console.log(e);
+                console.log('Llega hasta aca en el catch, antes del useNavigate()');
+                toast(e.response.data.msg,{
+                    type:'error',
+                    position:'top-center'
+                });
+            }
+        };
+        fetchTransfers();
+        return () => {
+            // Cancela la solicitud al desmontar el componente.
+            controller.abort();
+          };
+    },[limit]);
 
     const isTokenExpired = (token)=>{
         if(!token){
@@ -94,7 +102,8 @@ const Transfers = ()=>{
                 <SessionEnded />
             ) : (
                 <div>
-                <h1 className='text-[25px] text-primary font-bold'>Transferencias</h1>
+                <h1 className='text-[25px] text-primary font-bold text-center'>Transferencias</h1>
+                <div className='flex flex-col justify-start items-center gap-4'>
                     <table className='border-4 border-secondary rounded-sm min-h-screen' >
                             <tr className='border-2 border-secondary rounded-sm my-4 mx-2'>
                                 <th className='px-2 border-secondary border-2 text-left'>Código</th>
@@ -115,9 +124,16 @@ const Transfers = ()=>{
                             })}
                             </tbody>
                     </table>
+                    <select value={limit} onChange={(e)=>setLimit(e.target.value)}
+                        className='border-2 border-primary rounded-sm'>
+                        <option value={10}>10 registros</option>
+                        <option value={30}>30 registros</option>
+                        <option value={50}>50 registros</option>
+                    </select>
+                    </div>
                 </div>
             )}
-
+        <ToastContainer position='top-center'/>
         </div>
     )
 };

@@ -15,11 +15,12 @@ const Profile = ()=>{
     const [email,setEmail] = useState(user ? user.email : '');
     const [fullName,setFullName] = useState(user ? `${user.first_name} ${user.last_name}` : '');
     const [type,setType] = useState(user ? user.type : '');
-    const [kycStatus,setKycStatus] = useState('not started');
+    const [kycStatus,setKycStatus] = useState(user.kyc_status ? user.kyc_status : 'not started');
     const [kycLink, setkycLink] = useState('');
-    const [tosStatus,setTosStatus] = useState('not started');
+    const [tosStatus,setTosStatus] = useState(user.tos_status ? user.tos_status : 'not started');
     const [tosLink, setTosLink] = useState('');
     const [lastResponseStatus,setLastResponseStatus] = useState();
+    const [hasRun,setHasRun] = useState(false);
 
 
     const startKYC = async (apiKey,fullName,email,type)=>{
@@ -77,14 +78,16 @@ const Profile = ()=>{
 
     };
 
+    
     useEffect(()=>{
-            const notificationId = toast.loading("Por favor espere...",{
-                closeOnClick:true
-            });
             const controller = new AbortController();
             const {signal} = controller;
         const getKYC = async ()=>{
             try{
+            if(!hasRun){
+            const notificationId = toast.loading("Por favor espere...",{
+                closeOnClick:true
+            });
             const kyc_link_record = await axios({
                 method:'get',
                 url:`https://criptopass-api.onrender.com/bridge/customers/kyc_links?email=${email}`,
@@ -96,11 +99,12 @@ const Profile = ()=>{
             });
             setLastResponseStatus(kyc_link_record.status);
             if(kyc_link_record.status===200){
-                setKycStatus(kyc_link_record.data.kyc_status);
-                setTosStatus(kyc_link_record.data.tos_status);
-                setkycLink(kyc_link_record.data.kyc_link);
-                setTosLink(kyc_link_record.data.tos_link);
                 const {msg,data} = kyc_link_record.data;
+                toast.update(notificationId,{render:msg,type:'success',isLoading:false});
+                setKycStatus(data.kyc_status);
+                setTosStatus(data.tos_status);
+                setkycLink(data.kyc_link);
+                setTosLink(data.tos_link);
                 if(!user.kyc_link_id || user.kyc_link_id ===''){
                     /*user.kyc_link_id=data.id;
                     user.kyc_link=data.kyc_link;
@@ -127,6 +131,7 @@ const Profile = ()=>{
                     //localStorage.setItem('user',JSON.stringify(user));
                     console.log('Inside IF',user);
                 } else{
+                    toast.update(notificationId,{render:msg,type:'success',isLoading:false});
                     setKycStatus(user.kyc_status ? user.kyc_status : data.kyc_status);
                     setTosStatus(user.tos_status ? user.tos_status : data.tos_status);
                     setkycLink(data.kyc_link);
@@ -134,11 +139,13 @@ const Profile = ()=>{
                     //localStorage.setItem('user',JSON.stringify(user));
                     console.log('Outside IF',user);
                 }
-                toast.update(notificationId,{render:msg,type:'success',isLoading:false});
+                //toast.update(notificationId,{render:msg,type:'success',isLoading:false});
             } else{
                 console.log(kyc_link_record);
                 toast.update(notificationId,{render:msg,type:'error',isLoading:false});
             }
+            setHasRun(true);
+        }
         } catch(e){
             console.log(e);
             toast(e.response.data.msg,{
@@ -151,7 +158,9 @@ const Profile = ()=>{
     return ()=>{
         controller.abort();
     };
-    },[kycStatus,tosStatus]);
+    
+    },[kycStatus,tosStatus,hasRun]);
+
 
     const isTokenExpired = (token)=>{
         if(!token){
@@ -216,7 +225,7 @@ const Profile = ()=>{
             <div className={`${lastResponseStatus===401 ? 'hidden': 'block'}`}>
                 <div className='border-primary border-3 rounded-md py-2 px-4'>
                     <h2 className='font-openSauce font-bold text-[25px]'>KYC</h2>
-                    {kycLink ==='' ? (
+                    {!kycStatus ? (
                     <button className='bg-tertiary border-2 border-tertiary
                     text-primary font-garet font-bold rounded-md py-2 px-4'
                     onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type)}
@@ -224,7 +233,7 @@ const Profile = ()=>{
                     ) : (
                         <div>
                             <div >
-                                <p><strong>Status: </strong><span className={ `${kycStatus==='approved' ? 'bg-green-300' : 'bg-tertiary'} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4 w-[20%]`}>{kycStatus}</span></p>
+                                <p><strong>Status: </strong><span className={ `${kycStatus==='approved' ? 'bg-green-300' : 'bg-tertiary'} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4 w-[20%]`}>{user.kyc_status}</span></p>
                             </div>
                             <div>
                                 <p className={kycStatus !=='approved' ? 'block' : 'hidden'}><strong> KYC Link: </strong><a href={kycLink} className={'text-primary bg-blue-100 font-garet font-bold text-[12px] hover:text-secondary'}>{kycLink}</a></p>  
@@ -234,7 +243,7 @@ const Profile = ()=>{
                 </div>
                 <div className='border-primary border-3 rounded-md py-2 px-4'>
                     <h2 className='font-openSauce font-bold text-[25px]'>TOS</h2>
-                    {kycLink ==='' ? (
+                    {tosStatus ==='' ? (
                     <button className='bg-tertiary border-2 border-tertiary
                     text-primary font-garet font-bold rounded-md py-2 px-4'
                     onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type)}

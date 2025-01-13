@@ -33,8 +33,8 @@ const Home = ()=>{
                             <h1 className='text-secondary text-[30px] font-bold font-openSauce'>2</h1>
                         </div>
                         <div>
-                            <h3 className='font-openSauce text-secondary font-extrabold text-[20px]'>Agrega tu cuenta destino</h3>
-                            <p className='font-garet text-white'>Unz vez el KYC haya sido completado, podrás agregar tu propia cuenta destino en USA en la que quieres recibir USD. En caso de que quieras transferir a la cuenta de alguien más, mira el paso <strong>3</strong>.</p>
+                            <h3 className='font-openSauce text-secondary font-extrabold text-[20px]'>Agrega tu Cuenta Externa</h3>
+                            <p className='font-garet text-white'>Una vez el KYC haya sido completado, podrás agregar tu propia cuenta externa en USA en la que quieres recibir USD. En caso de que quieras transferir a la cuenta de alguien más, mira el paso <strong>3</strong>.</p>
                         </div>
                     </div>
                     <div className='py-2 px-4 w-[30%] min-h-[200px] flex flex-row justify-start items-center gap-4 bg-primary border-3 border-secondary rounded-md shadow-md'>

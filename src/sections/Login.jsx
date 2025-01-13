@@ -81,8 +81,14 @@ const Login = ()=>{
 
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+          handleLogin(email, password);
+        }
+      };
+
     return (
-        <div className='flex flex-col justify-start items-center gap-4 mx-[40%] my-5 px-5 border-primary border-5'>
+        <div className='flex flex-col justify-start items-center gap-4 mx-[40%] my-5 px-5 border-primary border-5' onKeyDown={handleKeyDown}>
             <div className='border-b-3 border-primary rounded-sm'>
                 <img src={CriptopassLogo} />
             </div>
@@ -105,10 +111,11 @@ const Login = ()=>{
                 
                 </div><br/>
                 <div className='flex justify-center items-center'>
-                    <button
+                    <input type='submit'
                     className='bg-secondary border-secondary border-2 rounded-md text-white text-[20px] py-2 px-4'
                     onClick={()=>handleLogin(email,password)}
-                    >Iniciar sesión</button>
+                    value='Iniciar Sesión'
+                    />
                 </div>
 
             </div>
