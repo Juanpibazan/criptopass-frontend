@@ -78,18 +78,21 @@ const Profile = ()=>{
     };
 
     useEffect(()=>{
-        try{
             const notificationId = toast.loading("Por favor espere...",{
                 closeOnClick:true
             });
+            const controller = new AbortController();
+            const {signal} = controller;
         const getKYC = async ()=>{
+            try{
             const kyc_link_record = await axios({
                 method:'get',
                 url:`https://criptopass-api.onrender.com/bridge/customers/kyc_links?email=${email}`,
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${jwtoken}`
-                }
+                },
+                signal
             });
             setLastResponseStatus(kyc_link_record.status);
             if(kyc_link_record.status===200){
@@ -136,15 +139,18 @@ const Profile = ()=>{
                 console.log(kyc_link_record);
                 toast.update(notificationId,{render:msg,type:'error',isLoading:false});
             }
-        };
-        getKYC();
-    } catch(e){
-        console.log(e);
-        toast(e.response.data.msg,{
-            type:'error',
-            position:'top-center'
-        });
-    }
+        } catch(e){
+            console.log(e);
+            toast(e.response.data.msg,{
+                type:'error',
+                position:'top-center'
+            });
+        }
+    };
+    getKYC();
+    return ()=>{
+        controller.abort();
+    };
     },[kycStatus,tosStatus]);
 
     const isTokenExpired = (token)=>{
@@ -254,6 +260,7 @@ const Profile = ()=>{
             <button
             onClick={()=>findLastTransfer()}
             className='bg-slate-500 text-white py-2 px-4'>Encontrar last transfer</button> */}
+        <ToastContainer position='top-center' />
         </div>
     )
 };
