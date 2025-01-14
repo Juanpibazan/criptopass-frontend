@@ -88,7 +88,7 @@ const Header = ()=>{
             <div className='w-[100px] h-[100px]'>
                 <img src={CriptopassLogo} />
             </div>
-            <h1 className={isMobile ? 'hidden' :'font-bold text-[30px] max-sm:text-[20px] text-primary'}>{activeTitle}</h1>
+            {/*<h1 className={isMobile ? 'hidden' :'font-bold text-[30px] max-sm:text-[20px] text-primary'}>{activeTitle}</h1>*/}
             </div>
             {user ? (
                 <div className='w-[50%] flex flex-row justify-evenly items-center gap-2'>
