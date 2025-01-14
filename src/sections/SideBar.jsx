@@ -74,10 +74,10 @@ const SideBar = ()=>{
     return (
         <div className='sidebar'>
             <div onClick={handleMenu}>
-                <GiHamburgerMenu />
+                <GiHamburgerMenu className={`${isMobile ? 'block' : 'hidden'} text-[30px]`} />
             </div>
         {user ? (
-            <div className={`${(isMobile && isMenuShowing) ? 'block max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md font-openSauce width-[50%] max-sm:absolute max-sm:min-h-screen max-sm:z-50' : (isMobile && !isMenuShowing) ? 'hidden' : 'max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md font-openSauce width-[50%]'}`}>
+            <div className={`${(isMobile && isMenuShowing) ? 'block max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md max-sm:rounded-md font-openSauce max-sm:w-[80%] max-sm:absolute max-sm:min-h-screen max-sm:z-50' : (isMobile && !isMenuShowing) ? 'hidden' : 'max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md max-sm:rounded-md font-openSauce max-sm:w-[80%]'}`}>
             <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <FaBell />
@@ -106,7 +106,7 @@ const SideBar = ()=>{
             </Link>
         </div>
         ) : (
-        <div className={`${(isMobile && isMenuShowing) ? 'block max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md font-openSauce width-[50%] max-sm:absolute max-sm:min-h-screen max-sm:z-50' : (isMobile && !isMenuShowing) ? 'hidden' : 'max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md font-openSauce width-[50%]'}`}>
+        <div className={`${(isMobile && isMenuShowing) ? 'block max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md max-sm:rounded-md font-openSauce max-sm:w-[80%] max-sm:absolute max-sm:min-h-screen max-sm:z-50' : (isMobile && !isMenuShowing) ? 'hidden' : 'max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md max-sm:rounded-md font-openSauce max-sm:w-[80%]'}`}>
             <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <FaInfoCircle />

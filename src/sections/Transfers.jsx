@@ -106,19 +106,23 @@ const Transfers = ()=>{
                 <div className='flex flex-col justify-start items-center gap-4'>
                     <table className='border-4 border-secondary rounded-sm min-h-screen' >
                             <tr className='border-2 border-secondary rounded-sm my-4 mx-2'>
+                                <th className='px-1 border-secondary border-2 text-left'>#</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Código</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Estado</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Cantidad Final (USDT)</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Cuenta a transferir USDT desde Binance</th>
+                                <th className='px-2 border-secondary border-2 text-left'>Iniciada en</th>
                             </tr>
                             <tbody>
                             {transfers.map((transfer,index)=>{
                                 return (
                                     <tr key={transfer.id} className='py-4 text-[10px]'>
+                                        <td className='px-1 border-secondary border-2'>{index}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.id}</td>
                                         <td className={`${transfer.state==='awaiting_funds' ? 'text-yellow-600 px-2' : transfer.state==='canceled' ? 'text-red-500 px-2' : transfer.state==='payment_processed' ? 'text-green-500 px-2' : 'text-slate-700 px-2'}  border-secondary border-2`}>{transfer.state}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.receipt.final_amount}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.source_deposit_instructions.to_address}</td>
+                                        <td className='px-2 border-secondary border-2'>{transfer.created_at}</td>
                                     </tr>
                                 )
                             })}
