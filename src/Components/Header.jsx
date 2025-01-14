@@ -66,7 +66,7 @@ const Header = ()=>{
     },[]);
 
     useEffect(()=>{
-        const mediaQuery = window.matchMedia('(max-width : 350px)');
+        const mediaQuery = window.matchMedia('(max-width : 550px)');
         setIsMobile(mediaQuery.matches);
     
         const handleMediaQueryChange = (event)=>{

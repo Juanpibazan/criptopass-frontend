@@ -49,7 +49,7 @@ const SideBar = ()=>{
     },[]);
 
     useEffect(()=>{
-            const mediaQuery = window.matchMedia('(max-width : 350px)');
+            const mediaQuery = window.matchMedia('(max-width : 550px)');
             setIsMobile(mediaQuery.matches);
         
             const handleMediaQueryChange = (event)=>{
@@ -77,7 +77,7 @@ const SideBar = ()=>{
                 <GiHamburgerMenu />
             </div>
         {user ? (
-            <div className={`${(isMobile && isMenuShowing) ? 'block bg-secondary border-secondary border-2 shadow-md font-openSauce width-[50%] max-sm:absolute max-sm:min-h-screen max-sm:z-50' : (isMobile && !isMenuShowing) ? 'hidden' : ' bg-secondary border-secondary border-2 shadow-md font-openSauce width-[50%]'}`}>
+            <div className={`${(isMobile && isMenuShowing) ? 'block max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md font-openSauce width-[50%] max-sm:absolute max-sm:min-h-screen max-sm:z-50' : (isMobile && !isMenuShowing) ? 'hidden' : 'max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md font-openSauce width-[50%]'}`}>
             <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <FaBell />
@@ -106,7 +106,7 @@ const SideBar = ()=>{
             </Link>
         </div>
         ) : (
-        <div className={`${(isMobile && isMenuShowing) ? 'block bg-secondary border-secondary border-2 shadow-md font-openSauce width-[50%] max-sm:absolute max-sm:min-h-screen max-sm:z-50' : (isMobile && !isMenuShowing) ? 'hidden' : ' bg-secondary border-secondary border-2 shadow-md font-openSauce width-[50%]'}`}>
+        <div className={`${(isMobile && isMenuShowing) ? 'block max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md font-openSauce width-[50%] max-sm:absolute max-sm:min-h-screen max-sm:z-50' : (isMobile && !isMenuShowing) ? 'hidden' : 'max-sm:bg-secondary max-sm:border-secondary max-sm:border-2 max-sm:shadow-md font-openSauce width-[50%]'}`}>
             <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <FaInfoCircle />
