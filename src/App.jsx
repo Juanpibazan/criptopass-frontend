@@ -22,6 +22,8 @@ import { actionTypes } from './context/reducer';
 function App() {
   const [count, setCount] = useState(0);
   const [{user},dispatch] = useStateValue();
+  const [isMobile,setIsMobile] = useState(false);
+
 
   return (
     <div className='App app-grid-container'>

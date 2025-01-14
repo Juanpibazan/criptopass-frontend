@@ -529,7 +529,7 @@ const TransferSection = ()=>{
                     </div>
                     <div className='py-4 px-4 bg-tertiary w-full'>
                         <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Datos de Destino</h3>
-                        <div className='flex justify-start items-start gap-4'>
+                        <div className='flex max-sm:flex-col justify-start items-start gap-4'>
                             <div className='w-[50%] flex flex-col justify-start items-start gap-2'>
                                 <label className='font-bold'>Cuenta Destino:</label><br/>
                                 <div className='flex justify-start items-start gap-2'>
@@ -555,7 +555,7 @@ const TransferSection = ()=>{
                                     </select>
                                 )}
                             </div>
-                            <div className='w-[50%] h-full flex flex-col justify-between items-start'>
+                            <div className='w-[50%] max-sm:w-full h-full flex flex-col justify-between items-start'>
                                 <label className='font-bold'>Tipo de Transferencia:</label><br/>
                                 <select
                                 className='w-full border-secondary border-2 rounded-sm' required={true} value={transferType} onChange={(e)=>setTransferType(e.target.value)}>

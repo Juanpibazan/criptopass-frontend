@@ -236,22 +236,22 @@ const RegistroCuentaExterna = ()=>{
     return (
         <div>
             <div className='flex flex-col justify-start items-start gap-4'>
-                <div className='w-[50%]'>
+                <div className='w-[50%] max-sm:w-full'>
                     <label>Nombre del Banco</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Lead Bank'
                     value={bankName} onChange={(e)=>setBankName(e.target.value)}/>
                 </div>
-                <div className='w-[50%]'>
+                <div className='w-[50%] max-sm:w-full'>
                     <label>Número de Cuenta</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='210535431174'
                     value={accountNumber} onChange={(e)=>setAccountNumber(e.target.value)}/>
                 </div>
-                <div className='w-[50%]'>
+                <div className='w-[50%] max-sm:w-full'>
                     <label>Número de Routing</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='204318456'
                     value={routingNumber} onChange={(e)=>setRoutingNumber(e.target.value)}/>
                 </div>
-                <div className='w-[50%]'>
+                <div className='w-[50%] max-sm:w-full'>
                     <label>Tipo de Cuenta</label><br/>
                     <select className='w-full border-2 border-secondary rounded-sm'
                     value={accountType} onChange={(e)=>setAccounttype(e.target.value)}>
@@ -260,7 +260,7 @@ const RegistroCuentaExterna = ()=>{
                         <option className='bg-secondary' value='Saving'>Cuenta de Ahorros</option>
                     </select>
                 </div>
-                <div className='w-[50%]'>
+                <div className='w-[50%] max-sm:w-full'>
                     <label>Nombre del Dueño de la Cuenta</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei'
                     value={accountOwnerName} onChange={(e)=>setAccountOwnerName(e.target.value)}/>
@@ -268,17 +268,17 @@ const RegistroCuentaExterna = ()=>{
                 <div className='w-full'>
                     <h3>Dirección</h3>
                     <div className='w-full flex flex-row justify-start items-center gap-4 flex-wrap'>
-                        <div className='w-[50%]'>
+                        <div className='w-[50%] max-sm:w-full'>
                             <label>Linea de Dirección 1</label><br/>
                             <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='101 Main St.'
                             value={address.street_line_1} onChange={(e)=>setAddress({...address,street_line_1:e.target.value})}/>
                         </div>
-                        <div className='w-[50%]'>
+                        <div className='w-[50%] max-sm:w-full'>
                             <label>Linea de Dirección 2</label><br/>
                             <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder=''
                             value={address.street_line_2} onChange={(e)=>setAddress({...address,street_line_2:e.target.value})}/>
                         </div>
-                        <div className='w-full flex flex-row justify-start items-center gap-4'>
+                        <div className='w-full flex justify-start items-center max-sm:items-start max-sm:flex-col gap-4'>
                         <div>
                             <label>Ciudad</label><br/>
                             <input className='border-2 border-secondary rounded-sm' type='text' placeholder='Los Angeles'

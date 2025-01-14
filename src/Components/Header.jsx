@@ -14,6 +14,8 @@ const Header = ()=>{
     const [{activeTitle,user},dispatch] = useStateValue();
 
     const [activeTab,setActiveTab] = useState('');
+    const [isMobile, setIsMobile] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
 
     const handleClick = (text)=>{
@@ -62,41 +64,60 @@ const Header = ()=>{
         });
         localStorage.setItem('activeTitle',activeTab);
     },[]);
+
+    useEffect(()=>{
+        const mediaQuery = window.matchMedia('(max-width : 350px)');
+        setIsMobile(mediaQuery.matches);
+    
+        const handleMediaQueryChange = (event)=>{
+          setIsMobile(event.matches);
+        };
+    
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+    
+        return ()=>{
+          mediaQuery.removeEventListener('change',handleMediaQueryChange);
+        }
+    
+      },[]);
     
 
     return (
         <nav className='flex flex-row justify-between items-center py-4 navbar'>
-            <div className='w-[150px] h-[150px]'>
+            <div className='w-[50%] flex flex-row justify-between items-center'>
+            <div className='w-[100px] h-[100px]'>
                 <img src={CriptopassLogo} />
             </div>
-            <h1 className='font-bold text-[30px] text-primary'>{activeTitle}</h1>
+            <h1 className={isMobile ? 'hidden' :'font-bold text-[30px] max-sm:text-[20px] text-primary'}>{activeTitle}</h1>
+            </div>
             {user ? (
-                <div className='w-[30%] flex flex-row justify-evenly items-center'>
+                <div className='w-[50%] flex flex-row justify-evenly items-center gap-2'>
                     {user.customer_id !=='' && user.kyc_status ==='approved' && user.tos_status === 'approved' && (
-                        <div className='w-[80%] flex flex-row justify-between items-center'>
-                            <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/transfer' className='py-2 px-4 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary'>Transferir USDT a USD</Link>
-                            <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/register-external-account' className='py-2 px-4 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white'>Registrar Una Cuenta Externa</Link>
+                        <div className='w-[80%] flex flex-row justify-between items-center gap-1'>
+                            <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/transfer' className='py-2 px-4 max-sm:px-2 max-sm:py-1 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary max-sm:text-[15px]'>{isMobile ? 'USDT a USD' : 'Transferir USDT a USD'}</Link>
+                            <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/register-external-account' className='py-2 px-4 max-sm:px-2 max-sm:py-1 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white max-sm:text-[15px]'>{isMobile ? 'Crear Cuenta Ext.' : 'Registrar Una Cuenta Externa'}</Link>
                         </div>
                     )}
 
                     <div className='w-[20%] flex flex-col justify-start items-end'>
-                        <div className='text-center profile-icon-container'>
+                        <div className='text-center profile-icon-container'
+                        onClick={()=>setIsOpen(!isOpen)}>
                             <RxAvatar className='text-[30px] text-secondary' />
                         </div>
-                        <ul className='absolute pt-8 profile-icon-submenu'>
-                            <li className='border-b-2 border-primary py-2'><Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/profile'>Mi Perfil</Link></li>
-                            <li className='border-b-2 border-primary py-2'><Link to='/register-recipient-accounts'>Mis Destinatarios</Link></li>
-                            <li className='border-b-2 border-primary py-2'><Link onClick={logOut}>Cerrar sesión</Link></li>
+                        <ul className={`${isOpen ? 'absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px]' : 'hidden absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px]'}`}>
+                            <li className='border-b-2 border-primary py-2'><Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/profile' className='hover:text-white active:text-white font-garet'>Mi Perfil</Link></li>
+                            <li className='border-b-2 border-primary py-2'><Link to='/register-recipient-accounts' className='hover:text-white active:text-white font-garet'>Mis Destinatarios</Link></li>
+                            <li className='border-b-2 border-primary py-2'><Link onClick={logOut} className='hover:text-white active:text-white font-garet'>Cerrar sesión</Link></li>
                         </ul>
                     </div>
                 </div>
             ) : (
-                <div className='w-[30%] flex flex-row justify-evenly items-center'>
+                <div className='w-[50%] flex flex-row justify-evenly items-center gap-2'>
                     <Link to='/login'
-                    className='py-2 px-4 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary'
+                    className='py-2 px-4 max-sm:px-2 max-sm:py-1 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary'
                     >Iniciar Sesión</Link>
                     <Link to='/register'
-                    className='py-2 px-4 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white'
+                    className='py-2 px-4 max-sm:px-2 max-sm:py-1 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white'
                     >Registrarse</Link>
                 </div>
             )}

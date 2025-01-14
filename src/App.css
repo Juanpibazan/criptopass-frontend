@@ -1,3 +1,7 @@
+body{
+  width: 100%;
+}
+
 @font-face {
   font-family: garetFont;
   src: url('./fonts/garet/Garet-Book.otf');
@@ -37,4 +41,37 @@
 
 .footer{
   grid-area: footer;
+}
+
+.hero{
+  grid-area: hero;
+}
+
+@media screen and (max-width:350px){
+
+  .app-grid-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 10px;
+    padding: 10px 15px;
+    width: 100%;
+  }
+  .navbar{
+    width: 100%;
+  }
+  
+  .sidebar{
+    text-align: left;
+  }
+  
+  .footer{
+    width: 100%;
+  }
+  
+  .hero{
+    width: 100%;
+  }
+  
 }

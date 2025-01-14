@@ -88,7 +88,7 @@ const Login = ()=>{
       };
 
     return (
-        <div className='flex flex-col justify-start items-center gap-4 mx-[40%] my-5 px-5 border-primary border-5' onKeyDown={handleKeyDown}>
+        <div className='flex flex-col justify-start items-center gap-4 mx-[40%] max-sm:mx-0 my-5 px-5 border-primary border-5 hero' onKeyDown={handleKeyDown}>
             <div className='border-b-3 border-primary rounded-sm'>
                 <img src={CriptopassLogo} />
             </div>

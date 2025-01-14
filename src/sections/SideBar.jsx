@@ -3,6 +3,7 @@ import {FaBell, FaWallet, FaInfoCircle} from 'react-icons/fa';
 import {SiTether} from 'react-icons/si';
 import {BiTransfer} from 'react-icons/bi';
 import {TbCheckupList} from 'react-icons/tb';
+import {GiHamburgerMenu} from 'react-icons/gi';
 import { Link } from 'react-router-dom';
 
 import { useStateValue } from '../context/StateProvider';
@@ -12,6 +13,8 @@ import { actionTypes } from '../context/reducer';
 const SideBar = ()=>{
     const [{activeTitle,user},dispatch] = useStateValue();
     const [activeTab,setActiveTab] = useState(user ? 'Bienvenido/a': '');
+    const [isMobile,setIsMobile] = useState(false);
+    const [isMenuShowing, setIsMenuShowing] = useState(false);
     const transferRef = useRef();
 
 
@@ -45,10 +48,36 @@ const SideBar = ()=>{
         localStorage.setItem('activeTitle',activeTab);
     },[]);
 
+    useEffect(()=>{
+            const mediaQuery = window.matchMedia('(max-width : 350px)');
+            setIsMobile(mediaQuery.matches);
+        
+            const handleMediaQueryChange = (event)=>{
+              setIsMobile(event.matches);
+            };
+        
+            mediaQuery.addEventListener('change', handleMediaQueryChange);
+        
+            return ()=>{
+              mediaQuery.removeEventListener('change',handleMediaQueryChange);
+            }
+        
+          },[]);
+
+          const handleMenu = ()=>{
+            if(isMobile){
+                return setIsMenuShowing(!isMenuShowing);
+            }
+
+          };
+
     return (
         <div className='sidebar'>
+            <div onClick={handleMenu}>
+                <GiHamburgerMenu />
+            </div>
         {user ? (
-            <div >
+            <div className={`${(isMobile && isMenuShowing) ? 'block bg-secondary border-secondary border-2 shadow-md font-openSauce width-[50%] absolute min-h-screen z-50' : (isMobile && !isMenuShowing) ? 'hidden' : ' bg-secondary border-secondary border-2 shadow-md font-openSauce width-[50%]'}`}>
             <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <FaBell />
@@ -77,7 +106,7 @@ const SideBar = ()=>{
             </Link>
         </div>
         ) : (
-        <div>
+        <div className={`${(isMobile && isMenuShowing) ? 'block bg-secondary border-secondary border-2 shadow-md font-openSauce width-[50%]' : (isMobile && !isMenuShowing) ? 'hidden' : ' bg-secondary border-secondary border-2 shadow-md font-openSauce width-[50%]'}`}>
             <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <FaInfoCircle />
