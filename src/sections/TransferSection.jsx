@@ -618,13 +618,13 @@ const TransferSection = ()=>{
                     </div>
                     <div className={`min-h-screen w-[80%] absolute z-150
                         flex flex-col justify-center items-center gap-5
-                        bg-secondary yellow-400 border-primary border-4 rounded-md shadow-md ${transferInitiated ? 'block' :'hidden'}`}>
-                        <h3 className='text-[50px] text-white font-bold font-openSauce'>Transferencia iniciada exitosamente</h3>
-                        <ul className='list-disc'>
-                            <li className='text-[20px] font-bold'>Código de la transferencia: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.id : ''}</strong></li>
-                            <li className='text-[20px] font-bold'>Estado: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.state : ''}</strong></li>
-                            <li className='text-[20px] font-bold'>Cantidad Final: <strong className='text-tertiary'>{totalAmount}</strong></li>
-                            <li className='text-[20px] font-bold'>Cuenta a transferir USDT desde Binance: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.to_address : ''}</strong></li>
+                        bg-secondary yellow-400 border-primary border-4 rounded-md shadow-md ${transferInitiated ? 'block' :'block'}`}>
+                        <h3 className='text-[50px] max-sm:text-[30px] text-white font-bold font-openSauce'>Transferencia iniciada exitosamente</h3>
+                        <ul className='list-disc px-6'>
+                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Código de la transferencia: <strong className='text-tertiary text-[10px] text-wrap'>{lastTransfer ? lastTransfer.id : ''}</strong></li>
+                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Estado: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.state : ''}</strong></li>
+                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Cantidad Final: <strong className='text-tertiary'>{totalAmount}</strong></li>
+                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Cuenta a transferir USDT desde Binance: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.to_address : ''}</strong></li>
                         </ul>
                         <Link to='/transfers' onClick={()=>setTransferInitiated(false)} className='py-2 px-4 bg-primary text-white text-[20px] border-primary border-2 rounded-sm'>Ir a transferencias</Link>
                     </div>

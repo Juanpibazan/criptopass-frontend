@@ -49,7 +49,7 @@ const SideBar = ()=>{
     },[]);
 
     useEffect(()=>{
-            const mediaQuery = window.matchMedia('(max-width : 550px)');
+            const mediaQuery = window.matchMedia('(max-width : 850px)');
             setIsMobile(mediaQuery.matches);
         
             const handleMediaQueryChange = (event)=>{

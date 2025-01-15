@@ -66,7 +66,7 @@ const Header = ()=>{
     },[]);
 
     useEffect(()=>{
-        const mediaQuery = window.matchMedia('(max-width : 550px)');
+        const mediaQuery = window.matchMedia('(max-width : 850px)');
         setIsMobile(mediaQuery.matches);
     
         const handleMediaQueryChange = (event)=>{
@@ -104,10 +104,10 @@ const Header = ()=>{
                         onClick={()=>setIsOpen(!isOpen)}>
                             <RxAvatar className='text-[30px] text-secondary' />
                         </div>
-                        <ul className={`${isOpen ? 'absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px]' : 'hidden absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px]'}`}>
-                            <li className='border-b-2 border-primary py-2'><Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/profile' className='hover:text-white active:text-white font-garet'>Mi Perfil</Link></li>
-                            <li className='border-b-2 border-primary py-2'><Link to='/register-recipient-accounts' className='hover:text-white active:text-white font-garet'>Mis Destinatarios</Link></li>
-                            <li className='border-b-2 border-primary py-2'><Link onClick={logOut} className='hover:text-white active:text-white font-garet'>Cerrar sesión</Link></li>
+                        <ul className={`${isOpen ? 'absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px] px-2 pb-2' : 'hidden absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px]'}`}>
+                            <li className='border-b-2 border-primary py-2'><Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/profile' className='hover:text-white active:text-white font-garet font-bold'>Mi Perfil</Link></li>
+                            <li className='border-b-2 border-primary py-2'><Link to='/register-recipient-accounts' className='hover:text-white active:text-white font-garet font-bold'>Mis Destinatarios</Link></li>
+                            <li className='border-b-2 border-primary py-2'><Link onClick={logOut} className='hover:text-white active:text-white font-garet font-bold'>Cerrar sesión</Link></li>
                         </ul>
                     </div>
                 </div>
