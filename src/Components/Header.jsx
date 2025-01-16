@@ -100,9 +100,10 @@ const Header = ()=>{
                     )}
 
                     <div className='w-[20%] flex flex-col justify-start items-end'>
-                        <div className='text-center profile-icon-container'
+                        <div className='text-center profile-icon-container flex flex-col gap-2 justify-start items-center'
                         onClick={()=>setIsOpen(!isOpen)}>
-                            <RxAvatar className='text-[30px] text-secondary' />
+                            <RxAvatar className='text-[40px] text-secondary' />
+                            <p className='text-secondary max-sm:text-[15px] font-bold'>Mi CriptoPass</p>
                         </div>
                         <ul className={`${isOpen ? 'absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px] px-2 pb-2' : 'hidden absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px]'}`}>
                             <li className='border-b-2 border-primary py-2'><Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/profile' className='hover:text-white active:text-white font-garet font-bold'>Mi Perfil</Link></li>

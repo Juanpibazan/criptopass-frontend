@@ -103,6 +103,7 @@ const Transfers = ()=>{
             ) : (
                 <div>
                 <h1 className='text-[25px] text-primary font-bold text-center'>Transferencias</h1>
+                {transfers.length>0 ?
                 <div className='flex flex-col justify-start items-center gap-4'>
                     <table className='border-4 border-secondary rounded-sm min-h-screen' >
                             <tr className='border-2 border-secondary rounded-sm my-4 mx-2'>
@@ -135,6 +136,8 @@ const Transfers = ()=>{
                         <option value={50}>50 registros</option>
                     </select>
                     </div>
+                    : <h2 className='text-center font-bold text-secondary text-[20px]'>No cuenta con transferencias realizadas</h2>
+                }
                 </div>
             )}
         <ToastContainer position='top-center'/>
