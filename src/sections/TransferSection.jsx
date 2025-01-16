@@ -618,7 +618,7 @@ const TransferSection = ()=>{
                     </div>
                     <div className={`min-h-screen w-[80%] absolute z-150
                         flex flex-col justify-center items-center gap-5
-                        bg-secondary yellow-400 border-primary border-4 rounded-md shadow-md ${transferInitiated ? 'block' :'block'}`}>
+                        bg-secondary yellow-400 border-primary border-4 rounded-md shadow-md ${transferInitiated ? 'block' :'hidden'}`}>
                         <h3 className='text-[50px] max-sm:text-[30px] text-white font-bold font-openSauce'>Transferencia iniciada exitosamente</h3>
                         <ul className='list-disc px-6'>
                             <li className='text-[20px] max-sm:text-[15px] font-bold'>Código de la transferencia: <strong className='text-tertiary text-[10px] text-wrap'>{lastTransfer ? lastTransfer.id : ''}</strong></li>
