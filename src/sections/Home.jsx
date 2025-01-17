@@ -10,6 +10,24 @@ import { Link } from 'react-router-dom';
 
 const Home = ()=>{
 
+    const [isMobile,setIsMobile] = useState(false);
+
+        useEffect(()=>{
+            const mediaQuery = window.matchMedia('(max-width : 850px)');
+            setIsMobile(mediaQuery.matches);
+        
+            const handleMediaQueryChange = (event)=>{
+              setIsMobile(event.matches);
+            };
+        
+            mediaQuery.addEventListener('change', handleMediaQueryChange);
+        
+            return ()=>{
+              mediaQuery.removeEventListener('change',handleMediaQueryChange);
+            }
+        
+          },[]);
+
 
     return (
         <div>
@@ -24,8 +42,8 @@ const Home = ()=>{
                             <h1 className='text-secondary text-[30px] font-bold font-openSauce'>1</h1>
                         </div>
                         <div>
-                            <h3 className='font-openSauce text-secondary font-extrabold text-[20px]'>Completa la verificación KYC</h3>
-                            <p className='font-garet text-white'>Necesitas completar este proceso para estar habilitado y poder realizar este tipo de transferencias. Ve a <Link to='/profile' className='text-secondary font-bold hover:text-yellow-100'>Mi Perfil</Link> y haz click en "Comenzar proceso KYC".</p>
+                            <h3 className='font-openSauce text-secondary font-extrabold text-[20px]'>Completa tu proceso KYC</h3>
+                            <p className='font-garet text-white'>Cumple este paso esencial para desbloquear funcionalidades clave. Ve a <Link to='/profile' className='text-secondary font-bold hover:text-yellow-100'>"Mi Perfil"</Link> y selecciona "Comenzar proceso KYC".</p>
                         </div>
                     </div>
                     <div className='py-2 px-4 max-sm:w-full min-h-[200px] flex flex-row justify-start items-center gap-4 bg-primary border-3 border-secondary rounded-md shadow-md'>
@@ -33,8 +51,8 @@ const Home = ()=>{
                             <h1 className='text-secondary text-[30px] font-bold font-openSauce'>2</h1>
                         </div>
                         <div>
-                            <h3 className='font-openSauce text-secondary font-extrabold text-[20px]'>Agrega tu Cuenta Externa</h3>
-                            <p className='font-garet text-white'>Una vez el KYC haya sido completado, podrás agregar tu propia cuenta externa en USA en la que quieres recibir USD. En caso de que quieras transferir a la cuenta de alguien más, mira el paso <strong>3</strong>.</p>
+                            <h3 className='font-openSauce text-secondary font-extrabold text-[20px]'>Agrega cuentas externas y facilita transferencias</h3>
+                            <p className='font-garet text-white'>Una vez completado tu KYC, podrás vincular tu cuenta externa en USA para recibir USD. Si transfieres a alguien más, asegúrate de que el destinatario también esté registrado y haya seguido los mismos pasos.</p>
                         </div>
                     </div>
                     <div className='py-2 px-4 max-xl:w-full min-h-[200px] flex flex-row justify-start items-center gap-4 bg-primary border-3 border-secondary rounded-md shadow-md'>
@@ -42,17 +60,8 @@ const Home = ()=>{
                             <h1 className='text-secondary text-[30px] font-bold font-openSauce'>3</h1>
                         </div>
                         <div>
-                            <h3 className='font-openSauce text-secondary font-extrabold text-[20px]'>Tu destinatario/proveedor debe registrarse</h3>
-                            <p className='font-garet text-white'>El destinatario debe registrarse y seguir todos los pasos anteriores.</p>
-                        </div>
-                    </div>
-                    <div className='py-2 px-4 max-xl:w-full min-h-[200px] flex flex-row justify-start items-center gap-4 bg-primary border-3 border-secondary rounded-md shadow-md'>
-                        <div>
-                            <h1 className='text-secondary text-[30px] font-bold font-openSauce'>4</h1>
-                        </div>
-                        <div>
                             <h3 className='font-openSauce text-secondary font-extrabold text-[20px]'>Realiza la transferencia</h3>
-                            <p className='font-garet text-white'>Haz click en "Transferir USDT a USD", proporciona algunos detalles y empezarás el proceso de transferencia.</p>
+                            <p className='font-garet text-white'>Haz click en <strong>"{`${!isMobile ? "Transferir USDT a USD" : "USDT a USD"}`}"</strong>, proporciona algunos detalles y empezarás el proceso de transferencia.`}</p>
                         </div>
                     </div>
                 </div>

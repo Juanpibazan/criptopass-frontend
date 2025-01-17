@@ -167,7 +167,7 @@ const Register = ()=>{
                 </div><br/>
                 <div className='flex justify-center items-center'>
                     <input type='submit'
-                    className='bg-secondary border-secondary border-2 rounded-md text-white text-[20px] py-2 px-4 cursor-pointer'
+                    className='bg-secondary border-secondary border-2 rounded-md text-white text-[20px] py-2 px-4 cursor-pointer hover:text-secondary hover:bg-white active:text-secondary active:bg-white'
                     onClick={()=>handleRegister(email,password,firstName,lastName,sex,birthDate,type,city,country)}
                     value='Registrarse' />
                 </div>
