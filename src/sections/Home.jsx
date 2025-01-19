@@ -61,7 +61,7 @@ const Home = ()=>{
                         </div>
                         <div>
                             <h3 className='font-openSauce text-secondary font-extrabold text-[20px]'>Realiza la transferencia</h3>
-                            <p className='font-garet text-white'>Haz click en <strong>"{`${!isMobile ? "Transferir USDT a USD" : "USDT a USD"}`}"</strong>, proporciona algunos detalles y empezarás el proceso de transferencia.`}</p>
+                            <p className='font-garet text-white'>Haz click en <strong>"{`${!isMobile ? "Transferir USDT a USD" : "USDT a USD"}`}"</strong>, proporciona algunos detalles y empezarás el proceso de transferencia.`</p>
                         </div>
                     </div>
                 </div>
