@@ -41,7 +41,6 @@ const Login = ()=>{
                 const response = await axios({
                     method:'post',
                     url:'https://criptopass-api-crqo.onrender.com/criptopass/auth/login',
-                    //url:'http://193.203.174.82:4000/criptopass/auth/login',
                     data:{
                         email,
                         password:pass
