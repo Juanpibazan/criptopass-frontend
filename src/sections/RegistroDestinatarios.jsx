@@ -25,7 +25,7 @@ const RegistroDestinatarios = ()=>{
         if(string.length>=5){
         const foundCustomer = await axios({
             method:'get',
-            url:`https://criptopass-api.onrender.com/bridge/customers/find/${string}`,
+            url:`https://criptopass-api-crqo.onrender.com/bridge/customers/find/${string}`,
             headers:{
                 "Content-Type":"application/json",
                 "Authorization":`Bearer ${jwtoken}`
@@ -65,7 +65,7 @@ const RegistroDestinatarios = ()=>{
             });            
             const response = await axios({
                 method:'post',
-                url:'https://criptopass-api.onrender.com/bridge/customers/destinatarios',
+                url:'https://criptopass-api-crqo.onrender.com/bridge/customers/destinatarios',
                 data:{
                     destiny_external_account_id:searchItems[0].external_account_id,
                     destiny_customer_id:searchItems[0].id,

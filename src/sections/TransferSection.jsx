@@ -35,7 +35,7 @@ const TransferSection = ()=>{
             const customer_id = user.customer_id;
             const destinatariosResponse = await axios({
                 method:'get',
-                url:`https://criptopass-api.onrender.com/bridge/customers/destinatarios/${customer_id}`,
+                url:`https://criptopass-api-crqo.onrender.com/bridge/customers/destinatarios/${customer_id}`,
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${jwtoken}`
@@ -97,7 +97,7 @@ const TransferSection = ()=>{
                     }));
                     const transferResponse = await axios({
                         method:'post',
-                        url:'https://criptopass-api.onrender.com/bridge/transfers/',
+                        url:'https://criptopass-api-crqo.onrender.com/bridge/transfers/',
                         data:{
                             source: {
                                 source_currency:"usdt",
@@ -219,7 +219,7 @@ const TransferSection = ()=>{
                     }));
                     const transferResponse = await axios({
                         method:'post',
-                        url:'https://criptopass-api.onrender.com/bridge/transfers/',
+                        url:'https://criptopass-api-crqo.onrender.com/bridge/transfers/',
                         data:{
                             source: {
                                 source_currency:"usdt",
@@ -337,7 +337,7 @@ const TransferSection = ()=>{
                     }));
                     const transferResponse = await axios({
                         method:'post',
-                        url:'https://criptopass-api.onrender.com/bridge/transfers/',
+                        url:'https://criptopass-api-crqo.onrender.com/bridge/transfers/',
                         data:{
                             source: {
                                 source_currency:"usdt",
