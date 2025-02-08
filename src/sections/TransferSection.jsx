@@ -511,7 +511,7 @@ const TransferSection = ()=>{
                         <ul className='list-disc pl-8'>
                             <li className='text-[15px] font-garet'>Monto deseado a transferir: 20 USDT.</li>
                             <li className='text-[15px] font-garet'>Costo de transferencia: 0.5 USDT (<strong>ACH</strong>).</li>
-                            <li className='text-[15px] font-garet'>Fee de Binance por transferir a través de la red crypto: X USDT (Depende de la red Blockchain).</li>
+                            <li className='text-[15px] font-garet'>Fee de Binance por transferir a través de la red cripto: X USDT (Depende de la red Blockchain).</li>
                             <li className='text-[15px] font-garet'>Fee de CriptoPass: 3.1% (0.62 USDT).</li>
                             <li className='text-[15px] font-garet'>Monto total a transferir a través desde Criptopass: 21.12 USDT.</li>
                         </ul>
