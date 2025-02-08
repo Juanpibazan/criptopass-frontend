@@ -26,7 +26,7 @@ const Transfers = ()=>{
                 const transfersResponse = await axios({
                     method:'get',
                     url:`https://criptopass.com/bridge/transfers/${user.customer_id}?limit=${limit}`,
-                    //url:`https://criptopass-api-crqo.onrender.com/bridge/transfers/${user.customer_id}?limit=${limit}`,
+                    //url:`https://criptopass.com/bridge/transfers/${user.customer_id}?limit=${limit}`,
                     //url:`http://193.203.174.82:5000/bridge/transfers/${user.customer_id}?limit=${limit}`,
                     headers:{
                         "Content-Type":"application/json",
@@ -35,10 +35,13 @@ const Transfers = ()=>{
                     },
                     signal
                 });
-                const {msg,data} = transfersResponse.data.data;
+                const {msg,data} = transfersResponse.data;
                 //setLastResponseStatus(transfersResponse.status);
                 console.log(transfersResponse.status);
                 if(transfersResponse.status===200){
+                    if(data.length===0){
+                        toast.update(notificationId,{render:msg,type:'warning',isLoading:false});
+                    }
                     toast.update(notificationId,{render:msg,type:'success',isLoading:false});
                     console.log(data);
                     setTransfers(data);

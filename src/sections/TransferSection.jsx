@@ -14,8 +14,10 @@ import SessionEnded from '../Components/SessionEnded';
 const TransferSection = ()=>{
     const [{user,jwtoken},dispatch] = useStateValue();
     const [fromAddress,setFromAddress] = useState('');
+    const [sourceCurrency, setSourceCurrency] = useState('');
+    const [sourcePaymentRail, setSourcePaymentRail] = useState('');
     const [liquidAmount,setLiquidAmount] = useState(0.00);
-    const [developerFee,setDeveloperFee] = useState(0.03);
+    const [developerFee,setDeveloperFee] = useState(0.031);
     const [transferType, setTransferType] = useState('');
     const [transferCost, setTransferCost] = useState(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
     const [destinatarios,setDestinatarios] = useState([]);
@@ -27,6 +29,14 @@ const TransferSection = ()=>{
 
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        if(sourceCurrency==='usdt'){
+            setSourcePaymentRail('ethereum');
+        } else if(sourceCurrency==='usdc'){
+            setSourcePaymentRail('polygon');
+        }
+    },[sourceCurrency]);
+
     const fetchDestinatarios = async ()=>{
         try {
             const notificationId = toast.loading("Por favor espere...",{
@@ -35,7 +45,7 @@ const TransferSection = ()=>{
             const customer_id = user.customer_id;
             const destinatariosResponse = await axios({
                 method:'get',
-                url:`https://criptopass-api-crqo.onrender.com/bridge/customers/destinatarios/${customer_id}`,
+                url:`https://criptopass.com/bridge/customers/destinatarios/${customer_id}`,
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${jwtoken}`
@@ -97,11 +107,11 @@ const TransferSection = ()=>{
                     }));
                     const transferResponse = await axios({
                         method:'post',
-                        url:'https://criptopass-api-crqo.onrender.com/bridge/transfers/',
+                        url:'https://criptopass.com/bridge/transfers/',
                         data:{
                             source: {
-                                source_currency:"usdt",
-                                source_payment_rail:"ethereum",
+                                source_currency:sourceCurrency,
+                                source_payment_rail: sourcePaymentRail,
                                 from_address:fromAddress
                             },
                             destination:{
@@ -219,11 +229,11 @@ const TransferSection = ()=>{
                     }));
                     const transferResponse = await axios({
                         method:'post',
-                        url:'https://criptopass-api-crqo.onrender.com/bridge/transfers/',
+                        url:'https://criptopass.com/bridge/transfers/',
                         data:{
                             source: {
-                                source_currency:"usdt",
-                                source_payment_rail:"ethereum",
+                                source_currency: sourceCurrency,
+                                source_payment_rail: sourcePaymentRail,
                                 from_address:fromAddress
                             },
                             destination:{
@@ -337,11 +347,11 @@ const TransferSection = ()=>{
                     }));
                     const transferResponse = await axios({
                         method:'post',
-                        url:'https://criptopass-api-crqo.onrender.com/bridge/transfers/',
+                        url:'https://criptopass.com/bridge/transfers/',
                         data:{
                             source: {
-                                source_currency:"usdt",
-                                source_payment_rail:"ethereum",
+                                source_currency: sourceCurrency,
+                                source_payment_rail: sourcePaymentRail,
                                 from_address:fromAddress
                             },
                             destination:{
@@ -486,23 +496,26 @@ const TransferSection = ()=>{
             <div className={`${lastResponseStatus===401 ? 'hidden' : 'block'}`}>
             <div >
                 <h3 className='text-[25px] text-secondary font-bold font-openSauce'>Aspectos a considerar antes de empezar el proceso de transferencia</h3>
-                <ol className='list-decimal text-primary font-bold'>
-                    <li>La cuenta Destino ya debe estar registrada en Criptopass y debes tenerla agregada en destinatarios.</li>
+                <ol className='list-decimal text-primary font-bold flex flex-col gap-2'>
+                    <li>La cuenta Destino ya debe estar registrada en Criptopass y debes tenerla agregada en Destinatarios.</li>
                     <li>Tener una cuenta verificada en Binance</li>
-                    <li>La transferencia se realizará a través de la red Ethereum</li>
-                    <li>Tener como minimo 26 USDT (20 es el monto mínimo de transferencia, 6 es el fee fijo de Binance por transferencia a través de red crypto) en tu billetera Spot. Criptopass te cobrará una comisión de 2.5% por el monto, por lo cual deberás hacer la transferencia por el monto que deseas transferir más la comisión de Criptopass:
-                        Monto deseado a transferir: 20 USDT.
-                        Fee de Binance: 6 USDT.
-                        Fee de CriptoPass: 0.5 USDT
-                        Monto total a transferir a través de Criptopass: 20.5 USDT
-                    </li>
+                    <li>La transferencia se realizará a través de la red <strong className='text-[18px]'>Ethereum</strong> si eliges USDT como moneda de origen. En cambio, si eliges USDC, la transferencia se realizará a través de la red <strong className='text-[18px]'>Polygon</strong>.</li>
                     <li>Cada tipo de transferencia tiene un costo particular. A continuación los costos:
                         <ul>
-                        <li>ACH: $0.50</li>
-                        <li>Same Day ACH: $1</li>
-                        <li>Wire: $20</li>
+                        <li><strong>ACH:</strong> $0.50</li>
+                        <li><strong>ACH Mismo Día:</strong> $1</li>
+                        <li><strong>Wire:</strong> $20</li>
                         </ul>
                     </li>
+                    <li>Si el monto que deseas transferir es 20 USDT por ejemplo, debes tener ciertos costos en cuenta si quieres que esos 20 USDT lleguen enteros al destinatario:</li>
+                        <ul className='list-disc pl-8'>
+                            <li className='text-[15px] font-garet'>Monto deseado a transferir: 20 USDT.</li>
+                            <li className='text-[15px] font-garet'>Costo de transferencia: 0.5 USDT (<strong>ACH</strong>).</li>
+                            <li className='text-[15px] font-garet'>Fee de Binance por transferir a través de la red crypto: X USDT (Depende de la red Blockchain).</li>
+                            <li className='text-[15px] font-garet'>Fee de CriptoPass: 3.1% (0.62 USDT).</li>
+                            <li className='text-[15px] font-garet'>Monto total a transferir a través desde Criptopass: 21.12 USDT.</li>
+                        </ul>
+
                 </ol>
             </div>
             <div className='my-4'>
@@ -511,13 +524,18 @@ const TransferSection = ()=>{
                 <div className='flex flex-col justify-start items-start gap-4'>
                     <div className='py-4 px-4 bg-tertiary w-full'>
                         <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Datos de origen</h3>
-                        <div className='flex justify-start items-center gap-4'>
-                            {/*<div className='w-[50%]'>
-                                <label className='font-bold'>Dirección Billetera Spot de Binance (en Ethereum):</label><br/>
-                                <input
+                        <div className='flex justify-start items-start gap-4'>
+                            <div className='w-[50%]'>
+                                <label className='font-bold'>Moneda de Origen:</label><br/>
+                                <select
                                 className='w-full border-secondary border-2 rounded-sm'
-                                type='text' required={true} placeholder='0xe15804194f8ced608d950eca9a2d421ef54a961d' value={fromAddress} onChange={(e)=>setFromAddress(e.target.value)}/>
-                            </div> */}
+                                required={true} value={sourceCurrency} onChange={(e)=>setSourceCurrency(e.target.value)}>
+                                    <option value=''>Por favor selecciona una opción:</option>
+                                    <option value='usdt'>USDT</option>
+                                    <option value='usdc'>USDC</option>
+                                </select>
+                                <span className='text-primary font-bold'>{sourcePaymentRail}</span>
+                            </div>
                             <div className='w-[50%]'>
                                 <label className='font-bold'>Monto líquido que desea que llegue a destino:</label><br/>
                                 <input
@@ -584,10 +602,10 @@ const TransferSection = ()=>{
                                 type='text' value={`${developerFee*100} %`}/>
                             </div>
                             <div className='w-[40%]'>
-                                <label className='font-bold'>Comision fija de Binance:</label><br/>
+                                <label className='font-bold'>Comisión de Binance:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm'
-                                type='text' value={'6 USDT'}/>
+                                type='text' value={'X USDT'}/>
                             </div>
                             
                         </div>
@@ -596,7 +614,7 @@ const TransferSection = ()=>{
                         <h3 className='text-[20px] font-bold font-openSauce text-secondary'>Cálculo de los montos finales</h3>
                         <div className='flex justify-start items-start gap-4'>
                             <div className='w-[50%]'>
-                                <label className='font-bold'>Monto final de transferencia <span className='text-primary font-bold font-garet'>(Monto líquido que desea que llegue a destino + Costo de la transferencia + Comision de Criptopass)</span>:</label><br/>
+                                <label className='font-bold'>Monto final de transferencia <span className='text-primary font-bold font-garet'>(Monto líquido que desea que llegue a destino + Costo de la transferencia + Comisión de Criptopass)</span>:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm text'
                                 type='text' value={totalAmount}/>
@@ -605,7 +623,7 @@ const TransferSection = ()=>{
                                 <label className='font-bold'>Comisión de Binance:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm'
-                                type='text' value='6 USDT'/>
+                                type='text' value='X USDT'/>
                             </div>
                             
 
