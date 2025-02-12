@@ -140,7 +140,13 @@ const Profile = ()=>{
                     console.log('Outside IF',user);
                 }
                 //toast.update(notificationId,{render:msg,type:'success',isLoading:false});
-            } else{
+            }
+            else if(kyc_link_record.status===504){
+                const {msg} = kyc_link_record.data;
+                toast.update(notificationId,{render:msg,type:'warning',isLoading:false});
+                setKycStatus(user.kyc_status);
+            }
+             else{
                 console.log(kyc_link_record);
                 toast.update(notificationId,{render:msg,type:'error',isLoading:false});
             }
@@ -225,7 +231,7 @@ const Profile = ()=>{
             <div className={`${lastResponseStatus===401 ? 'hidden': 'block'}`}>
                 <div className='border-primary border-3 rounded-md py-2 px-4'>
                     <h2 className='font-openSauce font-bold text-[25px]'>KYC</h2>
-                    {!kycStatus ? (
+                    {(!kycStatus || kycStatus==='not started') ? (
                     <button className='bg-tertiary border-2 border-tertiary
                     text-primary font-garet font-bold rounded-md py-2 px-4'
                     onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type)}
@@ -243,7 +249,7 @@ const Profile = ()=>{
                 </div>
                 <div className='border-primary border-3 rounded-md py-2 px-4'>
                     <h2 className='font-openSauce font-bold text-[25px]'>TOS</h2>
-                    {tosStatus ==='' ? (
+                    {(tosStatus ==='' || tosStatus==='not started') ? (
                     <button className='bg-tertiary border-2 border-tertiary
                     text-primary font-garet font-bold rounded-md py-2 px-4'
                     onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type)}
