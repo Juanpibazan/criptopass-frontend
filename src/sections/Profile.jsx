@@ -83,11 +83,11 @@ const Profile = ()=>{
             const controller = new AbortController();
             const {signal} = controller;
         const getKYC = async ()=>{
-            try{
-            if(!hasRun){
             const notificationId = toast.loading("Por favor espere...",{
                 closeOnClick:true
             });
+            try{
+            if(!hasRun){
             const kyc_link_record = await axios({
                 method:'get',
                 url:`https://criptopass.com/bridge/customers/kyc_links?email=${email}`,
@@ -142,21 +142,22 @@ const Profile = ()=>{
                 //toast.update(notificationId,{render:msg,type:'success',isLoading:false});
             }
             else if(kyc_link_record.status===204){
-                const noKYCLInkMsg = kyc_link_record.data.msg;
-                toast.update(notificationId,{render:noKYCLInkMsg,type:'success',isLoading:false});
-                setKycStatus(user.kyc_status);
+                //const noKYCLinkMsg = kyc_link_record.data.msg;
+                toast.update(notificationId,{render: 'No KYC link found in db.',type:'success',isLoading:false});
+                //setKycStatus(user.kyc_status);
+                //setKycStatus(kyc_link_record.data.data);
             }
              else{
                 console.log(kyc_link_record);
-                toast.update(notificationId,{render:msg,type:'error',isLoading:false});
+                toast.update(notificationId,{render:`Error ${kyc_link_record.status}`,type:'error',isLoading:false});
             }
             setHasRun(true);
         }
         } catch(e){
             console.log(e);
-            toast(e.response.data.msg,{
+            toast.update(notificationId,{render:e.response?.data?.msg || 'Error en la solicitud.',
                 type:'error',
-                position:'top-center'
+                isLoading: false
             });
         }
     };
@@ -165,7 +166,10 @@ const Profile = ()=>{
         controller.abort();
     };
     
-    },[kycStatus,tosStatus,hasRun]);
+    },
+    //[kycStatus,tosStatus,hasRun]
+    []
+);
 
 
     const isTokenExpired = (token)=>{
@@ -275,7 +279,7 @@ const Profile = ()=>{
             <button
             onClick={()=>findLastTransfer()}
             className='bg-slate-500 text-white py-2 px-4'>Encontrar last transfer</button> */}
-        <ToastContainer position='top-center' />
+            <ToastContainer position='top-center' />
         </div>
     )
 };

@@ -57,9 +57,9 @@ const Transfers = ()=>{
             catch(e){
                 console.log(e);
                 console.log('Llega hasta aca en el catch, antes del useNavigate()');
-                toast(e.response.data.msg,{
+                toast.update(notificationId,{render: e.response.data.msg,
                     type:'error',
-                    position:'top-center'
+                    isLoading: false
                 });
             }
         };
