@@ -142,8 +142,8 @@ const Profile = ()=>{
                 //toast.update(notificationId,{render:msg,type:'success',isLoading:false});
             }
             else if(kyc_link_record.status===204){
-                const {msg} = kyc_link_record.data;
-                toast.update(notificationId,{render:msg,type:'warning',isLoading:false});
+                const noKYCLInkMsg = kyc_link_record.data.msg;
+                toast.update(notificationId,{render:noKYCLInkMsg,type:'success',isLoading:false});
                 setKycStatus(user.kyc_status);
             }
              else{
