@@ -143,7 +143,7 @@ const Profile = ()=>{
             }
             else if(kyc_link_record.status===204){
                 //const noKYCLinkMsg = kyc_link_record.data.msg;
-                toast.update(notificationId,{render: 'No KYC link found in db.',type:'success',isLoading:false});
+                toast.update(notificationId,{render: 'No KYC link found in db. You can start the process.',type:'success',isLoading:false});
                 //setKycStatus(user.kyc_status);
                 //setKycStatus(kyc_link_record.data.data);
             }
