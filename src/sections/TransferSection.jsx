@@ -22,6 +22,7 @@ const TransferSection = ()=>{
     const [transferCost, setTransferCost] = useState(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
     const [destinatarios,setDestinatarios] = useState([]);
     const [externalAccount,setExternalAccount] = useState('');
+    const [selectedDestinatario,setSelectedDestinatario] = useState({});
     const [totalAmount,setTotalAmount] = useState(parseFloat(liquidAmount).toFixed(2)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee).toFixed(2));
     const [transferInitiated,setTransferInitiated] = useState(false);
     const [lastTransfer,setLastTransfer] = useState({});
@@ -81,10 +82,10 @@ const TransferSection = ()=>{
     },[liquidAmount,transferCost]);
 
     const createTransfer = async (apiKey,fromAddress,transferType,externalAccount,totalAmount,customer_id,developerFee)=>{
+        const notificationId = toast.loading("Por favor espere...",{
+            closeOnClick:true
+        });
         try {
-            const notificationId = toast.loading("Por favor espere...",{
-                closeOnClick:true
-            });
                 if(!user.idempotencyKeys){
                     const idempotency_key = uuidv4();
                     console.log(idempotency_key);
@@ -117,11 +118,13 @@ const TransferSection = ()=>{
                             destination:{
                                 destination_currency:"usd",
                                 destination_payment_rail: transferType,
-                                external_account_id: externalAccount
+                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id
                             },
                             amount:`${totalAmount}`,
-                            on_behalf_of:customer_id,
-                            developer_fee:`${developerFee}`
+                            //on_behalf_of:customer_id,
+                            on_behalf_of: JSON.parse(selectedDestinatario).destiny_customer_id,
+                            developer_fee:`${(developerFee*totalAmount).toFixed(2)}`,
+                            from_customer_id: customer_id
                         },
                         headers:{
                             "Content-Type":"application/json",
@@ -239,11 +242,13 @@ const TransferSection = ()=>{
                             destination:{
                                 destination_currency:"usd",
                                 destination_payment_rail: transferType,
-                                external_account_id: externalAccount
+                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id
                             },
                             amount:`${totalAmount}`,
-                            on_behalf_of:customer_id,
-                            developer_fee:`${developerFee}`
+                            //on_behalf_of:customer_id,
+                            on_behalf_of: JSON.parse(selectedDestinatario).destiny_customer_id,
+                            developer_fee:`${(developerFee*totalAmount).toFixed(2)}`,
+                            from_customer_id: customer_id
                         },
                         headers:{
                             "Content-Type":"application/json",
@@ -357,11 +362,13 @@ const TransferSection = ()=>{
                             destination:{
                                 destination_currency:"usd",
                                 destination_payment_rail: transferType,
-                                external_account_id: externalAccount
+                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id
                             },
                             amount:`${totalAmount}`,
-                            on_behalf_of:customer_id,
-                            developer_fee:`${developerFee*totalAmount}`
+                            //on_behalf_of:customer_id,
+                            on_behalf_of: JSON.parse(selectedDestinatario).destiny_customer_id,
+                            developer_fee:`${(developerFee*totalAmount).toFixed(2)}`,
+                            from_customer_id: customer_id
                         },
                         headers:{
                             "Content-Type":"application/json",
@@ -534,7 +541,7 @@ const TransferSection = ()=>{
                                     <option value='usdt'>USDT</option>
                                     <option value='usdc'>USDC</option>
                                 </select>
-                                <span className='text-primary font-bold'>{sourcePaymentRail}</span>
+                                <span className='text-primary font-bold'>{sourcePaymentRail.toUpperCase()}</span>
                             </div>
                             <div className='w-[50%]'>
                                 <label className='font-bold'>Monto líquido que desea que llegue a destino:</label><br/>
@@ -563,11 +570,11 @@ const TransferSection = ()=>{
                                         <option value=''>No hay destinatarios registrados</option>
                                     </select>
                                 ) : (
-                                    <select className='w-full border-secondary border-2 rounded-sm' value={externalAccount} onChange={(e)=>setExternalAccount(e.target.value)}>
+                                    <select className='w-full border-secondary border-2 rounded-sm' value={selectedDestinatario} onChange={(e)=>setSelectedDestinatario(e.target.value)}>
                                         <option value=''>Por favor selecciona un destinatario</option>
                                         {destinatarios.map((destinatario,index)=>{
                                             return (
-                                                <option key={index} value={destinatario.destiny_external_account_id}>{destinatario.destiny_customer_alias}</option>
+                                                <option key={index} value={JSON.stringify(destinatario)}>{destinatario.destiny_customer_alias}</option>
                                             )
                                         })}
                                     </select>
@@ -634,17 +641,22 @@ const TransferSection = ()=>{
                             >Comenzar Transferencia</button>
                         </div>
                     </div>
-                    <div className={`min-h-screen w-[80%] absolute z-150
+                    <div className={`min-h-screen w-[95%] absolute z-150
                         flex flex-col justify-center items-center gap-5
-                        bg-secondary yellow-400 border-primary border-4 rounded-md shadow-md ${transferInitiated ? 'block' :'hidden'}`}>
+                        bg-secondary yellow-400 border-primary border-2 rounded-md shadow-lg ${transferInitiated ? 'block' :'hidden'}`}>
                         <h3 className='text-[50px] max-sm:text-[30px] text-white font-bold font-openSauce'>Transferencia iniciada exitosamente</h3>
                         <ul className='list-disc px-6'>
-                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Código de la transferencia: <strong className='text-tertiary text-[10px] text-wrap'>{lastTransfer ? lastTransfer.id : ''}</strong></li>
-                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Estado: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.state : ''}</strong></li>
-                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Cantidad Final: <strong className='text-tertiary'>{totalAmount}</strong></li>
-                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Cuenta a transferir USDT desde Binance: <strong className='text-tertiary'>{lastTransfer ? lastTransfer.to_address : ''}</strong></li>
+                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Código de la transferencia: <strong className='text-tertiary text-[15px] text-wrap'>{lastTransfer ? lastTransfer.id : ''}</strong></li>
+                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Moneda de origen: <strong className='text-tertiary text-[15px] text-wrap'>{sourceCurrency}</strong></li>
+                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Estado: <strong className='text-tertiary text-[15px]'>{lastTransfer ? lastTransfer.state : ''}</strong></li>
+                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Cantidad Final: <strong className='text-tertiary text-[15px]'>{totalAmount}</strong></li>
+                            <li className='text-[20px] max-sm:text-[15px] font-bold'>Cuenta <strong>DESTINO</strong> a transferir {sourceCurrency.toUpperCase()} desde Binance: <strong className='text-tertiary text-[15px]'>{lastTransfer ? lastTransfer.to_address : ''}</strong></li>
                         </ul>
-                        <Link to='/transfers' onClick={()=>setTransferInitiated(false)} className='py-2 px-4 bg-primary text-white text-[20px] border-primary border-2 rounded-sm'>Ir a transferencias</Link>
+                        <p className='font-openSauce font-bold text-[20px] max-sm:px-2 underline text-center'>Te recomendamos por favor guardar esta información para usarla al momento de hacer la transferencia en Binance.</p>
+                        <div className='flex justify-center items-center gap-4'>
+                            <Link to='/transfers' onClick={()=>setTransferInitiated(false)} className='py-2 px-4 bg-primary text-white text-[20px] border-primary border-2 rounded-sm shadow-md'>Ir a transferencias</Link>
+                            <a href='https://binance.com' target='_blank' className='py-2 px-4 bg-white text-secondary text-[20px] border-secondary border-2 rounded-sm shadow-md font-bold'>Ir a Binance</a>
+                        </div>
                     </div>
                 </div>
             </div>
