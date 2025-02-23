@@ -25,7 +25,7 @@ const Transfers = ()=>{
                 try{
                 const transfersResponse = await axios({
                     method:'get',
-                    url:`https://criptopass.com/bridge/transfers/${user.customer_id}?limit=${limit}`,
+                    url:`https://criptopass.com/bridge/transfers/senders/${user.customer_id}?limit=${limit}`,
                     //url:`https://criptopass.com/bridge/transfers/${user.customer_id}?limit=${limit}`,
                     //url:`http://193.203.174.82:5000/bridge/transfers/${user.customer_id}?limit=${limit}`,
                     headers:{
@@ -127,9 +127,9 @@ const Transfers = ()=>{
                                         <td className='px-1 border-secondary border-2'>{index}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.id}</td>
                                         <td className={`${transfer.state==='awaiting_funds' ? 'text-yellow-600 px-2' : transfer.state==='canceled' ? 'text-red-500 px-2' : transfer.state==='payment_processed' ? 'text-green-500 px-2' : 'text-slate-700 px-2'}  border-secondary border-2`}>{transfer.state}</td>
-                                        <td className='px-2 border-secondary border-2'>{(transfer.source.currency).toUpperCase()}</td>
-                                        <td className='px-2 border-secondary border-2'>{transfer.receipt.final_amount}</td>
-                                        <td className='px-2 border-secondary border-2'>{transfer.source_deposit_instructions.to_address}</td>
+                                        <td className='px-2 border-secondary border-2'>{(transfer.source_currency).toUpperCase()}</td>
+                                        <td className='px-2 border-secondary border-2'>{transfer.final_amount}</td>
+                                        <td className='px-2 border-secondary border-2'>{transfer.to_address}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.created_at}</td>
                                     </tr>
                                 )
