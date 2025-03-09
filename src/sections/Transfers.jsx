@@ -109,15 +109,17 @@ const Transfers = ()=>{
                 <div>
                 <h1 className='text-[25px] text-primary font-bold text-center'>Transferencias</h1>
                 {transfers.length>0 ?
-                <div className='flex flex-col justify-start items-center gap-4'>
-                    <table className='border-4 border-secondary rounded-sm min-h-screen' >
-                            <tr className='border-2 border-secondary rounded-sm my-4 mx-2'>
+                <div className='gap-4 overflow-y-auto overflow-x-auto h-[500px] max-sm:w-[350px]'>
+                    <table className='border-4 border-secondary rounded-sm px-4 mx-4 w-full' >
+                        {/*<table className='border-4 border-secondary rounded-sm min-h-screen' > */}
+                            <tr className='border-2 border-secondary rounded-sm my-4 mx-2 sticky top-0'>
                                 <th className='px-1 border-secondary border-2 text-left'>#</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Código</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Estado</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Moneda de Origen</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Cantidad Final</th>
-                                <th className='px-2 border-secondary border-2 text-left'>Cuenta a transferir USDT desde Binance</th>
+                                <th className='px-2 border-secondary border-2 text-left'>Cuenta a transferir desde Binance</th>
+                                <th className='px-2 border-secondary border-2 text-left'>Destinatario</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Iniciada en</th>
                             </tr>
                             <tbody>
@@ -130,18 +132,21 @@ const Transfers = ()=>{
                                         <td className='px-2 border-secondary border-2'>{(transfer.source_currency).toUpperCase()}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.final_amount}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.to_address}</td>
+                                        <td className='px-2 border-secondary border-2'>{transfer.destinatario_full_name}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.created_at}</td>
                                     </tr>
                                 )
                             })}
                             </tbody>
                     </table>
+                    <div className='my-4 flex justify-center'>
                     <select value={limit} onChange={(e)=>setLimit(e.target.value)}
                         className='border-2 border-primary rounded-sm'>
                         <option value={10}>10 registros</option>
                         <option value={30}>30 registros</option>
                         <option value={50}>50 registros</option>
                     </select>
+                    </div>
                     </div>
                     : <h2 className='text-center font-bold text-secondary text-[20px]'>No cuenta con transferencias realizadas</h2>
                 }

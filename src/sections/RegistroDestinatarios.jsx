@@ -133,11 +133,11 @@ const RegistroDestinatarios = ()=>{
                 <SessionEnded/>
             </div>
             <div className={`${lastResponseStatus===401 ? 'hidden' : 'block'}`}>
-            <div className='flex justify-start items-center gap-10'>
+            <div className='flex max-sm:flex-col justify-start items-center gap-10'>
                 <div>
-                    <h3 className='text-[20px] text-primary font-openSauce font-bold'>Buscar destinatario por email</h3>
-                    <input type='text' value={searchString} onChange={(e)=>handleSearch(e.target.value)}
-                    className={`border-secondary border-2 rounded-sm`}
+                    <h3 className='text-[20px] text-primary font-openSauce font-bold'>Buscar destinatario por email address</h3>
+                    <input type='text' placeholder='Escribe la dirección de email' value={searchString} onChange={(e)=>handleSearch(e.target.value)}
+                    className={`border-secondary border-2 rounded-sm w-full`}
                     />
                     <select>
                         {searchItems.map((item, index)=>{

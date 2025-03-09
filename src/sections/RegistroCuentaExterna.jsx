@@ -234,25 +234,26 @@ const RegistroCuentaExterna = ()=>{
 
 
     return (
-        <div>
+        <div className='px-2'>
             <div className='flex flex-col justify-start items-start gap-4'>
+                <h2 className='font-bold text-[22px]'>Información de la cuenta bancaria en USA</h2>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label>Nombre del Banco</label><br/>
+                    <label className='font-bold text-[17px] text-secondary'>Nombre del Banco</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Lead Bank'
                     value={bankName} onChange={(e)=>setBankName(e.target.value)}/>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label>Número de Cuenta</label><br/>
+                    <label className='font-bold text-[17px] text-secondary'>Número de Cuenta</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='210535431174'
                     value={accountNumber} onChange={(e)=>setAccountNumber(e.target.value)}/>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label>Número de Routing</label><br/>
+                    <label className='font-bold text-[17px] text-secondary'>Número de Routing</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='204318456'
                     value={routingNumber} onChange={(e)=>setRoutingNumber(e.target.value)}/>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label>Tipo de Cuenta</label><br/>
+                    <label className='font-bold text-[17px] text-secondary'>Tipo de Cuenta</label><br/>
                     <select className='w-full border-2 border-secondary rounded-sm'
                     value={accountType} onChange={(e)=>setAccounttype(e.target.value)}>
                         <option className='bg-slate-200' value=''>Selecciona una opción</option>
@@ -261,41 +262,41 @@ const RegistroCuentaExterna = ()=>{
                     </select>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label>Nombre del Dueño de la Cuenta</label><br/>
+                    <label className='font-bold text-[17px] text-secondary'>Nombre del Dueño de la Cuenta</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei'
                     value={accountOwnerName} onChange={(e)=>setAccountOwnerName(e.target.value)}/>
                 </div>
                 <div className='w-full'>
-                    <h3>Dirección</h3>
+                    <h3 className='font-bold text-[20px]'>Dirección de la Oficina principal del Banco</h3>
                     <div className='w-full flex flex-row justify-start items-center gap-4 flex-wrap'>
                         <div className='w-[50%] max-sm:w-full'>
-                            <label>Linea de Dirección 1</label><br/>
+                            <label className='font-bold text-[17px] text-secondary'>Linea de Dirección 1</label><br/>
                             <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='101 Main St.'
                             value={address.street_line_1} onChange={(e)=>setAddress({...address,street_line_1:e.target.value})}/>
                         </div>
                         <div className='w-[50%] max-sm:w-full'>
-                            <label>Linea de Dirección 2</label><br/>
+                            <label className='font-bold text-[17px] text-secondary'>Linea de Dirección 2</label><br/>
                             <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder=''
                             value={address.street_line_2} onChange={(e)=>setAddress({...address,street_line_2:e.target.value})}/>
                         </div>
                         <div className='w-full flex justify-start items-center max-sm:items-start max-sm:flex-col gap-4'>
                         <div>
-                            <label>Ciudad</label><br/>
+                            <label className='font-bold text-[17px] text-secondary'>Ciudad</label><br/>
                             <input className='border-2 border-secondary rounded-sm' type='text' placeholder='Los Angeles'
                             value={address.city} onChange={(e)=>setAddress({...address,city:e.target.value})}/>
                         </div>
                         <div>
-                            <label>Estado</label><br/>
+                            <label className='font-bold text-[17px] text-secondary'>Estado</label><br/>
                             <input className='border-2 border-secondary rounded-sm' type='text' placeholder='California'
                             value={address.state} onChange={(e)=>setAddress({...address,state:e.target.value})}/>
                         </div>
                         <div>
-                            <label>Código Postal</label><br/>
+                            <label className='font-bold text-[17px] text-secondary'>Código Postal</label><br/>
                             <input className='border-2 border-secondary rounded-sm' type='text' placeholder='90001'
                             value={address.postal_code} onChange={(e)=>setAddress({...address,postal_code:e.target.value})}/>
                         </div>
                         <div>
-                            <label>País</label><br/>
+                            <label className='font-bold text-[17px] text-secondary'>País</label><br/>
                             <input className='border-2 border-secondary rounded-sm' type='text' placeholder='USA'
                             value={address.country} onChange={(e)=>setAddress({...address,country:e.target.value})}/>
                         </div>
