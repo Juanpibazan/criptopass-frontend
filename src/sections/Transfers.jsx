@@ -101,6 +101,51 @@ const Transfers = ()=>{
         }
     },1000*60);
 
+    const fetchTransfers = async ()=>{
+        const notificationId = toast.loading("Por favor espere...",{
+            closeOnClick:true
+        });
+        try{
+        const transfersResponse = await axios({
+            method:'get',
+            url:`https://criptopass.com/bridge/transfers/senders/${user.customer_id}?limit=${limit}`,
+            //url:`https://criptopass.com/bridge/transfers/${user.customer_id}?limit=${limit}`,
+            //url:`http://193.203.174.82:5000/bridge/transfers/${user.customer_id}?limit=${limit}`,
+            headers:{
+                "Content-Type":"application/json",
+                "Api-Key": import.meta.env.VITE_BRIDGE_API_KEY,
+                "Authorization":`Bearer ${jwtoken}`
+            }
+        });
+        const {msg,data} = transfersResponse.data;
+        //setLastResponseStatus(transfersResponse.status);
+        console.log(transfersResponse.status);
+        if(transfersResponse.status===200){
+            if(data.length===0){
+                toast.update(notificationId,{render:msg,type:'warning',isLoading:false});
+            }
+            toast.update(notificationId,{render:msg,type:'success',isLoading:false});
+            console.log(data);
+            setTransfers(data);
+
+        }
+        else{
+            toast.update(notificationId,{render:msg,type:'error',isLoading:false});
+            return msg;
+        }
+    //console.log('my_transfers: ',my_transfers);
+    
+    }
+    catch(e){
+        console.log(e);
+        console.log('Llega hasta aca en el catch, antes del useNavigate()');
+        toast.update(notificationId,{render: e.response.data.msg,
+            type:'error',
+            isLoading: false
+        });
+    }
+};
+
     return (
         <div>
             {lastResponseStatus===401 ? (
@@ -146,6 +191,9 @@ const Transfers = ()=>{
                         <option value={30}>30 registros</option>
                         <option value={50}>50 registros</option>
                     </select>
+                    </div>
+                    <div className='flex justify-center'>
+                        <button onClick={fetchTransfers} className='px-4 py-2 bg-secondary border-2 border-secondary rounded-md shadow-md font-bold'>Actualizar</button>
                     </div>
                     </div>
                     : <h2 className='text-center font-bold text-secondary text-[20px]'>No cuenta con transferencias realizadas</h2>
