@@ -13,6 +13,7 @@ import SessionEnded from '../Components/SessionEnded';
 const Profile = ()=>{
     const [{user,jwtoken}, dispatch] = useStateValue();
     const [email,setEmail] = useState(user ? user.email : '');
+    const [customerId,setCustomerId] = useState(user ? user.customer_id : '');
     const [fullName,setFullName] = useState(user ? `${user.first_name} ${user.last_name}` : '');
     const [type,setType] = useState(user ? user.type : '');
     const [kycStatus,setKycStatus] = useState(user.kyc_status ? user.kyc_status : 'not started');
@@ -21,6 +22,8 @@ const Profile = ()=>{
     const [tosLink, setTosLink] = useState('');
     const [lastResponseStatus,setLastResponseStatus] = useState();
     const [hasRun,setHasRun] = useState(false);
+    const [sepaEndorsement, setSepaEndorsement] = useState({});
+    const [sepaLink, setSepaLink] = useState('');
 
 
     const startKYC = async (apiKey,fullName,email,type)=>{
@@ -161,7 +164,33 @@ const Profile = ()=>{
             });
         }
     };
+    const getCustomer = async ()=>{
+        try {
+            const customerResponse  = await axios({
+                method:'get',
+                url: `https://criptopass.com/bridge/customers/${customerId}`,
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization": `Bearer ${jwtoken}`
+                },
+                signal
+            });
+            const {msg,data} = customerResponse.data;
+            if(customerResponse.status===200){
+                console.log('INFO DEL customer: ', data);
+                const sepa_endorsement = data.endorsements.find((item)=>item.name==='sepa');
+                console.log('SEPA: ', sepa_endorsement);
+                setSepaEndorsement(sepa_endorsement);
+            } else{
+                console.log('Response status code: ', customerResponse.status);
+            }
+        }
+        catch(e){
+            console.log(e);
+        }
+    };
     getKYC();
+    getCustomer();
     return ()=>{
         controller.abort();
     };
@@ -170,6 +199,36 @@ const Profile = ()=>{
     //[kycStatus,tosStatus,hasRun]
     []
 );
+
+    const startKYCSepa = async ()=>{
+        const notificationId = toast.loading("Por favor espere...",{
+                closeOnClick:true
+            });
+        try {
+            const generatedSepaResponse = await axios({
+                method:'get',
+                url: `https://criptopass.com/bridge/customers/sepa_kyc_links/${customerId}`,
+                headers: {
+                    "Content-Type":"application/json",
+                    "Authorization": `Bearer ${jwtoken}`
+                }
+            });
+            const {msg,data} = generatedSepaResponse.data;
+            if(generatedSepaResponse.status===200 || generatedSepaResponse.status===503){
+                toast.update(notificationId,{render:msg,type:'success',isLoading:false});
+                setSepaLink(data.sepa_kyc_link);
+                window.open(data.sepa_kyc_link,'_blank');
+            } else{
+                toast.update(notificationId,{render:msg,type:'error',isLoading:false});
+            }
+        }
+        catch(e){
+            toast.update(notificationId,{render:e.response?.data?.msg || 'Error en la solicitud.',
+                type:'error',
+                isLoading:false
+            })
+        }
+    };
 
 
     const isTokenExpired = (token)=>{
@@ -269,6 +328,24 @@ const Profile = ()=>{
                         </div>
                     )}
                 </div>
+                {
+                    (kycStatus==='approved' && tosStatus==='approved') && (
+                        <div className='border-primary border-3 rounded-md py-4 px-8 my-8 bg-slate-300 w-[50%]'>
+                            <h2 className='font-garet font-bold text-[20px] text-secondary'>Interesada(o) en hacer transferencias a Europa?</h2>
+                            <div>
+                                <h2 className='font-openSauce font-bold text-[25px]'>KYC adicional para SEPA</h2>
+                                <div className='flex flex-col justify-start items-start gap-4'>
+                                    <p><strong>Status: </strong><span className={`${sepaEndorsement.status ==='incomplete' ? 'bg-tertiary': 'bg-green-300'} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4`}>{sepaEndorsement.status}</span></p>
+                                    <button className='bg-secondary border-2 border-secondary
+                                        text-primary font-garet font-bold rounded-md py-2 px-4 my-2'
+                                        onClick={startKYCSepa}>Generar SEPA KYC link</button>
+                                    <span className='font-bold'>Ir a <a href={sepaLink || sepaLink !=='' ? sepaLink : ''} target='_blank' className={`${!sepaLink || sepaLink==='' ? 'hidden' : 'block'} font-bold text-primary bg-white border-2 border-primary px-4 py-2 rounded-md`}>SEPA KYC</a></span>               
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+
             </div>
             {/*<button
             onClick={()=>removeIdempotence()}
