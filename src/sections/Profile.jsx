@@ -305,7 +305,7 @@ const Profile = ()=>{
                                 <p><strong>Status: </strong><span className={ `${kycStatus==='approved' ? 'bg-green-300' : 'bg-tertiary'} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4 w-[20%]`}>{user.kyc_status}</span></p>
                             </div>
                             <div>
-                                <p className={kycStatus !=='approved' ? 'block' : 'hidden'}><strong> KYC Link: </strong><a href={kycLink} className={'text-primary bg-blue-100 font-garet font-bold text-[12px] hover:text-secondary'}>{kycLink}</a></p>  
+                                <p className={kycStatus !=='approved' ? 'block' : 'hidden'}><strong> KYC Link: </strong><a target='_blank' href={kycLink} className={'text-primary bg-blue-100 font-garet font-bold text-[12px] hover:text-secondary'}>{kycLink}</a></p>  
                             </div>
                         </div>
                     )}
@@ -323,7 +323,7 @@ const Profile = ()=>{
                                 <p><strong>Status: </strong><span className={ `${tosStatus==='approved' ? 'bg-green-300' : 'bg-tertiary'} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4 w-[20%]`}>{tosStatus}</span></p>
                             </div>
                             <div>
-                                <p className={tosStatus !=='approved' ? 'block' : 'hidden'}><strong> TOS Link: </strong><a href={tosLink} className={'text-primary bg-blue-100 font-garet font-bold text-[12px] hover:text-secondary'}>{tosLink}</a></p>  
+                                <p className={tosStatus !=='approved' ? 'block' : 'hidden'}><strong> TOS Link: </strong><a target='_blank' href={tosLink} className={'text-primary bg-blue-100 font-garet font-bold text-[12px] hover:text-secondary'}>{tosLink}</a></p>  
                             </div>
                         </div>
                     )}
