@@ -17,7 +17,7 @@ const RegistroCuentaExterna = ()=>{
 
     return (
         <div className='px-2'>
-            <div className='flex max-sm:flex-col masx-sm:justify-start sm:justify-center max-sm:items-start sm:items-center gap-[50px]'>
+            <div className='flex flex-row justify-center items-center gap-[50px]'>
                 <button className={`${accountType==='usa' ? 'bg-secondary border-secondary' : 'bg-white border-primary'} border-2 rounded-sm shadow-md px-4 py-2 text-[20px]`} onClick={()=>setAccountType('usa')}>USA</button>
                 <button className={`${accountType==='sepa' ? 'bg-secondary border-secondary' : 'bg-white border-primary'} border-2 rounded-sm shadow-md px-4 py-2 text-[20px]`} onClick={()=>setAccountType('sepa')}>Europa</button>
             </div>
@@ -25,7 +25,7 @@ const RegistroCuentaExterna = ()=>{
                 <CuentaExternaUSA />
             ) : accountType==='sepa' ? (
                 <CuentaExternaSEPA />
-            ) : <div></div>}
+            ) : <div><h3 className='px-2 py-4 font-bold font-garet'>Por favor elige una opción.</h3></div>}
         </div>
     )
 };
@@ -324,8 +324,8 @@ const CuentaExternaUSA = ()=>{
                         </div>
                     </div>
                 </div>
-                <div className='flex justify-end items-center bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold'>
-                    <button className='text-right' onClick={()=>createExternalAcount(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,routingNumber,accountType,accountOwnerName,address)}>Registrar Cuenta Externa</button>
+                <div className='flex justify-end items-center'>
+                    <button className='bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcount(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,routingNumber,accountType,accountOwnerName,address)}>Registrar Cuenta Externa</button>
                 </div>
             </div>
             <ToastContainer position='top-center' />
@@ -337,11 +337,10 @@ const CuentaExternaUSA = ()=>{
 const CuentaExternaSEPA = ()=>{
     
     const [{activeTitle,user,jwtoken},dispatch] = useStateValue();
-    const [bankName,setBankName] = useState('');
+    const [bic,setBic] = useState('');
     const [accountNumber,setAccountNumber] = useState();
     const [routingNumber,setRoutingNumber] = useState();
-    const [accountType,setAccounttype] = useState('');
-    const [accountIbanType,setAccountIbanType] = useState('iban');
+    const [accountType,setAccounttype] = useState('iban');
     const [accountOwnerType,setAccountOwnerType] = useState(user ? user.type : '');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -355,6 +354,7 @@ const CuentaExternaSEPA = ()=>{
         postal_code:'',
         country:''
     });
+    const [selectedIsoCountryCode,setSelectedIsoCountryCode] = useState('');
 
     const createExternalAcount = async (apiKey,customer_id,bank_name, account_number,routing_number,account_type,account_owner_name,address)=>{
         const notificationId = toast.loading("Por favor espere...",{
@@ -567,41 +567,32 @@ const CuentaExternaSEPA = ()=>{
             <div className='flex flex-col justify-start items-start gap-4'>
                 <h2 className='font-bold text-[22px]'>Información de la cuenta bancaria en Europa</h2>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label className='font-bold text-[17px] text-secondary'>Nombre del Banco</label><br/>
-                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Lead Bank'
-                    value={bankName} onChange={(e)=>setBankName(e.target.value)}/>
+                    <label className='font-bold text-[17px] text-secondary'>BIC (Bank International Identifier) *</label><br/>
+                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='CAHMESMMXXX'
+                    value={bic} onChange={(e)=>setBic(e.target.value)}/>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label className='font-bold text-[17px] text-secondary'>Número de Cuenta</label><br/>
-                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='210535431174'
+                    <label className='font-bold text-[17px] text-secondary'>IBAN (Número de Cuenta Bancaria Internacional) *</label><br/>
+                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='ES9121000418450200051332'
                     value={accountNumber} onChange={(e)=>setAccountNumber(e.target.value)}/>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label className='font-bold text-[17px] text-secondary'>Número de Routing</label><br/>
-                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='204318456'
-                    value={routingNumber} onChange={(e)=>setRoutingNumber(e.target.value)}/>
+                    <label className='font-bold text-[17px] text-secondary'>Tipo de Dueño de Cuenta</label><br/>
+                    <input readOnly={true} className='w-full border-2 border-secondary rounded-sm'
+                    value={accountOwnerType} onChange={(e)=>setAccountOwnerType(e.target.value)}/>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label className='font-bold text-[17px] text-secondary'>Tipo de Cuenta</label><br/>
-                    <select className='w-full border-2 border-secondary rounded-sm'
-                    value={accountType} onChange={(e)=>setAccounttype(e.target.value)}>
-                        <option className='bg-slate-200' value=''>Selecciona una opción</option>
-                        <option className='bg-secondary' value='Checking'>Cuenta de Cheques</option>
-                        <option className='bg-secondary' value='Saving'>Cuenta de Ahorros</option>
-                    </select>
-                </div>
-                <div className='w-[50%] max-sm:w-full'>
-                    <label className='font-bold text-[17px] text-secondary'>Nombre del Dueño de la Cuenta</label><br/>
+                    <label className='font-bold text-[17px] text-secondary'>Nombre del Dueño de la Cuenta *</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Pedro'
                     value={firstName} onChange={(e)=>setFirstName(e.target.value)}/>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
-                    <label className='font-bold text-[17px] text-secondary'>Apellido del Dueño de la Cuenta</label><br/>
+                    <label className='font-bold text-[17px] text-secondary'>Apellido del Dueño de la Cuenta *</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Milei'
                     value={lastName} onChange={(e)=>setLastName(e.target.value)}/>
                 </div>
                 <div className={`${accountOwnerType==='business' ? 'block' : 'hidden'} w-[50%] max-sm:w-full`}>
-                    <label className='font-bold text-[17px] text-secondary'>Nombre de la Empresa Dueña de la Cuenta</label><br/>
+                    <label className='font-bold text-[17px] text-secondary'>Nombre de la Empresa Dueña de la Cuenta *</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Importadora XYZ S.A.'
                     value={businessName} onChange={(e)=>setBusinessName(e.target.value)}/>
                 </div>
@@ -617,7 +608,7 @@ const CuentaExternaSEPA = ()=>{
                     <h3 className='font-bold text-[20px]'>Dirección de la Oficina principal del Banco</h3>
                     <div className='w-full flex flex-row justify-start items-center gap-4 flex-wrap'>
                         <div className='w-[50%] max-sm:w-full'>
-                            <label className='font-bold text-[17px] text-secondary'>Linea de Dirección 1</label><br/>
+                            <label className='font-bold text-[17px] text-secondary'>Linea de Dirección 1 *</label><br/>
                             <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='101 Main St.'
                             value={address.street_line_1} onChange={(e)=>setAddress({...address,street_line_1:e.target.value})}/>
                         </div>
@@ -628,24 +619,25 @@ const CuentaExternaSEPA = ()=>{
                         </div>
                         <div className='w-full flex justify-start items-center max-sm:items-start max-sm:flex-col gap-4'>
                         <div>
-                            <label className='font-bold text-[17px] text-secondary'>Ciudad</label><br/>
-                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='Los Angeles'
+                            <label className='font-bold text-[17px] text-secondary'>Ciudad *</label><br/>
+                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='Madrid'
                             value={address.city} onChange={(e)=>setAddress({...address,city:e.target.value})}/>
                         </div>
                         <div>
-                            <label className='font-bold text-[17px] text-secondary'>Estado</label><br/>
-                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='California'
+                            <label className='font-bold text-[17px] text-secondary'>Estado/Provincia</label><br/>
+                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='Madrid'
                             value={address.state} onChange={(e)=>setAddress({...address,state:e.target.value})}/>
                         </div>
                         <div>
-                            <label className='font-bold text-[17px] text-secondary'>Código Postal</label><br/>
-                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='90001'
+                            <label className='font-bold text-[17px] text-secondary'>Código Postal *</label><br/>
+                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='28001'
                             value={address.postal_code} onChange={(e)=>setAddress({...address,postal_code:e.target.value})}/>
                         </div>
                         <div>
-                            <label className='font-bold text-[17px] text-secondary'>País</label><br/>
-                            <select className='border-2 border-secondary rounded-sm' placeholder='USA'
+                            <label className='font-bold text-[17px] text-secondary'>País *</label><br/>
+                            <select className='border-2 border-secondary rounded-sm'
                             value={address.country} onChange={(e)=>setAddress({...address,country:e.target.value})}>
+                                <option className='bg-slate-200' value=''>Selecciona una opción</option>
                                 {iso_country_codes.map((country, index)=>{
                                     return (
                                         <option key={index} value={country.id}>{country.name}</option>
@@ -656,8 +648,8 @@ const CuentaExternaSEPA = ()=>{
                         </div>
                     </div>
                 </div>
-                <div className='flex justify-end items-center bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold'>
-                    <button className='text-right' onClick={()=>createExternalAcount(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,routingNumber,accountType,accountOwnerName,address)}>Registrar Cuenta Externa</button>
+                <div className='flex justify-end items-center'>
+                    <button className='hidden bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcount(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,routingNumber,accountType,accountOwnerName,address)}>Registrar Cuenta Externa</button>
                 </div>
             </div>
             <ToastContainer position='top-center' />
