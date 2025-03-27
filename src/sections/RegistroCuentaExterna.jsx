@@ -356,7 +356,13 @@ const CuentaExternaSEPA = ()=>{
     });
     const [selectedIsoCountryCode,setSelectedIsoCountryCode] = useState('');
 
-    const createExternalAcount = async (apiKey,customer_id,bank_name, account_number,routing_number,account_type,account_owner_name,address)=>{
+    const handleCountrySelection = (e)=>{
+        const {name} = iso_country_codes.find((item)=>item.id===e.target.value);
+        setSelectedIsoCountryCode(e.target.value);
+        setAddress({...address,country:name});
+    };
+
+    const createExternalAcountSEPA = async (apiKey,customer_id, account_number,account_type,account_owner_type,first_name,last_name,business_name,account_owner_name,address, iso_country_code)=>{
         const notificationId = toast.loading("Por favor espere...",{
             closeOnClick:true
         });
@@ -383,17 +389,18 @@ const CuentaExternaSEPA = ()=>{
                     }));
                     const externalAccountResponse = await axios({
                         method:'post',
-                        url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts`,
+                        url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts/sepa`,
                         //url:`http://localhost:4000/bridge/customers/${customer_id}/external_accounts`,
                         data:{
-                                type: "raw",
-                                bank_name, 
                                 account_number,
-                                routing_number,
-                                account_name: account_type,
+                                account_type,
+                                account_owner_type,
+                                first_name,
+                                last_name,
+                                business_name,
                                 account_owner_name,
-                                active: true,
-                                address
+                                address,
+                                iso_country_code
                             },
                         headers:{
                             "Content-Type":"application/json",
@@ -453,16 +460,17 @@ const CuentaExternaSEPA = ()=>{
                     }));
                     const externalAccountResponse = await axios({
                         method:'post',
-                        url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts`,
+                        url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts/sepa`,
                         data:{
-                                type: "raw",
-                                bank_name, 
                                 account_number,
-                                routing_number,
-                                account_name: account_type,
+                                account_type,
+                                account_owner_type,
+                                first_name,
+                                last_name,
+                                business_name,
                                 account_owner_name,
-                                active: true,
-                                address
+                                address,
+                                iso_country_code
                             },
                         headers:{
                             "Content-Type":"application/json",
@@ -511,16 +519,17 @@ const CuentaExternaSEPA = ()=>{
                 }));
                 const externalAccountResponse = await axios({
                     method:'post',
-                    url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts`,
+                    url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts/sepa`,
                     data:{
-                        type: "raw",
-                        bank_name, 
-                        account_number,
-                        routing_number,
-                        account_name: account_type,
-                        account_owner_name,
-                        active: true,
-                        address
+                            account_number,
+                            account_type,
+                            account_owner_type,
+                            first_name,
+                            last_name,
+                            business_name,
+                            account_owner_name,
+                            address,
+                            iso_country_code
                     },
                     headers:{
                         "Content-Type":"application/json",
@@ -636,7 +645,7 @@ const CuentaExternaSEPA = ()=>{
                         <div>
                             <label className='font-bold text-[17px] text-secondary'>País *</label><br/>
                             <select className='border-2 border-secondary rounded-sm'
-                            value={address.country} onChange={(e)=>setAddress({...address,country:e.target.value})}>
+                            value={address.country} onChange={(e)=>handleCountrySelection(e)}>
                                 <option className='bg-slate-200' value=''>Selecciona una opción</option>
                                 {iso_country_codes.map((country, index)=>{
                                     return (
@@ -649,7 +658,7 @@ const CuentaExternaSEPA = ()=>{
                     </div>
                 </div>
                 <div className='flex justify-end items-center'>
-                    <button className='hidden bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcount(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,routingNumber,accountType,accountOwnerName,address)}>Registrar Cuenta Externa</button>
+                    <button className='hidden bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcountSEPA(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,accountNumber,accountType,accountOwnerType,firstName,lastName,businessName,accountOwnerName,address,selectedIsoCountryCode)}>Registrar Cuenta Externa</button>
                 </div>
             </div>
             <ToastContainer position='top-center' />
