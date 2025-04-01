@@ -339,7 +339,7 @@ const Profile = ()=>{
                                     <p><strong>Status: </strong><span className={`${sepaEndorsement.status ==='incomplete' ? 'bg-tertiary': 'bg-green-300'} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4`}>{sepaEndorsement.status}</span></p>
                                     <button className='bg-secondary border-2 border-secondary
                                         text-primary font-garet font-bold rounded-md py-2 px-4 my-2'
-                                        onClick={startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type,['sepa'])}>Generar SEPA KYC link</button>
+                                        onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type,['sepa'])}>Generar SEPA KYC link</button>
                                     <span className='font-bold'>Ir a <a href={sepaLink || sepaLink !=='' ? sepaLink : ''} target='_blank' className={`${!sepaLink || sepaLink==='' ? 'hidden' : 'block'} font-bold text-primary bg-white border-2 border-primary px-4 py-2 rounded-md`}>SEPA KYC</a></span>               
                                 </div>
                             </div>
