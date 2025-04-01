@@ -26,7 +26,7 @@ const Profile = ()=>{
     const [sepaLink, setSepaLink] = useState('');
 
 
-    const startKYC = async (apiKey,fullName,email,type)=>{
+    const startKYC = async (apiKey,fullName,email,type,endorsements)=>{
         try{
             const notificationId = toast.loading("Por favor espere...",{
                 closeOnClick:true
@@ -39,7 +39,8 @@ const Profile = ()=>{
                 data:{
                     fullName,
                     email,
-                    type
+                    type,
+                    endorsements
                 },
                 headers:{
                     "Content-Type":"application/json",
@@ -297,7 +298,7 @@ const Profile = ()=>{
                     {(!kycStatus || kycStatus==='not started') ? (
                     <button className='bg-tertiary border-2 border-tertiary
                     text-primary font-garet font-bold rounded-md py-2 px-4'
-                    onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type)}
+                    onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type,[])}
                     >Comenzar proceso KYC</button>
                     ) : (
                         <div>
@@ -315,7 +316,7 @@ const Profile = ()=>{
                     {(tosStatus ==='' || tosStatus==='not started') ? (
                     <button className='bg-tertiary border-2 border-tertiary
                     text-primary font-garet font-bold rounded-md py-2 px-4'
-                    onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type)}
+                    onClick={()=>startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type,[])}
                     >Aceptar TOS</button>
                     ) : (
                         <div>
@@ -338,7 +339,7 @@ const Profile = ()=>{
                                     <p><strong>Status: </strong><span className={`${sepaEndorsement.status ==='incomplete' ? 'bg-tertiary': 'bg-green-300'} border-2 border-tertiary text-primary font-garet font-bold rounded-md py-2 px-4`}>{sepaEndorsement.status}</span></p>
                                     <button className='bg-secondary border-2 border-secondary
                                         text-primary font-garet font-bold rounded-md py-2 px-4 my-2'
-                                        onClick={startKYCSepa}>Generar SEPA KYC link</button>
+                                        onClick={startKYC(import.meta.env.VITE_BRIDGE_API_KEY,fullName,email,type,['sepa'])}>Generar SEPA KYC link</button>
                                     <span className='font-bold'>Ir a <a href={sepaLink || sepaLink !=='' ? sepaLink : ''} target='_blank' className={`${!sepaLink || sepaLink==='' ? 'hidden' : 'block'} font-bold text-primary bg-white border-2 border-primary px-4 py-2 rounded-md`}>SEPA KYC</a></span>               
                                 </div>
                             </div>
