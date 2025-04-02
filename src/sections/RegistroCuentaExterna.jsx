@@ -13,13 +13,14 @@ import { iso_country_codes } from '../utils/staticData';
 
 const RegistroCuentaExterna = ()=>{
 
+    const[{user,jwtoken}, dispatch] = useStateValue();
     const [accountType,setAccountType] = useState('');
 
     return (
         <div className='px-2'>
             <div className='flex flex-row justify-center items-center gap-[50px]'>
                 <button className={`${accountType==='usa' ? 'bg-secondary border-secondary' : 'bg-white border-primary'} border-2 rounded-sm shadow-md px-4 py-2 text-[20px]`} onClick={()=>setAccountType('usa')}>USA</button>
-                <button className={`${accountType==='sepa' ? 'bg-secondary border-secondary' : 'bg-white border-primary'} border-2 rounded-sm shadow-md px-4 py-2 text-[20px]`} onClick={()=>setAccountType('sepa')}>Europa</button>
+                {user.sepa_kyc_status==='approved' ? <button className={`${accountType==='sepa' ? 'bg-secondary border-secondary' : 'bg-white border-primary'} border-2 rounded-sm shadow-md px-4 py-2 text-[20px]`} onClick={()=>setAccountType('sepa')}>Europa</button> : <></>}
             </div>
             {accountType==='usa' ? (
                 <CuentaExternaUSA />
@@ -658,7 +659,7 @@ const CuentaExternaSEPA = ()=>{
                     </div>
                 </div>
                 <div className='flex justify-end items-center'>
-                    <button className='hidden bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcountSEPA(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,accountNumber,accountType,accountOwnerType,firstName,lastName,businessName,accountOwnerName,address,selectedIsoCountryCode)}>Registrar Cuenta Externa</button>
+                    <button className='bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcountSEPA(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,accountNumber,accountType,accountOwnerType,firstName,lastName,businessName,accountOwnerName,address,selectedIsoCountryCode)}>Registrar Cuenta Externa</button>
                 </div>
             </div>
             <ToastContainer position='top-center' />
