@@ -15,6 +15,7 @@ const RegistroDestinatarios = ()=>{
     const [dropdownShowing,setDropdownShowing] = useState(false);
     const [searchString,setSearchString] = useState('');
     const [searchItems, setSearchItems] = useState([]);
+    const [selectedItem,setSelectedItem] = useState({});
     const [destinyAlias,setDestinyAlias] = useState('');
     const [lastResponseStatus,setLastResponseStatus] = useState();
 
@@ -37,6 +38,7 @@ const RegistroDestinatarios = ()=>{
             if(data.length===0){
                 setSearchItems([msg]);
             } else{
+                console.log('SEARCH ITEMS: ', data);
                 setSearchItems(data);
             }
         } else{
@@ -62,28 +64,32 @@ const RegistroDestinatarios = ()=>{
         try{
             const notificationId = toast.loading("Por favor espere...",{
                 closeOnClick:true
-            });            
-            const response = await axios({
-                method:'post',
-                url:'https://criptopass.com/bridge/customers/destinatarios',
-                data:{
-                    destiny_external_account_id:searchItems[0].external_account_id,
-                    destiny_customer_id:searchItems[0].id,
-                    destiny_customer_alias: destinyAlias,
-                    origin_customer_id: user.customer_id
-                },
-                headers:{
-                    "Content-Type":"application/json",
-                    "Authorization":`Bearer ${jwtoken}`
+            });     
+            if(destinyAlias !==''){       
+                const response = await axios({
+                    method:'post',
+                    url:'https://criptopass.com/bridge/customers/destinatarios',
+                    data:{
+                        destiny_external_account_id:searchItems[0].external_account_id,
+                        destiny_customer_id:searchItems[0].id,
+                        destiny_customer_alias: destinyAlias,
+                        origin_customer_id: user.customer_id
+                    },
+                    headers:{
+                        "Content-Type":"application/json",
+                        "Authorization":`Bearer ${jwtoken}`
+                    }
+                });
+                //setLastResponseStatus(response.status);
+                const {msg} = response.data;
+                if(response.status===201){
+                    toast.update(notificationId,{render:msg,type:'success',isLoading:false});
                 }
-            });
-            //setLastResponseStatus(response.status);
-            const {msg} = response.data;
-            if(response.status===201){
-                toast.update(notificationId,{render:msg,type:'success',isLoading:false});
-            }
-            else{
-                toast.update(notificationId,{render:msg,type:'error',isLoading:false});
+                else{
+                    toast.update(notificationId,{render:msg,type:'error',isLoading:false});
+                }
+            } else {
+                toast.update(notificationId,{render:'Es necesario asignar un Alias al destinatario antes de agregarlo!',type:'error',isLoading:false});
             }
     } catch(e){
             console.log(e);
@@ -139,19 +145,26 @@ const RegistroDestinatarios = ()=>{
                     <input type='text' placeholder='Escribe la dirección de email' value={searchString} onChange={(e)=>handleSearch(e.target.value)}
                     className={`border-secondary border-2 rounded-sm w-full`}
                     />
-                    <select>
+                    {searchItems.length > 1 ? 
+                    <select className={`${selectedItem.account_number ? 'bg-green-400' : ''}`} value={selectedItem} onChange={(e)=>setSelectedItem(JSON.parse(e.target.value))}>
                         {searchItems.map((item, index)=>{
                             return (
-                                <option key={index} className={`${!dropdownShowing ? 'hidden' : 'block'} font-garet`}>{(!item.first_name && !item.last_name) ? item : item.first_name + ' '+ item.last_name}</option>
+                                <option key={index} value={JSON.stringify(item)}
+                                className={`${!dropdownShowing ? 'hidden' : 'block'} font-garet`}
+                                
+                                >
+                                    {(!item.first_name && !item.last_name) ? item : item.first_name + ' '+ item.last_name + ' - '+item.bank_name}
+                                </option>
                             )
                         })}
-                    </select>
-
+                    </select> :
+                    <button readOnly={true} className={`text-left w-full ${selectedItem.account_number ? 'bg-green-400' : ''}`} value={searchItems[0]} onClick={()=>setSelectedItem(searchItems[0])}>{searchItems.length>0 ? searchItems[0].first_name+' '+searchItems[0].last_name + ' - '+ searchItems[0].bank_name : ''}</button>
+                    }
                 </div>
                 <div>
                     <label className='text-[20px] text-primary font-openSauce font-bold'>Asignar un alias/nickname al destinatario</label><br/>
                     <input className='border-secondary border-2 rounded-sm'
-                    type='text' placeholder='Mi propia cuenta/Cuenta de mi BFF/Cuenta del proveedor 1' value={destinyAlias} onChange={(e)=>setDestinyAlias(e.target.value)} />
+                    type='text' placeholder='Mi propia cuenta/Cuenta de mi BFF/Cuenta del proveedor 1' value={destinyAlias} onChange={(e)=>setDestinyAlias(e.target.value)} required={true} />
                 </div>
             </div>
             <button
