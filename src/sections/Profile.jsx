@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
@@ -25,13 +26,91 @@ const Profile = ()=>{
     const [sepaEndorsement, setSepaEndorsement] = useState({});
     const [sepaLink, setSepaLink] = useState('');
     const [sepaKYCStatus,setSepaKYCStatus] = useState('');
+    const navigate = useNavigate();
+
+
+    const getKYCLink = async ()=>{
+        const notificationId = toast.loading("Por favor espere...",{
+            closeOnClick:true
+        });
+        try{
+        const kyc_link_record = await axios({
+            method:'get',
+            url:`https://criptopass.com/bridge/customers/kyc_links?email=${email}`,
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${jwtoken}`
+            }
+        });
+        setLastResponseStatus(kyc_link_record.status);
+        if(kyc_link_record.status===200){
+            const {msg,data} = kyc_link_record.data;
+            toast.update(notificationId,{render:msg,type:'success',isLoading:false});
+            setKycStatus(data.kyc_status);
+            setTosStatus(data.tos_status);
+            setkycLink(data.kyc_link);
+            setTosLink(data.tos_link);
+            if(!user.kyc_link_id || user.kyc_link_id ===''){
+                /*user.kyc_link_id=data.id;
+                user.kyc_link=data.kyc_link;
+                user.kyc_status=data.kyc_status;*/
+                dispatch({
+                    type: actionTypes.SET_USER,
+                    user: {
+                        ...user,
+                        kyc_link_id: data.id,
+                        kyc_link: data.kyc_link,
+                        kyc_status: data.kyc_status,
+                        tos_link:data.tos_link,
+                        tos_status:data.tos_status
+                        }
+                });
+                localStorage.setItem('user',JSON.stringify({
+                    ...user,
+                    kyc_link_id: data.id,
+                    kyc_link: data.kyc_link,
+                    kyc_status: data.kyc_status,
+                    tos_link:data.tos_link,
+                    tos_status:data.tos_status
+                    }));
+                //localStorage.setItem('user',JSON.stringify(user));
+                console.log('Inside IF',user);
+            } else{
+                toast.update(notificationId,{render:msg,type:'success',isLoading:false});
+                setKycStatus(user.kyc_status ? user.kyc_status : data.kyc_status);
+                setTosStatus(user.tos_status ? user.tos_status : data.tos_status);
+                setkycLink(data.kyc_link);
+                setTosLink(data.tos_link);
+                //localStorage.setItem('user',JSON.stringify(user));
+                console.log('Outside IF',user);
+            }
+            //toast.update(notificationId,{render:msg,type:'success',isLoading:false});
+        }
+        else if(kyc_link_record.status===204){
+            //const noKYCLinkMsg = kyc_link_record.data.msg;
+            toast.update(notificationId,{render: 'No KYC link found in db. You can start the process.',type:'success',isLoading:false});
+            //setKycStatus(user.kyc_status);
+            //setKycStatus(kyc_link_record.data.data);
+        }
+         else{
+            console.log(kyc_link_record);
+            toast.update(notificationId,{render:`Error ${kyc_link_record.status}`,type:'error',isLoading:false});
+        }
+    } catch(e){
+        console.log(e);
+        toast.update(notificationId,{render:e.response?.data?.msg || 'Error en la solicitud.',
+            type:'error',
+            isLoading: false
+        });
+    }
+};
 
 
     const startKYC = async (apiKey,fullName,email,type,endorsements)=>{
+        const notificationId = toast.loading("Por favor espere...",{
+            closeOnClick:true
+        });
         try{
-            const notificationId = toast.loading("Por favor espere...",{
-                closeOnClick:true
-            });
             const idempotencyKey = uuidv4();
             const response = await axios({
                 method:'post',
@@ -51,7 +130,7 @@ const Profile = ()=>{
                 }
             });
             setLastResponseStatus(response.status);
-            if(response.status===200){
+            if(response.status===200 || response.status===201){
                 const {status,msg,data} = response.data;
                 toast.update(notificationId,{render:msg,type:'success',isLoading:false});
                 dispatch({
@@ -69,15 +148,18 @@ const Profile = ()=>{
                     kyc_link: data.kyc_link,
                     kyc_status: data.kyc_status
                     }));
+                //getKYCLink();
+                navigate('/home');
+                
             } else{
                 toast.update(notificationId,{render:msg,type:'error',isLoading:false});
             }
         }
         catch(e){
             console.log(e);
-            toast(e.response.data.msg,{
+            toast.update(notificationId,{render:e.response?.data?.msg,
                 type:'error',
-                position:'top-center'
+                isLoading:false
             });
         }
 
