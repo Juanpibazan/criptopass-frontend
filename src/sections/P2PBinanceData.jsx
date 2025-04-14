@@ -89,7 +89,7 @@ const P2PBinanceData = ()=>{
             <div className={`${lastResponseStatus===401 ? 'hidden' : 'block'}`}>
                 <div className='flex flex-col justify-start items-start gap-4 my-4'>
                     <h2 className='text-[35px] text-primary font-bold'>Ofertas de USDT en tiempo real en Binance P2P</h2>
-                    <button onClick={getData} className='bg-secondary border-2 border-secondary rounded-md text-white py-2 px-4 '>GET Binance P2P Offers</button>
+                    <button onClick={getData} className='bg-secondary border-2 border-secondary rounded-md text-white py-2 px-4 '>Obtener Ofertas de Binance P2P</button>
                     {binanceData.length > 0 && binanceData.map((item,index)=>{
                         return (
                             <div key={index} className='py-8 px-12 max-md:py-4 max-md:px-6 bg-tertiary border-primary border-2 rounded-[16px] w-[80%] max-md:w-full shadow-md'>
@@ -105,7 +105,7 @@ const P2PBinanceData = ()=>{
                                 <ul className='list-disc px-8'>
                                     <li className='text-primary'>Monto mínimo de transacción (BOB): <strong>{numeral(item.adv.minSingleTransAmount).format('0,0.00')}</strong></li>
                                     <li className='text-primary'>Monto máximo de transacción (BOB): <strong>{numeral(item.adv.maxSingleTransAmount).format('0,0.00')}</strong></li>
-                                    <li className='text-primary'>Monto disponible (BOB): <strong>{numeral(item.adv.tradableQuantity).format('0,0.00')}</strong></li>
+                                    <li className='text-primary'>Monto disponible (USDT): <strong>{numeral(item.adv.tradableQuantity).format('0,0.00')}</strong></li>
                                 </ul>
                                 </div>
                             </div>
