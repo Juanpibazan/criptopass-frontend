@@ -1,0 +1,1217 @@
+[
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.56",
+            "surplusAmount": "5399.19",
+            "tradableQuantity": "5391.64",
+            "maxSingleTransAmount": "138000",
+            "minSingleTransAmount": "1000",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeBolivia",
+                    "identifier": "BancoDeBolivia",
+                    "tradeMethodName": "Banco Nacional de Bolivia",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#26B460"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoUnion",
+                    "identifier": "BancoUnion",
+                    "tradeMethodName": "Banco Union",
+                    "tradeMethodShortName": "Banco Union",
+                    "tradeMethodBgColor": "#00AEEF"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "73110",
+            "minSingleTransQuantity": "73.74",
+            "maxSingleTransQuantity": "10176.99",
+            "dynamicMaxSingleTransQuantity": "5391.64",
+            "commissionRate": "0.00140000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Mardecriptos",
+            "monthOrderCount": 3098,
+            "monthFinishRate": 0.995,
+            "positiveRate": 0.99030694,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 2,
+            "isBlocked": false,
+            "activeTimeInSecond": 143
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.58",
+            "surplusAmount": "80000.00",
+            "tradableQuantity": "79888.15",
+            "maxSingleTransAmount": "135000",
+            "minSingleTransAmount": "10000",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoUnion",
+                    "identifier": "BancoUnion",
+                    "tradeMethodName": "Banco Union",
+                    "tradeMethodShortName": "Banco Union",
+                    "tradeMethodBgColor": "#00AEEF"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "135000",
+            "minSingleTransQuantity": "736.37",
+            "maxSingleTransQuantity": "9941.08",
+            "dynamicMaxSingleTransQuantity": "9941.08",
+            "commissionRate": "0.00140000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Cambiostjabol",
+            "monthOrderCount": 95,
+            "monthFinishRate": 0.99,
+            "positiveRate": 0.98666666,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 2,
+            "isBlocked": false,
+            "activeTimeInSecond": 15016
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.59",
+            "surplusAmount": "9551.50",
+            "tradableQuantity": "8513.71",
+            "maxSingleTransAmount": "138000",
+            "minSingleTransAmount": "5000",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeBolivia",
+                    "identifier": "BancoDeBolivia",
+                    "tradeMethodName": "Banco Nacional de Bolivia",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#26B460"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "115701",
+            "minSingleTransQuantity": "367.91",
+            "maxSingleTransQuantity": "10154.52",
+            "dynamicMaxSingleTransQuantity": "8513.71",
+            "commissionRate": "0.00140000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "_CryptoCambista_",
+            "monthOrderCount": 1776,
+            "monthFinishRate": 0.997,
+            "positiveRate": 0.9976415,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 2,
+            "isBlocked": false,
+            "activeTimeInSecond": 17876
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.60",
+            "surplusAmount": "639.04",
+            "tradableQuantity": "638.01",
+            "maxSingleTransAmount": "7000",
+            "minSingleTransAmount": "1000",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoUnion",
+                    "identifier": "BancoUnion",
+                    "tradeMethodName": "Banco Union",
+                    "tradeMethodShortName": "Banco Union",
+                    "tradeMethodBgColor": "#00AEEF"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSolidario",
+                    "identifier": "BancoSolidario",
+                    "tradeMethodName": "Banco Solidario",
+                    "tradeMethodShortName": "Banco Solidario",
+                    "tradeMethodBgColor": "#00BDD2"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeCredito",
+                    "identifier": "BancoDeCredito",
+                    "tradeMethodName": "Banco de Credito",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#FF7B00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "7000",
+            "minSingleTransQuantity": "73.52",
+            "maxSingleTransQuantity": "514.70",
+            "dynamicMaxSingleTransQuantity": "514.70",
+            "commissionRate": "0.00160000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Multirecargas_Online",
+            "monthOrderCount": 20,
+            "monthFinishRate": 0.834,
+            "positiveRate": 0.98224852,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 1,
+            "isBlocked": false,
+            "activeTimeInSecond": 25394
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.62",
+            "surplusAmount": "8525.63",
+            "tradableQuantity": "8513.71",
+            "maxSingleTransAmount": "138000",
+            "minSingleTransAmount": "5000",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeBolivia",
+                    "identifier": "BancoDeBolivia",
+                    "tradeMethodName": "Banco Nacional de Bolivia",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#26B460"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "115956",
+            "minSingleTransQuantity": "367.10",
+            "maxSingleTransQuantity": "10132.15",
+            "dynamicMaxSingleTransQuantity": "8513.71",
+            "commissionRate": "0.00140000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "_CryptoCambista_",
+            "monthOrderCount": 1776,
+            "monthFinishRate": 0.997,
+            "positiveRate": 0.9976415,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 2,
+            "isBlocked": false,
+            "activeTimeInSecond": 17876
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.63",
+            "surplusAmount": "5399.19",
+            "tradableQuantity": "5391.64",
+            "maxSingleTransAmount": "130000",
+            "minSingleTransAmount": "300",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeBolivia",
+                    "identifier": "BancoDeBolivia",
+                    "tradeMethodName": "Banco Nacional de Bolivia",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#26B460"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoUnion",
+                    "identifier": "BancoUnion",
+                    "tradeMethodName": "Banco Union",
+                    "tradeMethodShortName": "Banco Union",
+                    "tradeMethodBgColor": "#00AEEF"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "73488",
+            "minSingleTransQuantity": "22.01",
+            "maxSingleTransQuantity": "9537.78",
+            "dynamicMaxSingleTransQuantity": "5391.64",
+            "commissionRate": "0.00140000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Mardecriptos",
+            "monthOrderCount": 3098,
+            "monthFinishRate": 0.995,
+            "positiveRate": 0.99030694,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 2,
+            "isBlocked": false,
+            "activeTimeInSecond": 143
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.69",
+            "surplusAmount": "500.00",
+            "tradableQuantity": "499.20",
+            "maxSingleTransAmount": "6000",
+            "minSingleTransAmount": "50",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeCredito",
+                    "identifier": "BancoDeCredito",
+                    "tradeMethodName": "Banco de Credito",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#FF7B00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "6000",
+            "minSingleTransQuantity": "3.65",
+            "maxSingleTransQuantity": "438.27",
+            "dynamicMaxSingleTransQuantity": "438.27",
+            "commissionRate": "0.00160000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Bit-Bro",
+            "monthOrderCount": 508,
+            "monthFinishRate": 0.977,
+            "positiveRate": 0.9934924,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 1,
+            "isBlocked": false,
+            "activeTimeInSecond": 379
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.70",
+            "surplusAmount": "56.17",
+            "tradableQuantity": "56.08",
+            "maxSingleTransAmount": "5000",
+            "minSingleTransAmount": "100",
+            "payTimeLimit": 45,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                }
+            ],
+            "takerAdditionalKycRequired": 1,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "768",
+            "minSingleTransQuantity": "7.29",
+            "maxSingleTransQuantity": "364.96",
+            "dynamicMaxSingleTransQuantity": "56.08",
+            "commissionRate": "0.00160000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "CGA-CriptoCambios",
+            "monthOrderCount": 164,
+            "monthFinishRate": 0.892,
+            "positiveRate": 0.99391891,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 1,
+            "isBlocked": false,
+            "activeTimeInSecond": 18525
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.70",
+            "surplusAmount": "305.53",
+            "tradableQuantity": "305.04",
+            "maxSingleTransAmount": "30000",
+            "minSingleTransAmount": "1000",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeCredito",
+                    "identifier": "BancoDeCredito",
+                    "tradeMethodName": "Banco de Credito",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#FF7B00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "4179",
+            "minSingleTransQuantity": "72.99",
+            "maxSingleTransQuantity": "2189.78",
+            "dynamicMaxSingleTransQuantity": "305.04",
+            "commissionRate": "0.00160000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Wandris_Crypto",
+            "monthOrderCount": 1578,
+            "monthFinishRate": 0.903,
+            "positiveRate": 0.97447447,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 1,
+            "isBlocked": false,
+            "activeTimeInSecond": 7875
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.75",
+            "surplusAmount": "305.53",
+            "tradableQuantity": "305.04",
+            "maxSingleTransAmount": "30000",
+            "minSingleTransAmount": "500",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeCredito",
+                    "identifier": "BancoDeCredito",
+                    "tradeMethodName": "Banco de Credito",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#FF7B00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSolidario",
+                    "identifier": "BancoSolidario",
+                    "tradeMethodName": "Banco Solidario",
+                    "tradeMethodShortName": "Banco Solidario",
+                    "tradeMethodBgColor": "#00BDD2"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "4194",
+            "minSingleTransQuantity": "36.36",
+            "maxSingleTransQuantity": "2181.81",
+            "dynamicMaxSingleTransQuantity": "305.04",
+            "commissionRate": "0.00160000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Wandris_Crypto",
+            "monthOrderCount": 1578,
+            "monthFinishRate": 0.903,
+            "positiveRate": 0.97447447,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 1,
+            "isBlocked": false,
+            "activeTimeInSecond": 7875
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.77",
+            "surplusAmount": "4206.73",
+            "tradableQuantity": "4200.84",
+            "maxSingleTransAmount": "130000",
+            "minSingleTransAmount": "200",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeBolivia",
+                    "identifier": "BancoDeBolivia",
+                    "tradeMethodName": "Banco Nacional de Bolivia",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#26B460"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoUnion",
+                    "identifier": "BancoUnion",
+                    "tradeMethodName": "Banco Union",
+                    "tradeMethodShortName": "Banco Union",
+                    "tradeMethodBgColor": "#00AEEF"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "57845",
+            "minSingleTransQuantity": "14.52",
+            "maxSingleTransQuantity": "9440.81",
+            "dynamicMaxSingleTransQuantity": "4200.84",
+            "commissionRate": "0.00140000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Mardecriptos",
+            "monthOrderCount": 3098,
+            "monthFinishRate": 0.995,
+            "positiveRate": 0.99030694,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 2,
+            "isBlocked": false,
+            "activeTimeInSecond": 143
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.78",
+            "surplusAmount": "2313.69",
+            "tradableQuantity": "2310.45",
+            "maxSingleTransAmount": "110000",
+            "minSingleTransAmount": "2000",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeCredito",
+                    "identifier": "BancoDeCredito",
+                    "tradeMethodName": "Banco de Credito",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#FF7B00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoUnion",
+                    "identifier": "BancoUnion",
+                    "tradeMethodName": "Banco Union",
+                    "tradeMethodShortName": "Banco Union",
+                    "tradeMethodBgColor": "#00AEEF"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BANK",
+                    "identifier": "BANK",
+                    "tradeMethodName": "Bank Transfer",
+                    "tradeMethodShortName": "Bank Transfer",
+                    "tradeMethodBgColor": "#F0B90B"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "31838",
+            "minSingleTransQuantity": "145.13",
+            "maxSingleTransQuantity": "7982.58",
+            "dynamicMaxSingleTransQuantity": "2310.45",
+            "commissionRate": "0.00140000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Fastptwop",
+            "monthOrderCount": 1427,
+            "monthFinishRate": 0.994,
+            "positiveRate": 0.99943181,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 2,
+            "isBlocked": false,
+            "activeTimeInSecond": 19880
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.78",
+            "surplusAmount": "301.63",
+            "tradableQuantity": "301.14",
+            "maxSingleTransAmount": "7000",
+            "minSingleTransAmount": "100",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeCredito",
+                    "identifier": "BancoDeCredito",
+                    "tradeMethodName": "Banco de Credito",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#FF7B00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeBolivia",
+                    "identifier": "BancoDeBolivia",
+                    "tradeMethodName": "Banco Nacional de Bolivia",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#26B460"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "4149",
+            "minSingleTransQuantity": "7.25",
+            "maxSingleTransQuantity": "507.98",
+            "dynamicMaxSingleTransQuantity": "301.14",
+            "commissionRate": "0.00160000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "Bit-Bro",
+            "monthOrderCount": 508,
+            "monthFinishRate": 0.977,
+            "positiveRate": 0.9934924,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 1,
+            "isBlocked": false,
+            "activeTimeInSecond": 379
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.80",
+            "surplusAmount": "9922.06",
+            "tradableQuantity": "8513.71",
+            "maxSingleTransAmount": "138000",
+            "minSingleTransAmount": "5000",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeBolivia",
+                    "identifier": "BancoDeBolivia",
+                    "tradeMethodName": "Banco Nacional de Bolivia",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#26B460"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoEconomico",
+                    "identifier": "BancoEconomico",
+                    "tradeMethodName": "Banco Economico",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#E7142A"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoGanadero",
+                    "identifier": "BancoGanadero",
+                    "tradeMethodName": "Banco Ganadero",
+                    "tradeMethodShortName": "Banco Ganadero",
+                    "tradeMethodBgColor": "#80BF00"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "117489",
+            "minSingleTransQuantity": "362.31",
+            "maxSingleTransQuantity": "10000.00",
+            "dynamicMaxSingleTransQuantity": "8513.71",
+            "commissionRate": "0.00140000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "_CryptoCambista_",
+            "monthOrderCount": 1776,
+            "monthFinishRate": 0.997,
+            "positiveRate": 0.9976415,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 2,
+            "isBlocked": false,
+            "activeTimeInSecond": 17876
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    },
+    {
+        "adv": {
+            "classify": "profession",
+            "tradeType": "SELL",
+            "asset": "USDT",
+            "fiatUnit": "BOB",
+            "price": "13.83",
+            "surplusAmount": "6788.46",
+            "tradableQuantity": "6777.61",
+            "maxSingleTransAmount": "138390",
+            "minSingleTransAmount": "200",
+            "payTimeLimit": 15,
+            "tradeMethods": [
+                {
+                    "payMethodId": "",
+                    "payType": "BancoSantaCruz",
+                    "identifier": "BancoSantaCruz",
+                    "tradeMethodName": "Banco Mercantil Santa Cruz",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#004A2C"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeCredito",
+                    "identifier": "BancoDeCredito",
+                    "tradeMethodName": "Banco de Credito",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#FF7B00"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoDeBolivia",
+                    "identifier": "BancoDeBolivia",
+                    "tradeMethodName": "Banco Nacional de Bolivia",
+                    "tradeMethodShortName": null,
+                    "tradeMethodBgColor": "#26B460"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BancoUnion",
+                    "identifier": "BancoUnion",
+                    "tradeMethodName": "Banco Union",
+                    "tradeMethodShortName": "Banco Union",
+                    "tradeMethodBgColor": "#00AEEF"
+                },
+                {
+                    "payMethodId": "",
+                    "payType": "BANK",
+                    "identifier": "BANK",
+                    "tradeMethodName": "Bank Transfer",
+                    "tradeMethodShortName": "Bank Transfer",
+                    "tradeMethodBgColor": "#F0B90B"
+                }
+            ],
+            "takerAdditionalKycRequired": 0,
+            "assetScale": 2,
+            "fiatScale": 2,
+            "priceScale": 2,
+            "fiatSymbol": "Bs.",
+            "isTradable": true,
+            "dynamicMaxSingleTransAmount": "93734",
+            "minSingleTransQuantity": "14.46",
+            "maxSingleTransQuantity": "10006.50",
+            "dynamicMaxSingleTransQuantity": "6777.61",
+            "commissionRate": "0.00160000",
+            "isSafePayment": false,
+            "nonTradableRegions": null,
+            "invisibleType": null,
+            "invisibleTitle": null,
+            "invisibleReason": null
+        },
+        "advertiser": {
+            "nickName": "BRENDITA_CRIPTO",
+            "monthOrderCount": 355,
+            "monthFinishRate": 0.846,
+            "positiveRate": 0.98807749,
+            "userType": "merchant",
+            "userGrade": 3,
+            "userIdentity": "MASS_MERCHANT",
+            "badges": [
+                "Ordinary"
+            ],
+            "vipLevel": 1,
+            "isBlocked": false,
+            "activeTimeInSecond": 2
+        },
+        "privilegeDesc": null,
+        "privilegeType": null
+    }
+]

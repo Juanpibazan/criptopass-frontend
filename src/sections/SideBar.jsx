@@ -83,7 +83,7 @@ const SideBar = ()=>{
                 <FaHome />
                 Home
             </Link>
-            <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
+            {/*<Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <FaBell />
                 Notificaciones
@@ -92,11 +92,12 @@ const SideBar = ()=>{
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <FaWallet />
                 Billeteras Virtuales
-            </Link>
+            </Link>*/}
             <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
+            to='/p2p-binance'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <SiTether />
-                Compra USDT
+                Compra USDT <span className='text-[#f3ba2f] text-[15px]'>(Ofertas de Binance)</span>
             </Link>
             <Link to='/transfers' className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)} ref={transferRef}
@@ -104,11 +105,11 @@ const SideBar = ()=>{
                 <BiTransfer />
                 Transferencias
             </Link>
-            <Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
+            {/*<Link className='flex justify-start items-center gap-2 py-4 text-primary font-bold text-[20px]'
             onClick={(e)=>handleClick(e.target.innerHTML)}>
                 <TbCheckupList />
                 Aprende Cripto
-            </Link>
+            </Link>*/}
         </div>
         ) : (
         <div className={`${(isMobile && isMenuShowing) ? 'block max-md:bg-secondary max-md:border-secondary max-md:border-2 max-md:shadow-md max-md:rounded-md font-openSauce max-md:w-[80%] max-md:absolute max-md:min-h-screen max-md:z-50' : (isMobile && !isMenuShowing) ? 'hidden' : 'max-md:bg-secondary max-md:border-secondary max-md:border-2 max-md:shadow-md max-md:rounded-md max-md:absolute font-openSauce max-md:w-[80%]'}`}>
