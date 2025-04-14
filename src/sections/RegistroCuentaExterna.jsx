@@ -19,19 +19,19 @@ const RegistroCuentaExterna = ()=>{
     return (
         <div className='px-2'>
             <div className='flex flex-row justify-center items-center gap-[50px]'>
-                <button className={`${accountType==='usa' ? 'bg-secondary border-secondary' : 'bg-white border-primary'} border-2 rounded-sm shadow-md px-4 py-2 text-[20px]`} onClick={()=>setAccountType('usa')}>USA</button>
+                <button className={`${accountType==='us' ? 'bg-secondary border-secondary' : 'bg-white border-primary'} border-2 rounded-sm shadow-md px-4 py-2 text-[20px]`} onClick={()=>setAccountType('us')}>USA</button>
                 {user.sepa_kyc_status==='approved' ? <button className={`${accountType==='sepa' ? 'bg-secondary border-secondary' : 'bg-white border-primary'} border-2 rounded-sm shadow-md px-4 py-2 text-[20px]`} onClick={()=>setAccountType('sepa')}>Europa</button> : <></>}
             </div>
-            {accountType==='usa' ? (
-                <CuentaExternaUSA />
+            {accountType==='us' ? (
+                <CuentaExternaUSA accountType={accountType} />
             ) : accountType==='sepa' ? (
-                <CuentaExternaSEPA />
+                <CuentaExternaSEPA accountType={accountType} />
             ) : <div><h3 className='px-2 py-4 font-bold font-garet'>Por favor elige una opción.</h3></div>}
         </div>
     )
 };
 
-const CuentaExternaUSA = ()=>{
+const CuentaExternaUSA = (props)=>{
     
     const [{activeTitle,user,jwtoken},dispatch] = useStateValue();
     const [bankName,setBankName] = useState('');
@@ -48,7 +48,7 @@ const CuentaExternaUSA = ()=>{
         country:'USA'
     });
 
-    const createExternalAcount = async (apiKey,customer_id,bank_name, account_number,routing_number,account_type,account_owner_name,address)=>{
+    const createExternalAcount = async (apiKey,customer_id,bank_name, account_number,routing_number,account_type,account_owner_name,address,iban_account_type)=>{
         const notificationId = toast.loading("Por favor espere...",{
             closeOnClick:true
         });
@@ -85,7 +85,8 @@ const CuentaExternaUSA = ()=>{
                                 account_name: account_type,
                                 account_owner_name,
                                 active: true,
-                                address
+                                address,
+                                account_type: iban_account_type
                             },
                         headers:{
                             "Content-Type":"application/json",
@@ -154,7 +155,8 @@ const CuentaExternaUSA = ()=>{
                                 account_name: account_type,
                                 account_owner_name,
                                 active: true,
-                                address
+                                address,
+                                account_type: iban_account_type
                             },
                         headers:{
                             "Content-Type":"application/json",
@@ -212,7 +214,8 @@ const CuentaExternaUSA = ()=>{
                         account_name: account_type,
                         account_owner_name,
                         active: true,
-                        address
+                        address,
+                        account_type: iban_account_type
                     },
                     headers:{
                         "Content-Type":"application/json",
@@ -326,7 +329,7 @@ const CuentaExternaUSA = ()=>{
                     </div>
                 </div>
                 <div className='flex justify-end items-center'>
-                    <button className='bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcount(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,routingNumber,accountType,accountOwnerName,address)}>Registrar Cuenta Externa</button>
+                    <button className='bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcount(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,routingNumber,accountType,accountOwnerName,address,props.accountType)}>Registrar Cuenta Externa</button>
                 </div>
             </div>
             <ToastContainer position='top-center' />
