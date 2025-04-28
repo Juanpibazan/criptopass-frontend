@@ -157,7 +157,7 @@ const Transfers = ()=>{
                 <div className='gap-4 overflow-y-auto overflow-x-auto h-[500px] max-sm:w-[350px]'>
                     <table className='border-4 border-secondary rounded-sm px-4 mx-4 w-full' >
                         {/*<table className='border-4 border-secondary rounded-sm min-h-screen' > */}
-                            <tr className='border-2 border-secondary rounded-sm my-4 mx-2 sticky top-0'>
+                            <tr className='border-2 border-secondary rounded-sm my-4 mx-2 sticky top-0 z-0'>
                                 <th className='px-1 border-secondary border-2 text-left'>#</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Código</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Estado</th>

@@ -147,21 +147,21 @@ const RegistroDestinatarios = ()=>{
                     />
                     {searchItems.length > 1 ?
                     <div>
-                    <input className={`${selectedItem.account_number ? 'block bg-green-400' : 'hidden'} w-full`} readOnly={true} value={(!selectedItem.first_name && !selectedItem.last_name) ? selectedItem : selectedItem.first_name + ' '+ selectedItem.last_name + ' - '+selectedItem.bank_name} />
+                    <input className={`${selectedItem.account_number ? 'block bg-green-400' : 'hidden'} w-full`} readOnly={true} value={(!selectedItem.first_name && !selectedItem.last_name) ? selectedItem : selectedItem.first_name + ' '+ selectedItem.last_name + ' - '+selectedItem.bank_name + ' - ' + selectedItem.routing_number} />
                     <select value={selectedItem} onChange={(e)=>setSelectedItem(JSON.parse(e.target.value))}>
                         {searchItems.map((item, index)=>{
                             return (
                                 <option key={index} value={JSON.stringify(item)}
-                                className={`${!dropdownShowing ? 'hidden' : 'block'} font-garet`}
+                                className={`font-garet`}
                                 
                                 >
-                                    {(!item.first_name && !item.last_name) ? item : item.first_name + ' '+ item.last_name + ' - '+item.bank_name}
+                                    {(!item.first_name && !item.last_name) ? item : item.first_name + ' '+ item.last_name + ' - '+item.bank_name+ ' - ' + item.routing_number}
                                 </option>
                             )
                         })}
                     </select> 
                     </div>:
-                    <button readOnly={true} className={`text-left w-full ${selectedItem.account_number ? 'bg-green-400' : ''}`} value={searchItems[0]} onClick={()=>setSelectedItem(searchItems[0])}>{searchItems.length>0 ? searchItems[0].first_name+' '+searchItems[0].last_name + ' - '+ searchItems[0].bank_name : ''}</button>
+                    <button readOnly={true} className={`text-left w-full ${selectedItem.account_number ? 'bg-green-400' : ''}`} value={searchItems[0]} onClick={()=>setSelectedItem(searchItems[0])}>{searchItems.length>0 ? searchItems[0].first_name+' '+searchItems[0].last_name + ' - '+ searchItems[0].bank_name + ' - ' + searchItems[0].routing_number : ''}</button>
                     }
                 </div>
                 <div>

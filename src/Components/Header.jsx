@@ -105,7 +105,7 @@ const Header = ()=>{
                             <RxAvatar className='text-[40px] text-primary' />
                             <p className='text-primary max-sm:text-[10px] font-bold'>Mi CriptoPass</p>
                         </div>
-                        <ul className={`${isOpen ? 'absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px] px-2 pb-2' : 'hidden absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px]'}`}>
+                        <ul className={`${isOpen ? 'absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px] px-2 pb-2 z-200' : 'hidden absolute pt-8 bg-secondary border-2 border-secondary rounded-md shadow-md top-[90px] z-200'}`}>
                             <li className='border-b-2 border-primary py-2'><Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/profile' className='hover:text-white active:text-white font-garet font-bold'>Mi Perfil</Link></li>
                             <li className='border-b-2 border-primary py-2'><Link to='/register-recipient-accounts' className='hover:text-white active:text-white font-garet font-bold'>Mis Destinatarios</Link></li>
                             <li className='border-b-2 border-primary py-2'><Link onClick={logOut} className='hover:text-white active:text-white font-garet font-bold'>Cerrar sesión</Link></li>
