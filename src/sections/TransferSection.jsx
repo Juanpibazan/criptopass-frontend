@@ -17,7 +17,7 @@ const TransferSection = ()=>{
     const [sourceCurrency, setSourceCurrency] = useState('');
     const [sourcePaymentRail, setSourcePaymentRail] = useState('');
     const [liquidAmount,setLiquidAmount] = useState(0.00);
-    const [developerFee,setDeveloperFee] = useState(0.021);
+    const [developerFee,setDeveloperFee] = useState(liquidAmount>=10000 ? 0.021 : 0.026);
     const [transferType, setTransferType] = useState('');
     const [transferCost, setTransferCost] = useState(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
     const [destinatarios,setDestinatarios] = useState([]);
@@ -37,6 +37,14 @@ const TransferSection = ()=>{
             setSourcePaymentRail('polygon');
         }
     },[sourceCurrency]);
+
+    useEffect(()=>{
+        if(parseFloat(liquidAmount)>=10000){
+            setDeveloperFee(0.021);
+        } else{
+            setDeveloperFee(0.026);
+        }
+    },[liquidAmount]);
 
     const fetchDestinatarios = async ()=>{
         try {
@@ -123,7 +131,7 @@ const TransferSection = ()=>{
                             amount:`${totalAmount}`,
                             //on_behalf_of:customer_id,
                             on_behalf_of: JSON.parse(selectedDestinatario).destiny_customer_id,
-                            developer_fee:`${(developerFee*totalAmount).toFixed(2)}`,
+                            developer_fee:`${((developerFee*parseFloat(liquidAmount))+ parseFloat(transferCost)).toFixed(2)}`,
                             from_customer_id: customer_id
                         },
                         headers:{
@@ -247,7 +255,7 @@ const TransferSection = ()=>{
                             amount:`${totalAmount}`,
                             //on_behalf_of:customer_id,
                             on_behalf_of: JSON.parse(selectedDestinatario).destiny_customer_id,
-                            developer_fee:`${(developerFee*totalAmount).toFixed(2)}`,
+                            developer_fee:`${((developerFee*parseFloat(liquidAmount))+ parseFloat(transferCost)).toFixed(2)}`,
                             from_customer_id: customer_id
                         },
                         headers:{
@@ -367,7 +375,7 @@ const TransferSection = ()=>{
                             amount:`${totalAmount}`,
                             //on_behalf_of:customer_id,
                             on_behalf_of: JSON.parse(selectedDestinatario).destiny_customer_id,
-                            developer_fee:`${(developerFee*totalAmount).toFixed(2)}`,
+                            developer_fee:`${((developerFee*parseFloat(liquidAmount))+ parseFloat(transferCost)).toFixed(2)}`,
                             from_customer_id: customer_id
                         },
                         headers:{
@@ -519,7 +527,7 @@ const TransferSection = ()=>{
                             <li className='text-[15px] font-garet'>Monto deseado a transferir: 20 USDT.</li>
                             <li className='text-[15px] font-garet'>Costo de transferencia: 0.5 USDT (<strong>ACH</strong>).</li>
                             <li className='text-[15px] font-garet'>Fee de Binance por transferir a través de la red cripto: X USDT (Depende de la red Blockchain).</li>
-                            <li className='text-[15px] font-garet'>Fee de CriptoPass: 3.1% (0.62 USDT).</li>
+                            <li className='text-[15px] font-garet'>Fee de CriptoPass: 2.6% (0.52 USDT).</li>
                             <li className='text-[15px] font-garet'>Monto total a transferir a través desde Criptopass: 21.12 USDT.</li>
                         </ul>
 
@@ -538,7 +546,7 @@ const TransferSection = ()=>{
                                 className='w-full border-secondary border-2 rounded-sm'
                                 required={true} value={sourceCurrency} onChange={(e)=>setSourceCurrency(e.target.value)}>
                                     <option value=''>Por favor selecciona una opción:</option>
-                                    <option value='usdt'>USDT</option>
+                                    {/*<option value='usdt'>USDT</option>*/}
                                     <option value='usdc'>USDC</option>
                                 </select>
                                 <span className='text-primary font-bold'>{sourcePaymentRail.toUpperCase()}</span>
@@ -600,7 +608,7 @@ const TransferSection = ()=>{
                                 <label className='font-bold'>Costo de la transferencia:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm text'
-                                type='text' value={transferType==='wire' ? 'USDT 20' : transferType === 'ach' ? 'USDT 0.50' : transferType === 'ach_same_day' ? 'USDT 1' : '-'}/>
+                                type='text' value={transferType==='wire' ? ('20 ' + sourceCurrency.toUpperCase()) : transferType === 'ach' ? ('0.50 ' + sourceCurrency.toUpperCase()) : transferType === 'ach_same_day' ? ('1 ' + sourceCurrency.toUpperCase())  : '-'}/>
                             </div>
                             <div className='w-[40%]'>
                                 <label className='font-bold'>Comision de Criptopass:</label><br/>
@@ -612,7 +620,7 @@ const TransferSection = ()=>{
                                 <label className='font-bold'>Comisión de Binance:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm'
-                                type='text' value={'X USDT'}/>
+                                type='text' value={'X '+sourceCurrency.toUpperCase()}/>
                             </div>
                             
                         </div>
@@ -630,7 +638,7 @@ const TransferSection = ()=>{
                                 <label className='font-bold'>Comisión de Binance:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm'
-                                type='text' value='X USDT'/>
+                                type='text' value={`X ${sourceCurrency.toUpperCase()}`}/>
                             </div>
                             
 
