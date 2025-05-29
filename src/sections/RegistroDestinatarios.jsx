@@ -155,13 +155,13 @@ const RegistroDestinatarios = ()=>{
                                 className={`font-garet`}
                                 
                                 >
-                                    {(!item.first_name && !item.last_name) ? item : item.first_name + ' '+ item.last_name + ' - '+item.bank_name+ ' - ' + item.routing_number}
+                                    {(!item.first_name && !item.last_name) ? item : item.account_owner_name + ' - '+item.bank_name+ ' - ' + item.routing_number}
                                 </option>
                             )
                         })}
                     </select> 
                     </div>:
-                    <button readOnly={true} className={`text-left w-full ${selectedItem.account_number ? 'bg-green-400' : ''}`} value={searchItems[0]} onClick={()=>setSelectedItem(searchItems[0])}>{searchItems.length>0 ? searchItems[0].first_name+' '+searchItems[0].last_name + ' - '+ searchItems[0].bank_name + ' - ' + searchItems[0].routing_number : ''}</button>
+                    <button readOnly={true} className={`text-left w-full ${selectedItem.account_number ? 'bg-green-400' : ''}`} value={searchItems[0]} onClick={()=>setSelectedItem(searchItems[0])}>{searchItems.length>0 ? searchItems[0].account_owner_name + ' - '+ searchItems[0].bank_name + ' - ' + searchItems[0].routing_number : ''}</button>
                     }
                 </div>
                 <div>
