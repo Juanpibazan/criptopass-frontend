@@ -147,7 +147,7 @@ const RegistroDestinatarios = ()=>{
                     />
                     {searchItems.length > 1 ?
                     <div>
-                    <input className={`${selectedItem.account_number ? 'block bg-green-400' : 'hidden'} w-full`} readOnly={true} value={(!selectedItem.first_name && !selectedItem.last_name) ? selectedItem : selectedItem.first_name + ' '+ selectedItem.last_name + ' - '+selectedItem.bank_name + ' - ' + selectedItem.routing_number} />
+                    <input className={`${selectedItem.account_number ? 'block bg-green-400' : 'hidden'} w-full`} readOnly={true} value={(!selectedItem.first_name && !selectedItem.last_name) ? selectedItem : selectedItem.account_owner_name  + ' - '+selectedItem.bank_name + ' - ' + selectedItem.routing_number} />
                     <select value={selectedItem} onChange={(e)=>setSelectedItem(JSON.parse(e.target.value))}>
                         {searchItems.map((item, index)=>{
                             return (
