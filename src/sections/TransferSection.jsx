@@ -27,6 +27,7 @@ const TransferSection = ()=>{
     const [transferInitiated,setTransferInitiated] = useState(false);
     const [lastTransfer,setLastTransfer] = useState({});
     const [lastResponseStatus,setLastResponseStatus] = useState();
+    const [wireMessage, setWireMessage] = useState();
 
     const navigate = useNavigate();
 
@@ -126,7 +127,8 @@ const TransferSection = ()=>{
                             destination:{
                                 destination_currency:"usd",
                                 destination_payment_rail: transferType,
-                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id
+                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id,
+                                wire_message: wireMessage
                             },
                             amount:`${totalAmount}`,
                             //on_behalf_of:customer_id,
@@ -250,7 +252,8 @@ const TransferSection = ()=>{
                             destination:{
                                 destination_currency:"usd",
                                 destination_payment_rail: transferType,
-                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id
+                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id,
+                                wire_message: wireMessage
                             },
                             amount:`${totalAmount}`,
                             //on_behalf_of:customer_id,
@@ -370,7 +373,8 @@ const TransferSection = ()=>{
                             destination:{
                                 destination_currency:"usd",
                                 destination_payment_rail: transferType,
-                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id
+                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id,
+                                wire_message: wireMessage
                             },
                             amount:`${totalAmount}`,
                             //on_behalf_of:customer_id,
@@ -588,7 +592,7 @@ const TransferSection = ()=>{
                                     </select>
                                 )}
                             </div>
-                            <div className='w-[50%] max-sm:w-full h-full flex flex-col justify-between items-start'>
+                            <div className='w-[50%] max-sm:w-full h-full flex flex-col justify-between items-start gap-2'>
                                 <label className='font-bold'>Tipo de Transferencia:</label><br/>
                                 <select
                                 className='w-full border-secondary border-2 rounded-sm' required={true} value={transferType} onChange={(e)=>setTransferType(e.target.value)}>
@@ -597,6 +601,9 @@ const TransferSection = ()=>{
                                     <option value='ach'>ACH</option>
                                     <option value='ach_same_day'>ACH Mismo Dia</option>
                                 </select>
+                                {transferType==='wire' && <input placeholder='Escribe aquí tu bank memo/wire message.' className='w-full border-secondary border-2 rounded-sm'
+                                maxLength={35} value={wireMessage} onChange={(e)=>setWireMessage(e.target.value)}
+                                />}
                             </div>
 
                         </div>
