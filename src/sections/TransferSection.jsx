@@ -601,9 +601,9 @@ const TransferSection = ()=>{
                                     <option value='ach'>ACH</option>
                                     <option value='ach_same_day'>ACH Mismo Dia</option>
                                 </select>
-                                {transferType==='wire' && <input placeholder='Escribe aquí tu bank memo/wire message.' className='w-full border-secondary border-2 rounded-sm'
-                                maxLength={35} value={wireMessage} onChange={(e)=>setWireMessage(e.target.value)}
-                                />}
+                                {transferType==='wire' && <textarea placeholder='Escribe aquí tu bank memo/wire message.' className='w-full border-secondary border-2 rounded-sm'
+                                maxLength={140} value={wireMessage} onChange={(e)=>setWireMessage(e.target.value)}
+                                ></textarea>}
                             </div>
 
                         </div>
