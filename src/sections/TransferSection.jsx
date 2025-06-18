@@ -17,13 +17,13 @@ const TransferSection = ()=>{
     const [sourceCurrency, setSourceCurrency] = useState('');
     const [sourcePaymentRail, setSourcePaymentRail] = useState('');
     const [liquidAmount,setLiquidAmount] = useState(0.00);
-    const [developerFee,setDeveloperFee] = useState(liquidAmount>=10000 ? 0.021 : 0.026);
+    const [developerFee,setDeveloperFee] = useState(liquidAmount>=100000 ? 0.01235 : liquidAmount>=10000 ? 0.021 : 0.026);
     const [transferType, setTransferType] = useState('');
     const [transferCost, setTransferCost] = useState(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
     const [destinatarios,setDestinatarios] = useState([]);
     const [externalAccount,setExternalAccount] = useState('');
     const [selectedDestinatario,setSelectedDestinatario] = useState({});
-    const [totalAmount,setTotalAmount] = useState(parseFloat(liquidAmount).toFixed(2)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee).toFixed(2));
+    const [totalAmount,setTotalAmount] = useState(parseFloat(liquidAmount).toFixed(2)+parseFloat(transferCost)+(parseFloat(liquidAmount).toFixed(2)*developerFee));
     const [transferInitiated,setTransferInitiated] = useState(false);
     const [lastTransfer,setLastTransfer] = useState({});
     const [lastResponseStatus,setLastResponseStatus] = useState();
@@ -40,9 +40,12 @@ const TransferSection = ()=>{
     },[sourceCurrency]);
 
     useEffect(()=>{
-        if(parseFloat(liquidAmount)>=10000){
+        if(parseFloat(liquidAmount)>=100000){
+            setDeveloperFee(0.01235);
+        } else if(parseFloat(liquidAmount)>=10000 && parseFloat(liquidAmount)<100000){
             setDeveloperFee(0.021);
-        } else{
+        }
+        else{
             setDeveloperFee(0.026);
         }
     },[liquidAmount]);
@@ -88,7 +91,7 @@ const TransferSection = ()=>{
     useEffect(()=>{
         const sumedAmount = parseFloat(liquidAmount)+parseFloat(transferCost)+(parseFloat(liquidAmount)*developerFee);
         setTotalAmount(sumedAmount.toFixed(2));
-    },[liquidAmount,transferCost]);
+    },[liquidAmount,transferCost,developerFee]);
 
     const createTransfer = async (apiKey,fromAddress,transferType,externalAccount,totalAmount,customer_id,developerFee)=>{
         const notificationId = toast.loading("Por favor espere...",{
@@ -621,7 +624,7 @@ const TransferSection = ()=>{
                                 <label className='font-bold'>Comision de Criptopass:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm'
-                                type='text' value={`${developerFee*100} %`}/>
+                                type='text' value={`${developerFee.toFixed(5)*100} %`}/>
                             </div>
                             <div className='w-[40%]'>
                                 <label className='font-bold'>Comisión de Binance:</label><br/>
