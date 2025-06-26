@@ -17,7 +17,7 @@ const TransferSection = ()=>{
     const [sourceCurrency, setSourceCurrency] = useState('');
     const [sourcePaymentRail, setSourcePaymentRail] = useState('');
     const [liquidAmount,setLiquidAmount] = useState(0.00);
-    const [developerFee,setDeveloperFee] = useState(liquidAmount>=100000 ? 0.00723 : liquidAmount>=10000 ? 0.021 : 0.026);
+    const [developerFee,setDeveloperFee] = useState(liquidAmount>=100000 ? 0.015 : liquidAmount>=10000 ? 0.021 : 0.026);
     const [transferType, setTransferType] = useState('');
     const [transferCost, setTransferCost] = useState(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
     const [destinatarios,setDestinatarios] = useState([]);
@@ -41,7 +41,7 @@ const TransferSection = ()=>{
 
     useEffect(()=>{
         if(parseFloat(liquidAmount)>=100000){
-            setDeveloperFee(0.00723);
+            setDeveloperFee(0.015);
         } else if(parseFloat(liquidAmount)>=10000 && parseFloat(liquidAmount)<100000){
             setDeveloperFee(0.021);
         }
