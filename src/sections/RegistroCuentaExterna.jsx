@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
@@ -345,7 +345,8 @@ const CuentaExternaSEPA = ()=>{
     const [accountNumber,setAccountNumber] = useState();
     const [routingNumber,setRoutingNumber] = useState();
     const [accountType,setAccounttype] = useState('iban');
-    const [accountOwnerType,setAccountOwnerType] = useState(user ? user.type : '');
+    //const [accountOwnerType,setAccountOwnerType] = useState(user ? user.type : '');
+    const [accountOwnerType,setAccountOwnerType] = useState('individual');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [businessName, setBusinessName] = useState('');
@@ -361,9 +362,9 @@ const CuentaExternaSEPA = ()=>{
     const [selectedIsoCountryCode,setSelectedIsoCountryCode] = useState('');
 
     const handleCountrySelection = (e)=>{
-        const {name} = iso_country_codes.find((item)=>item.id===e.target.value);
+        const {id} = iso_country_codes.find((item)=>item.id===e.target.value);
         setSelectedIsoCountryCode(e.target.value);
-        setAddress({...address,country:name});
+        setAddress({...address,country:id});
     };
 
     const createExternalAcountSEPA = async (apiKey,customer_id, account_number,account_type,account_owner_type,first_name,last_name,business_name,account_owner_name,address, iso_country_code)=>{
@@ -566,7 +567,7 @@ const CuentaExternaSEPA = ()=>{
         }
             
         } catch(e){
-            console.log(e);
+            console.log(e.response.data.data);
             toast(e.response.data.msg,{
                 type:'error',
                 position:'top-center'
@@ -574,6 +575,14 @@ const CuentaExternaSEPA = ()=>{
         }
     };
 
+   /* useEffect(()=>{
+        if(accountType==='individual'){
+            setAccountOwnerName(firstName + ' ' + lastName);
+        } else{
+            setAccountOwnerName(businessName);
+        }
+    },[firstName,lastName,businessName]);
+*/
 
     return (
         <div className='px-2'>
@@ -591,8 +600,11 @@ const CuentaExternaSEPA = ()=>{
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
                     <label className='font-bold text-[17px] text-secondary'>Tipo de Dueño de Cuenta</label><br/>
-                    <input readOnly={true} className='w-full border-2 border-secondary rounded-sm'
-                    value={accountOwnerType} onChange={(e)=>setAccountOwnerType(e.target.value)}/>
+                    <select className='w-full border-2 border-secondary rounded-sm'
+                    value={accountOwnerType} onChange={(e)=>setAccountOwnerType(e.target.value)} >
+                        <option value='individual'>Individual</option>
+                        <option value='business'>Business</option>
+                    </select>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
                     <label className='font-bold text-[17px] text-secondary'>Nombre del Dueño de la Cuenta *</label><br/>
@@ -609,13 +621,13 @@ const CuentaExternaSEPA = ()=>{
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Importadora XYZ S.A.'
                     value={businessName} onChange={(e)=>setBusinessName(e.target.value)}/>
                 </div>
-                {accountOwnerType!=='business' && (
                 <div className='w-[50%] max-sm:w-full'>
                     <label className='font-bold text-[17px] text-secondary'>Nombre Completo del Dueño de la Cuenta</label><br/>
-                    <input readOnly={true} className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei'
-                    value={accountOwnerType==='business' ? businessName : (firstName + ' ' + lastName)}/>
+                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Pedro Milei'
+                    //value={accountOwnerType==='business' ? businessName : (firstName + ' ' + lastName)}
+                    value={accountOwnerName} onChange={(e)=>setAccountOwnerName(e.target.value)}
+                    />
                 </div>
-                )}
 
                 <div className='w-full'>
                     <h3 className='font-bold text-[20px]'>Dirección de la Oficina principal del Banco</h3>
@@ -644,7 +656,8 @@ const CuentaExternaSEPA = ()=>{
                         <div>
                             <label className='font-bold text-[17px] text-secondary'>Código Postal *</label><br/>
                             <input className='border-2 border-secondary rounded-sm' type='text' placeholder='28001'
-                            value={address.postal_code} onChange={(e)=>setAddress({...address,postal_code:e.target.value})}/>
+                            value={address.postal_code} onChange={(e)=>setAddress({...address,postal_code:e.target.value})}
+                            />
                         </div>
                         <div>
                             <label className='font-bold text-[17px] text-secondary'>País *</label><br/>
