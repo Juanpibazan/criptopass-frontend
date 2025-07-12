@@ -343,7 +343,7 @@ const CuentaExternaSEPA = ()=>{
     const [{activeTitle,user,jwtoken},dispatch] = useStateValue();
     const [bic,setBic] = useState('');
     const [accountNumber,setAccountNumber] = useState();
-    const [routingNumber,setRoutingNumber] = useState();
+    const [bankName,setBankName] = useState('');
     const [accountType,setAccounttype] = useState('iban');
     //const [accountOwnerType,setAccountOwnerType] = useState(user ? user.type : '');
     const [accountOwnerType,setAccountOwnerType] = useState('individual');
@@ -367,7 +367,7 @@ const CuentaExternaSEPA = ()=>{
         setAddress({...address,country:id});
     };
 
-    const createExternalAcountSEPA = async (apiKey,customer_id, account_number,account_type,account_owner_type,first_name,last_name,business_name,account_owner_name,address, iso_country_code)=>{
+    const createExternalAcountSEPA = async (apiKey,customer_id, bank_name, account_number,account_type,account_owner_type,first_name,last_name,business_name,account_owner_name,address, iso_country_code,bic)=>{
         const notificationId = toast.loading("Por favor espere...",{
             closeOnClick:true
         });
@@ -397,7 +397,9 @@ const CuentaExternaSEPA = ()=>{
                         url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts/sepa`,
                         //url:`http://localhost:4000/bridge/customers/${customer_id}/external_accounts`,
                         data:{
+                                bank_name,
                                 account_number,
+                                bic,
                                 account_type,
                                 account_owner_type,
                                 first_name,
@@ -467,7 +469,9 @@ const CuentaExternaSEPA = ()=>{
                         method:'post',
                         url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts/sepa`,
                         data:{
+                                bank_name,
                                 account_number,
+                                bic,
                                 account_type,
                                 account_owner_type,
                                 first_name,
@@ -526,7 +530,9 @@ const CuentaExternaSEPA = ()=>{
                     method:'post',
                     url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts/sepa`,
                     data:{
+                            bank_name,
                             account_number,
+                            bic,
                             account_type,
                             account_owner_type,
                             first_name,
@@ -597,6 +603,11 @@ const CuentaExternaSEPA = ()=>{
                     <label className='font-bold text-[17px] text-secondary'>IBAN (Número de Cuenta Bancaria Internacional) *</label><br/>
                     <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='ES9121000418450200051332'
                     value={accountNumber} onChange={(e)=>setAccountNumber(e.target.value)}/>
+                </div>
+                <div className='w-[50%] max-sm:w-full'>
+                    <label className='font-bold text-[17px] text-secondary'>Banco *</label><br/>
+                    <input className='w-full border-2 border-secondary rounded-sm' type='text' placeholder='Modulr Finance'
+                    value={bankName} onChange={(e)=>setBankName(e.target.value)}/>
                 </div>
                 <div className='w-[50%] max-sm:w-full'>
                     <label className='font-bold text-[17px] text-secondary'>Tipo de Dueño de Cuenta</label><br/>
@@ -675,7 +686,7 @@ const CuentaExternaSEPA = ()=>{
                     </div>
                 </div>
                 <div className='flex justify-end items-center'>
-                    <button className='bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcountSEPA(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,accountNumber,accountType,accountOwnerType,firstName,lastName,businessName,accountOwnerName,address,selectedIsoCountryCode)}>Registrar Cuenta Externa</button>
+                    <button className='bg-secondary border-2 border-secondary rounded=md py-2 px-4 shadow-md font-bold text-right' onClick={()=>createExternalAcountSEPA(import.meta.env.VITE_BRIDGE_API_KEY,user.customer_id,bankName,accountNumber,accountType,accountOwnerType,firstName,lastName,businessName,accountOwnerName,address,selectedIsoCountryCode,bic)}>Registrar Cuenta Externa</button>
                 </div>
             </div>
             <ToastContainer position='top-center' />

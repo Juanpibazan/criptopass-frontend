@@ -11,6 +11,7 @@ import { actionTypes } from '../context/reducer';
 import SessionEnded from '../Components/SessionEnded';
 
 
+
 const TransferSection = ()=>{
     const [{user,jwtoken},dispatch] = useStateValue();
     const [fromAddress,setFromAddress] = useState('');
@@ -20,6 +21,7 @@ const TransferSection = ()=>{
     const [developerFee,setDeveloperFee] = useState(liquidAmount>=100000 ? 0.015 : liquidAmount>=10000 ? 0.021 : 0.026);
     const [transferType, setTransferType] = useState('');
     const [transferCost, setTransferCost] = useState(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
+    const [destinationCurrency,setDestinationCurrency] = useState('usd');
     const [destinatarios,setDestinatarios] = useState([]);
     const [externalAccount,setExternalAccount] = useState('');
     const [selectedDestinatario,setSelectedDestinatario] = useState({});
@@ -128,7 +130,7 @@ const TransferSection = ()=>{
                                 from_address:fromAddress
                             },
                             destination:{
-                                destination_currency:"usd",
+                                destination_currency:destinationCurrency,
                                 destination_payment_rail: transferType,
                                 external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id,
                                 wire_message: wireMessage
@@ -146,6 +148,24 @@ const TransferSection = ()=>{
                             "Idempotency-Key":idempotency_key
                         }
                     });
+                    console.log('ESTO ES LO QUE SE ESTA PASANDO COMO BODY DE LA TRANSFER:',{
+                            source: {
+                                source_currency:sourceCurrency,
+                                source_payment_rail: sourcePaymentRail,
+                                from_address:fromAddress
+                            },
+                            destination:{
+                                destination_currency:destinationCurrency,
+                                destination_payment_rail: transferType,
+                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id,
+                                wire_message: wireMessage
+                            },
+                            amount:`${totalAmount}`,
+                            //on_behalf_of:customer_id,
+                            on_behalf_of: JSON.parse(selectedDestinatario).destiny_customer_id,
+                            developer_fee:`${((developerFee*parseFloat(liquidAmount))+ parseFloat(transferCost)).toFixed(2)}`,
+                            from_customer_id: customer_id
+                        });
                     if(transferResponse.status===201){
                         const {status,msg,data} = transferResponse.data;
                         console.log("DATA 1 : ",data);
@@ -253,7 +273,7 @@ const TransferSection = ()=>{
                                 from_address:fromAddress
                             },
                             destination:{
-                                destination_currency:"usd",
+                                destination_currency:destinationCurrency,
                                 destination_payment_rail: transferType,
                                 external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id,
                                 wire_message: wireMessage
@@ -374,7 +394,7 @@ const TransferSection = ()=>{
                                 from_address:fromAddress
                             },
                             destination:{
-                                destination_currency:"usd",
+                                destination_currency:destinationCurrency,
                                 destination_payment_rail: transferType,
                                 external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id,
                                 wire_message: wireMessage
@@ -471,6 +491,24 @@ const TransferSection = ()=>{
             }
         } catch(e){
             console.log(e);
+            console.log('ESTO ES LO QUE SE ESTA PASANDO COMO BODY DE LA TRANSFER:',{
+                            source: {
+                                source_currency:sourceCurrency,
+                                source_payment_rail: sourcePaymentRail,
+                                from_address:fromAddress
+                            },
+                            destination:{
+                                destination_currency:destinationCurrency,
+                                destination_payment_rail: transferType,
+                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id,
+                                wire_message: wireMessage
+                            },
+                            amount:`${totalAmount}`,
+                            //on_behalf_of:customer_id,
+                            on_behalf_of: JSON.parse(selectedDestinatario).destiny_customer_id,
+                            developer_fee:`${((developerFee*parseFloat(liquidAmount))+ parseFloat(transferCost)).toFixed(2)}`,
+                            from_customer_id: customer_id
+                        });
             toast(e.response.data.msg,{
                 type:'error',
                 position:'top-center'
@@ -517,6 +555,12 @@ const TransferSection = ()=>{
             </div>
             <div className={`${lastResponseStatus===401 ? 'hidden' : 'block'}`}>
             <div >
+                <div className='flex justify-center items-start gap-8'>
+                    <button className={destinationCurrency!=='eur' ? 'bg-primary border-2 border-primary rounded-md text-white px-4 py-2' : 'bg-white border-2 border-primary rounded-md text-primary px-4 py-2'}
+                    value='usd' onClick={(e)=>setDestinationCurrency(e.target.value)}>De Cripto a USD</button>
+                    <button className={destinationCurrency==='eur' ? 'bg-primary border-2 border-primary rounded-md text-white px-4 py-2' : 'bg-white border-2 border-primary rounded-md text-primary px-4 py-2'}
+                    value='eur' onClick={(e)=>setDestinationCurrency(e.target.value)}>De Cripto a EUR</button>
+                </div>
                 <h3 className='text-[25px] text-secondary font-bold font-openSauce'>Aspectos a considerar antes de empezar el proceso de transferencia</h3>
                 <ol className='list-decimal text-primary font-bold flex flex-col gap-2'>
                     <li>La cuenta Destino ya debe estar registrada en Criptopass y debes tenerla agregada en Destinatarios.</li>
@@ -600,9 +644,10 @@ const TransferSection = ()=>{
                                 <select
                                 className='w-full border-secondary border-2 rounded-sm' required={true} value={transferType} onChange={(e)=>setTransferType(e.target.value)}>
                                     <option value=''>Por favor selecciona una opcion</option>
-                                    <option value='wire'>Wire</option>
-                                    <option value='ach'>ACH</option>
-                                    <option value='ach_same_day'>ACH Mismo Dia</option>
+                                    <option value='wire' className={destinationCurrency!=='eur' ? 'block' : 'hidden'}>Wire</option>
+                                    <option value='ach' className={destinationCurrency!=='eur' ? 'block' : 'hidden'}>ACH</option>
+                                    <option value='ach_same_day' className={destinationCurrency!=='eur' ? 'block' : 'hidden'}>ACH Mismo Dia</option>
+                                    <option value='sepa' className={destinationCurrency==='eur' ? 'block' : 'hidden'}>SEPA</option>
                                 </select>
                                 {transferType==='wire' && <textarea placeholder='Escribe aquí tu bank memo/wire message.' className='w-full border-secondary border-2 rounded-sm'
                                 maxLength={140} value={wireMessage} onChange={(e)=>setWireMessage(e.target.value)}

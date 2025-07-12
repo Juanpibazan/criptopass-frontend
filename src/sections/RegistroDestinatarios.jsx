@@ -70,8 +70,8 @@ const RegistroDestinatarios = ()=>{
                     method:'post',
                     url:'https://criptopass.com/bridge/customers/destinatarios',
                     data:{
-                        destiny_external_account_id:searchItems[0].external_account_id,
-                        destiny_customer_id:searchItems[0].id,
+                        destiny_external_account_id:selectedItem.external_account_id,
+                        destiny_customer_id:selectedItem.id,
                         destiny_customer_alias: destinyAlias,
                         origin_customer_id: user.customer_id
                     },
@@ -147,7 +147,7 @@ const RegistroDestinatarios = ()=>{
                     />
                     {searchItems.length > 1 ?
                     <div>
-                    <input className={`${selectedItem.account_number ? 'block bg-green-400' : 'hidden'} w-full`} readOnly={true} value={(!selectedItem.first_name && !selectedItem.last_name) ? selectedItem : selectedItem.account_owner_name  + ' - '+selectedItem.bank_name + ' - ' + selectedItem.routing_number} />
+                    <input className={`${selectedItem.account_number ? 'block bg-green-400' : 'hidden'} w-full`} readOnly={true} value={(!selectedItem.first_name && !selectedItem.last_name) ? selectedItem : selectedItem.account_owner_name  + ' - '+selectedItem.bank_name + ' - ' + (selectedItem.routing_number===null ? selectedItem.bic : selectedItem.routing_number)} />
                     <select value={selectedItem} onChange={(e)=>setSelectedItem(JSON.parse(e.target.value))}>
                         {searchItems.map((item, index)=>{
                             return (
@@ -155,13 +155,13 @@ const RegistroDestinatarios = ()=>{
                                 className={`font-garet`}
                                 
                                 >
-                                    {(!item.first_name && !item.last_name) ? item : item.account_owner_name + ' - '+item.bank_name+ ' - ' + item.routing_number}
+                                    {(!item.first_name && !item.last_name) ? item : item.account_owner_name + ' - '+item.bank_name+ ' - ' + (item.routing_number===null ? item.bic : item.routing_number)}
                                 </option>
                             )
                         })}
                     </select> 
                     </div>:
-                    <button readOnly={true} className={`text-left w-full ${selectedItem.account_number ? 'bg-green-400' : ''}`} value={searchItems[0]} onClick={()=>setSelectedItem(searchItems[0])}>{searchItems.length>0 ? searchItems[0].account_owner_name + ' - '+ searchItems[0].bank_name + ' - ' + searchItems[0].routing_number : ''}</button>
+                    <button readOnly={true} className={`text-left w-full ${selectedItem.account_number ? 'bg-green-400' : ''}`} value={searchItems[0]} onClick={()=>setSelectedItem(searchItems[0])}>{searchItems.length>0 ? searchItems[0].account_owner_name + ' - '+ searchItems[0].bank_name + ' - ' + (searchItems[0].routing_number===null ? searchItems[0].bic : searchItems[0].routing_number) : ''}</button>
                     }
                 </div>
                 <div>
