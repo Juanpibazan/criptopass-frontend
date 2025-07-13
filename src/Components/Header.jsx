@@ -94,7 +94,7 @@ const Header = ()=>{
                 <div className='w-[60%] flex flex-row justify-evenly items-center gap-2'>
                     {user.customer_id !=='' && user.kyc_status ==='approved' && user.tos_status === 'approved' && (
                         <div className='w-[60%] flex flex-row justify-between items-center gap-1'>
-                            <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/transfer' className='py-2 px-4 max-sm:px-2 max-sm:py-1 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary max-sm:text-[15px]'>{isMobile ? 'Cripto a USD' : 'Transferir Cripto a USD'}</Link>
+                            <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/transfer' className='py-2 px-4 max-sm:px-2 max-sm:py-1 bg-primary text-white border-primary border-2 rounded-md hover:bg-white hover:text-primary max-sm:text-[15px]'>{isMobile ? 'Cripto a Fiat' : 'Transferir Cripto a Fiat'}</Link>
                             <Link onClick={(e)=>handleClick(e.target.innerHTML)} to='/register-external-account' className='py-2 px-4 max-sm:px-2 max-sm:py-1 bg-white text-secondary border-secondary border-2 rounded-md hover:bg-secondary hover:text-white max-sm:text-[15px]'>{isMobile ? 'Crear Cuenta Ext.' : 'Registrar Una Cuenta Externa'}</Link>
                         </div>
                     )}

@@ -30,6 +30,7 @@ const TransferSection = ()=>{
     const [lastTransfer,setLastTransfer] = useState({});
     const [lastResponseStatus,setLastResponseStatus] = useState();
     const [wireMessage, setWireMessage] = useState();
+    const [exchangeRate,setExchangeRate] = useState(0);
 
     const navigate = useNavigate();
 
@@ -148,24 +149,6 @@ const TransferSection = ()=>{
                             "Idempotency-Key":idempotency_key
                         }
                     });
-                    console.log('ESTO ES LO QUE SE ESTA PASANDO COMO BODY DE LA TRANSFER:',{
-                            source: {
-                                source_currency:sourceCurrency,
-                                source_payment_rail: sourcePaymentRail,
-                                from_address:fromAddress
-                            },
-                            destination:{
-                                destination_currency:destinationCurrency,
-                                destination_payment_rail: transferType,
-                                external_account_id: JSON.parse(selectedDestinatario).destiny_external_account_id,
-                                wire_message: wireMessage
-                            },
-                            amount:`${totalAmount}`,
-                            //on_behalf_of:customer_id,
-                            on_behalf_of: JSON.parse(selectedDestinatario).destiny_customer_id,
-                            developer_fee:`${((developerFee*parseFloat(liquidAmount))+ parseFloat(transferCost)).toFixed(2)}`,
-                            from_customer_id: customer_id
-                        });
                     if(transferResponse.status===201){
                         const {status,msg,data} = transferResponse.data;
                         console.log("DATA 1 : ",data);
@@ -548,6 +531,33 @@ const TransferSection = ()=>{
         }
     },1000*60);
 
+    useEffect(()=>{
+        const getExchangeRate = async (from,to)=>{
+            try {
+            const apiResponse = await axios({
+                method: 'get',
+                url: `https://api.bridge.xyz/v0/exchange_rates?from=${from}&to=${to}`,
+                headers:{
+                    "Content-Type":"appliction/json",
+                    "Api-Key":import.meta.env.VITE_BRIDGE_API_KEY,
+                    "Authorization":`Bearer ${jwtoken}`
+                }
+            });
+            const {data} = apiResponse; 
+            if(apiResponse===200){
+                console.log(apiResponse.data);
+                setExchangeRate(data.sell_rate);
+            } else{
+                console.log(apiResponse);
+            }
+        } catch(e){
+            console.log(e);
+        }
+        };
+        getExchangeRate('usd','eur');
+        
+    },[destinationCurrency]);
+
     return (
         <div>
             <div className={`${lastResponseStatus===401 ? 'block' : 'hidden'}`}>
@@ -573,14 +583,20 @@ const TransferSection = ()=>{
                         <li><strong>Wire:</strong> $20</li>
                         </ul>
                     </li>
-                    <li>Si el monto que deseas transferir es 20 USDT por ejemplo, debes tener ciertos costos en cuenta si quieres que esos 20 USDT lleguen enteros al destinatario:</li>
+                    <li>Si el monto que deseas transferir es 20 USDC por ejemplo, debes tener ciertos costos en cuenta si quieres que esos 20 USDC lleguen enteros al destinatario:</li>
                         <ul className='list-disc pl-8'>
-                            <li className='text-[15px] font-garet'>Monto deseado a transferir: 20 USDT.</li>
-                            <li className='text-[15px] font-garet'>Costo de transferencia: 0.5 USDT (<strong>ACH</strong>).</li>
+                            <li className='text-[15px] font-garet'>Monto deseado a transferir: 20 USDc.</li>
+                            <li className='text-[15px] font-garet'>Costo de transferencia: 0.5 USDC (<strong>ACH</strong>).</li>
                             <li className='text-[15px] font-garet'>Fee de Binance por transferir a través de la red cripto: X USDT (Depende de la red Blockchain).</li>
-                            <li className='text-[15px] font-garet'>Fee de CriptoPass: 2.6% (0.52 USDT).</li>
-                            <li className='text-[15px] font-garet'>Monto total a transferir a través desde Criptopass: 21.12 USDT.</li>
+                            <li className='text-[15px] font-garet'>Fee de CriptoPass: 2.6% (0.52 USDC).</li>
+                            <li className='text-[15px] font-garet'>Monto total a transferir a través desde Criptopass: 21.12 USDC.</li>
                         </ul>
+                    {destinationCurrency==='eur' && (
+                        <li>
+                            Tipo cambio aprocimado EUR/USD:
+                            <h3 className='text-[20px] bg-slate-500 text-white border-2 border-white rounded-md'>{exchangeRate}</h3>
+                        </li>
+                    )}
 
                 </ol>
             </div>
