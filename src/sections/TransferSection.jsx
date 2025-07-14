@@ -30,7 +30,7 @@ const TransferSection = ()=>{
     const [lastTransfer,setLastTransfer] = useState({});
     const [lastResponseStatus,setLastResponseStatus] = useState();
     const [wireMessage, setWireMessage] = useState();
-    const [exchangeRate,setExchangeRate] = useState(0);
+    const [exchangeRate,setExchangeRate] = useState(null);
 
     const navigate = useNavigate();
 
@@ -532,31 +532,39 @@ const TransferSection = ()=>{
     },1000*60);
 
     useEffect(()=>{
+        const controller = new AbortController();
+        const {signal} = controller;
         const getExchangeRate = async (from,to)=>{
             try {
+                if(destinationCurrency==='eur'){
             const apiResponse = await axios({
                 method: 'get',
-                url: `https://api.bridge.xyz/v0/exchange_rates?from=${from}&to=${to}`,
+                url: `https://criptopass.com/bridge/transfers/exchange-rate/${from}?to=${to}`,
                 headers:{
-                    "Content-Type":"appliction/json",
+                    "Content-Type":"application/json",
                     "Api-Key":import.meta.env.VITE_BRIDGE_API_KEY,
                     "Authorization":`Bearer ${jwtoken}`
-                }
+                },
+                signal
             });
-            const {data} = apiResponse; 
-            if(apiResponse===200){
-                console.log(apiResponse.data);
-                setExchangeRate(data.sell_rate);
+            const {data,status} = apiResponse; 
+            if(status===200){
+                console.log(data);
+                setExchangeRate(data.data.sell_rate);
+                console.log('Variable de estado: ', exchangeRate);
+                console.log('XR: ',exchangeRate);
             } else{
                 console.log(apiResponse);
-            }
+            }}
         } catch(e){
             console.log(e);
         }
         };
         getExchangeRate('usd','eur');
-        
+        //setTimeout(() => setExchangeRate(1.23), 1000); // Simulate API delay
+        return () => controller.abort(); // Cleanup
     },[destinationCurrency]);
+
 
     return (
         <div>
@@ -572,29 +580,31 @@ const TransferSection = ()=>{
                     value='eur' onClick={(e)=>setDestinationCurrency(e.target.value)}>De Cripto a EUR</button>
                 </div>
                 <h3 className='text-[25px] text-secondary font-bold font-openSauce'>Aspectos a considerar antes de empezar el proceso de transferencia</h3>
-                <ol className='list-decimal text-primary font-bold flex flex-col gap-2'>
+                <ol className='list-decimal text-primary font-bold flex flex-col gap-2 max-sm:px-6'>
                     <li>La cuenta Destino ya debe estar registrada en Criptopass y debes tenerla agregada en Destinatarios.</li>
                     <li>Tener una cuenta verificada en Binance</li>
                     <li>La transferencia se realizará a través de la red <strong className='text-[18px]'>Ethereum</strong> si eliges USDT como moneda de origen. En cambio, si eliges USDC, la transferencia se realizará a través de la red <strong className='text-[18px]'>Polygon</strong>.</li>
-                    <li>Cada tipo de transferencia tiene un costo particular. A continuación los costos:
+                    {destinationCurrency !=='eur' ? <li>Cada tipo de transferencia tiene un costo particular. A continuación los costos:
                         <ul>
                         <li><strong>ACH:</strong> $0.50</li>
                         <li><strong>ACH Mismo Día:</strong> $1</li>
                         <li><strong>Wire:</strong> $20</li>
                         </ul>
-                    </li>
+                    </li> :
+                    <li>Costo de Transferencia <strong>SEPA:</strong> $1</li>
+                    }
                     <li>Si el monto que deseas transferir es 20 USDC por ejemplo, debes tener ciertos costos en cuenta si quieres que esos 20 USDC lleguen enteros al destinatario:</li>
                         <ul className='list-disc pl-8'>
                             <li className='text-[15px] font-garet'>Monto deseado a transferir: 20 USDc.</li>
-                            <li className='text-[15px] font-garet'>Costo de transferencia: 0.5 USDC (<strong>ACH</strong>).</li>
+                            <li className='text-[15px] font-garet'>Costo de transferencia: {destinationCurrency !=='eur' ? <span>1 USDC (<strong>ACH Mismo Día</strong>).</span> : <span>1 USDC (<strong>SEPA</strong>).</span>}</li>
                             <li className='text-[15px] font-garet'>Fee de Binance por transferir a través de la red cripto: X USDT (Depende de la red Blockchain).</li>
                             <li className='text-[15px] font-garet'>Fee de CriptoPass: 2.6% (0.52 USDC).</li>
-                            <li className='text-[15px] font-garet'>Monto total a transferir a través desde Criptopass: 21.12 USDC.</li>
+                            <li className='text-[15px] font-garet'>Monto total a transferir a través desde Criptopass: 21.52 USDC.</li>
                         </ul>
                     {destinationCurrency==='eur' && (
                         <li>
-                            Tipo cambio aprocimado EUR/USD:
-                            <h3 className='text-[20px] bg-slate-500 text-white border-2 border-white rounded-md'>{exchangeRate}</h3>
+                            Tipo cambio aproximado EUR/USD: <span className='text-[20px]  text-secondary font-bold bg-tertiary py-2 px-3 rounded-md shadow-md'>{exchangeRate === null ? 'Cargando' : exchangeRate}</span>
+                            <p>Esta tasa se actualiza <strong>cada 30 segundos aproximadamente.  Ten en cuenta que </strong><strong>CriptoPass no ofrece tasas fijas; este valor es solo una referencia obtenida directamente del mercado</strong> para estimar lo que podrías recibir al hacer una transferencia USDC - EUR.</p>
                         </li>
                     )}
 
