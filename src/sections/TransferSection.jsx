@@ -88,7 +88,7 @@ const TransferSection = ()=>{
     };
 
     useEffect(()=>{
-        setTransferCost(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
+        setTransferCost(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : transferType==='sepa' ? 1 : 0);
     },[transferType]);
 
     useEffect(()=>{
@@ -595,7 +595,7 @@ const TransferSection = ()=>{
                     }
                     <li>Si el monto que deseas transferir es 20 USDC por ejemplo, debes tener ciertos costos en cuenta si quieres que esos 20 USDC lleguen enteros al destinatario:</li>
                         <ul className='list-disc pl-8'>
-                            <li className='text-[15px] font-garet'>Monto deseado a transferir: 20 USDc.</li>
+                            <li className='text-[15px] font-garet'>Monto deseado a transferir: 20 USDC.</li>
                             <li className='text-[15px] font-garet'>Costo de transferencia: {destinationCurrency !=='eur' ? <span>1 USDC (<strong>ACH Mismo Día</strong>).</span> : <span>1 USDC (<strong>SEPA</strong>).</span>}</li>
                             <li className='text-[15px] font-garet'>Fee de Binance por transferir a través de la red cripto: X USDT (Depende de la red Blockchain).</li>
                             <li className='text-[15px] font-garet'>Fee de CriptoPass: 2.6% (0.52 USDC).</li>
@@ -629,10 +629,11 @@ const TransferSection = ()=>{
                                 <span className='text-primary font-bold'>{sourcePaymentRail.toUpperCase()}</span>
                             </div>
                             <div className='w-[50%]'>
-                                <label className='font-bold'>Monto líquido que desea que llegue a destino:</label><br/>
+                                <label className='font-bold'>Monto líquido que desea que llegue a destino ({sourceCurrency}):</label><br/>
                                 <input
                                 className='w-full border-secondary border-2 rounded-sm'
-                                type='text' required={true} placeholder='20.00' value={liquidAmount} onChange={(e)=>setLiquidAmount(e.target.value)}/>
+                                type='text' required={true} placeholder={`${sourceCurrency} 20.00`} value={liquidAmount} onChange={(e)=>setLiquidAmount(e.target.value)}/>
+                                <span><strong>{destinationCurrency==='eur' ? `EUR ${(liquidAmount*exchangeRate).toFixed(2)}` : ''}</strong></span>
                             </div>
 
                         </div>
@@ -689,7 +690,7 @@ const TransferSection = ()=>{
                                 <label className='font-bold'>Costo de la transferencia:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm text'
-                                type='text' value={transferType==='wire' ? ('20 ' + sourceCurrency.toUpperCase()) : transferType === 'ach' ? ('0.50 ' + sourceCurrency.toUpperCase()) : transferType === 'ach_same_day' ? ('1 ' + sourceCurrency.toUpperCase())  : '-'}/>
+                                type='text' value={transferType==='wire' ? ('20 ' + sourceCurrency.toUpperCase()) : transferType === 'ach' ? ('0.50 ' + sourceCurrency.toUpperCase()) : transferType === 'ach_same_day' ? ('1 ' + sourceCurrency.toUpperCase())  : transferType==='sepa' ? ('1 ' + sourceCurrency.toUpperCase()) : '-'}/>
                             </div>
                             <div className='w-[40%]'>
                                 <label className='font-bold'>Comision de Criptopass:</label><br/>
@@ -739,6 +740,7 @@ const TransferSection = ()=>{
                             <li className='text-[20px] max-sm:text-[15px] font-bold'>Moneda de origen: <strong className='text-tertiary text-[15px] text-wrap'>{sourceCurrency}</strong></li>
                             <li className='text-[20px] max-sm:text-[15px] font-bold'>Estado: <strong className='text-tertiary text-[15px]'>{lastTransfer ? lastTransfer.state : ''}</strong></li>
                             <li className='text-[20px] max-sm:text-[15px] font-bold'>Cantidad Final: <strong className='text-tertiary text-[15px]'>{totalAmount}</strong></li>
+                            {destinationCurrency==='eur' && <li className='text-[20px] max-sm:text-[15px] font-bold'>Cantidad Final estimada en EUR: <strong className='text-tertiary text-[15px]'>{(liquidAmount*exchangeRate).toFixed(2)}</strong></li>}
                             <li className='text-[20px] max-sm:text-[15px] font-bold'>Cuenta <strong>DESTINO</strong> a transferir {sourceCurrency.toUpperCase()} desde Binance: <strong className='text-tertiary text-[15px]'>{lastTransfer ? lastTransfer.to_address : ''}</strong></li>
                         </ul>
                         <p className='font-openSauce font-bold text-[20px] max-sm:px-2 underline text-center'>Te recomendamos por favor guardar esta información para usarla al momento de hacer la transferencia en Binance.</p>

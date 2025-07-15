@@ -162,9 +162,10 @@ const Transfers = ()=>{
                                 <th className='px-2 border-secondary border-2 text-left'>Código</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Estado</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Moneda de Origen</th>
-                                <th className='px-2 border-secondary border-2 text-left'>Cantidad Final</th>
+                                <th className='px-2 border-secondary border-2 text-left'>Moneda de Destino</th>
+                                <th className='px-2 border-secondary border-2 text-left'>Cantidad a transferir {transfers[0].source_currency}</th>
+                                <th className='px-2 border-secondary border-2 text-left'>Cantidad Final {transfers[0].source_currency}</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Cuenta a transferir desde Binance</th>
-                                <th className='px-2 border-secondary border-2 text-left'>Destinatario</th>
                                 <th className='px-2 border-secondary border-2 text-left'>Iniciada en</th>
                             </tr>
                             <tbody>
@@ -175,9 +176,10 @@ const Transfers = ()=>{
                                         <td className='px-2 border-secondary border-2'>{transfer.id}</td>
                                         <td className={`${transfer.state==='awaiting_funds' ? 'text-yellow-600 px-2' : transfer.state==='canceled' ? 'text-red-500 px-2' : transfer.state==='payment_processed' ? 'text-green-500 px-2' : 'text-slate-700 px-2'}  border-secondary border-2`}>{transfer.state}</td>
                                         <td className='px-2 border-secondary border-2'>{(transfer.source_currency).toUpperCase()}</td>
+                                        <td className='px-2 border-secondary border-2'>{(transfer.destination_currency).toUpperCase()}</td>
+                                        <td className='px-2 border-secondary border-2'>{transfer.amount}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.final_amount}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.to_address}</td>
-                                        <td className='px-2 border-secondary border-2'>{transfer.destinatario_full_name}</td>
                                         <td className='px-2 border-secondary border-2'>{transfer.created_at}</td>
                                     </tr>
                                 )
