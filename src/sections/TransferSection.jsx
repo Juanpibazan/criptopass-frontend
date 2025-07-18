@@ -20,7 +20,7 @@ const TransferSection = ()=>{
     const [liquidAmount,setLiquidAmount] = useState(0.00);
     const [developerFee,setDeveloperFee] = useState(liquidAmount>=100000 ? 0.015 : liquidAmount>=10000 ? 0.021 : 0.026);
     const [transferType, setTransferType] = useState('');
-    const [transferCost, setTransferCost] = useState(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
+    const [transferCost, setTransferCost] = useState(transferType==='wire' ? 10 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : 0);
     const [destinationCurrency,setDestinationCurrency] = useState('usd');
     const [destinatarios,setDestinatarios] = useState([]);
     const [externalAccount,setExternalAccount] = useState('');
@@ -88,7 +88,7 @@ const TransferSection = ()=>{
     };
 
     useEffect(()=>{
-        setTransferCost(transferType==='wire' ? 20 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : transferType==='sepa' ? 1 : 0);
+        setTransferCost(transferType==='wire' ? 10 : transferType === 'ach' ? 0.50 : transferType === 'ach_same_day' ? 1 : transferType==='sepa' ? 1 : 0);
     },[transferType]);
 
     useEffect(()=>{
@@ -588,7 +588,7 @@ const TransferSection = ()=>{
                         <ul>
                         <li><strong>ACH:</strong> $0.50</li>
                         <li><strong>ACH Mismo Día:</strong> $1</li>
-                        <li><strong>Wire:</strong> $20</li>
+                        <li><strong>Wire:</strong> $10</li>
                         </ul>
                     </li> :
                     <li>Costo de Transferencia <strong>SEPA:</strong> $1</li>
@@ -690,7 +690,7 @@ const TransferSection = ()=>{
                                 <label className='font-bold'>Costo de la transferencia:</label><br/>
                                 <input disabled={true}
                                 className='w-full border-secondary border-2 rounded-sm text'
-                                type='text' value={transferType==='wire' ? ('20 ' + sourceCurrency.toUpperCase()) : transferType === 'ach' ? ('0.50 ' + sourceCurrency.toUpperCase()) : transferType === 'ach_same_day' ? ('1 ' + sourceCurrency.toUpperCase())  : transferType==='sepa' ? ('1 ' + sourceCurrency.toUpperCase()) : '-'}/>
+                                type='text' value={transferType==='wire' ? ('10 ' + sourceCurrency.toUpperCase()) : transferType === 'ach' ? ('0.50 ' + sourceCurrency.toUpperCase()) : transferType === 'ach_same_day' ? ('1 ' + sourceCurrency.toUpperCase())  : transferType==='sepa' ? ('1 ' + sourceCurrency.toUpperCase()) : '-'}/>
                             </div>
                             <div className='w-[40%]'>
                                 <label className='font-bold'>Comision de Criptopass:</label><br/>
