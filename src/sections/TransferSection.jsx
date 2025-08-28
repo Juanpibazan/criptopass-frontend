@@ -9,6 +9,9 @@ import { jwtDecode } from 'jwt-decode';
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
 import SessionEnded from '../Components/SessionEnded';
+import Modal from './Modal';
+import UserForm from './UserFormExample';
+import RegistroDestinatarios from './RegistroDestinatarios';
 
 
 
@@ -32,6 +35,7 @@ const TransferSection = ()=>{
     const [lastResponseStatus,setLastResponseStatus] = useState();
     const [wireMessage, setWireMessage] = useState();
     const [exchangeRate,setExchangeRate] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -646,7 +650,8 @@ const TransferSection = ()=>{
                                 <label className='font-bold'>Cuenta Destino:</label><br/>
                                 <div className='flex justify-start items-start gap-2'>
                                     <button className='bg-primary text-white py-2 px-4 border-primary border-2 rounded-sm' onClick={()=>fetchDestinatarios()}>Buscar destinatarios</button>
-                                    <Link to='/register-recipient-accounts' className='bg-secondary text-white py-2 px-4 border-secondary border-2 rounded-sm' >Registrar destinatarios</Link>
+                                    {/*<Link to='/register-recipient-accounts' className='bg-secondary text-white py-2 px-4 border-secondary border-2 rounded-sm' >Registrar destinatarios</Link> */}
+                                    <button className='bg-secondary text-white py-2 px-4 border-secondary border-2 rounded-sm' onClick={()=>setIsOpen(true)}>Registrar destinatarios</button>
                                 </div>
 
                                 {/*<input
@@ -753,6 +758,11 @@ const TransferSection = ()=>{
                 </div>
             </div>
             </div>
+            <Modal
+            open={isOpen} onClose={()=>setIsOpen(false)} 
+            >
+                <RegistroDestinatarios />
+            </Modal>
             <ToastContainer position='top-center' />
         </div>
     )

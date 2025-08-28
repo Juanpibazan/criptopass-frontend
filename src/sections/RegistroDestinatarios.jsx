@@ -9,7 +9,7 @@ import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
 import SessionEnded from '../Components/SessionEnded';
 
-const RegistroDestinatarios = ()=>{
+const RegistroDestinatarios = ({open})=>{
     const [{activeTitle, user,jwtoken},dispatch] = useStateValue();
     const [activeTab,setActiveTab] = useState('');
     const [dropdownShowing,setDropdownShowing] = useState(false);
@@ -19,7 +19,7 @@ const RegistroDestinatarios = ()=>{
     const [destinyAlias,setDestinyAlias] = useState('');
     const [lastResponseStatus,setLastResponseStatus] = useState();
 
-    const handleSearch = async (string)=>{
+   {/* const handleSearch = async (string)=>{
         try{
             setDropdownShowing(!dropdownShowing);
             setSearchString(string);
@@ -58,7 +58,47 @@ const RegistroDestinatarios = ()=>{
                 position:'top-center'
             });
     }
-    };
+    }; */}
+
+    useEffect(()=>{
+        const handleSearch = async ()=>{
+                try{
+                    setDropdownShowing(!dropdownShowing);
+                const foundCustomer = await axios({
+                    method:'get',
+                    url:`https://criptopass.com/bridge/customers/find/${user.email}`,
+                    headers:{
+                        "Content-Type":"application/json",
+                        "Authorization":`Bearer ${jwtoken}`
+                    }
+                });
+                //setLastResponseStatus(foundCustomer.status);
+                const {msg,data} = foundCustomer.data;
+                if(foundCustomer.status===200){
+                    if(data.length===0){
+                        setSearchItems([msg]);
+                    } else{
+                        console.log('SEARCH ITEMS: ', data);
+                        setSearchItems(data);
+                    }
+                } else{
+                    toast(msg,{
+                        type:'error',
+                        isLoading:false,
+                        position:'top-center'
+                    })
+                }
+            }catch(e){
+                    console.log(e);
+                    toast(e.response.data.msg,{
+                        type:'error',
+                        position:'top-center'
+                    });
+            }
+            };
+            handleSearch();
+            return setSearchItems([]);
+    },[open]);
 
     const addDestiny = async ()=>{
         try{
@@ -139,20 +179,21 @@ const RegistroDestinatarios = ()=>{
                 <SessionEnded/>
             </div>
             <div className={`${lastResponseStatus===401 ? 'hidden' : 'block'}`}>
-            <div className='flex max-sm:flex-col justify-start items-center gap-10'>
-                <div>
+            <div className='flex flex-col justify-start items-center gap-10'>
+                <div className='w-full max-w-full'>
                     <h3 className='text-[20px] text-primary font-openSauce font-bold'>Buscar destinatario por email address</h3>
-                    <input type='text' placeholder='Escribe la dirección de email' value={searchString} onChange={(e)=>handleSearch(e.target.value)}
+                    {/*<input type='text' placeholder='Escribe la dirección de email' value={searchString} onChange={(e)=>handleSearch(e.target.value)}
                     className={`border-secondary border-2 rounded-sm w-full`}
-                    />
+                    /> */}
                     {searchItems.length > 1 ?
                     <div>
                     <input className={`${selectedItem.account_number ? 'block bg-green-400' : 'hidden'} w-full`} readOnly={true} value={(!selectedItem.first_name && !selectedItem.last_name) ? selectedItem : selectedItem.account_owner_name  + ' - '+selectedItem.bank_name + ' - ' + (selectedItem.routing_number===null ? selectedItem.bic : selectedItem.routing_number)} />
-                    <select value={selectedItem} onChange={(e)=>setSelectedItem(JSON.parse(e.target.value))}>
+                    <select value={selectedItem} onChange={(e)=>setSelectedItem(JSON.parse(e.target.value))} className='w-full max-w-full border-secondary border-2 rounded-sm'>
+                        <option value='' className={`font-garet text-[10px] w-full max-w-full`}>Seleccione una cuenta</option>
                         {searchItems.map((item, index)=>{
                             return (
                                 <option key={index} value={JSON.stringify(item)}
-                                className={`font-garet`}
+                                className={`font-garet text-[10px] w-full max-w-full`}
                                 
                                 >
                                     {(!item.first_name && !item.last_name) ? item : item.account_owner_name + ' - '+item.bank_name+ ' - ' + (item.routing_number===null ? item.bic : item.routing_number)}
@@ -161,12 +202,12 @@ const RegistroDestinatarios = ()=>{
                         })}
                     </select> 
                     </div>:
-                    <button readOnly={true} className={`text-left w-full ${selectedItem.account_number ? 'bg-green-400' : ''}`} value={searchItems[0]} onClick={()=>setSelectedItem(searchItems[0])}>{searchItems.length>0 ? searchItems[0].account_owner_name + ' - '+ searchItems[0].bank_name + ' - ' + (searchItems[0].routing_number===null ? searchItems[0].bic : searchItems[0].routing_number) : ''}</button>
+                    <button readOnly={true} className={`text-left w-full max-w-full ${selectedItem.account_number ? 'bg-green-400' : ''}`} value={searchItems[0]} onClick={()=>setSelectedItem(searchItems[0])}>{searchItems.length>0 ? searchItems[0].account_owner_name + ' - '+ searchItems[0].bank_name + ' - ' + (searchItems[0].routing_number===null ? searchItems[0].bic : searchItems[0].routing_number) : ''}</button>
                     }
                 </div>
                 <div>
                     <label className='text-[20px] text-primary font-openSauce font-bold'>Asignar un alias/nickname al destinatario</label><br/>
-                    <input className='border-secondary border-2 rounded-sm'
+                    <input className='border-secondary border-2 rounded-sm w-full max-w-full'
                     type='text' placeholder='Mi propia cuenta/Cuenta de mi BFF/Cuenta del proveedor 1' value={destinyAlias} onChange={(e)=>setDestinyAlias(e.target.value)} required={true} />
                 </div>
             </div>
