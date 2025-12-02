@@ -25,8 +25,8 @@ const Transfers = ()=>{
                 try{
                 const transfersResponse = await axios({
                     method:'get',
-                    url:`https://criptopass.com/bridge/transfers/senders/${user.customer_id}?limit=${limit}`,
-                    //url:`https://criptopass.com/bridge/transfers/${user.customer_id}?limit=${limit}`,
+                    url:`https://criptopass.online/bridge/transfers/senders/${user.customer_id}?limit=${limit}`,
+                    //url:`https://criptopass.online/bridge/transfers/${user.customer_id}?limit=${limit}`,
                     //url:`http://193.203.174.82:5000/bridge/transfers/${user.customer_id}?limit=${limit}`,
                     headers:{
                         "Content-Type":"application/json",
@@ -108,8 +108,8 @@ const Transfers = ()=>{
         try{
         const transfersResponse = await axios({
             method:'get',
-            url:`https://criptopass.com/bridge/transfers/senders/${user.customer_id}?limit=${limit}`,
-            //url:`https://criptopass.com/bridge/transfers/${user.customer_id}?limit=${limit}`,
+            url:`https://criptopass.online/bridge/transfers/senders/${user.customer_id}?limit=${limit}`,
+            //url:`https://criptopass.online/bridge/transfers/${user.customer_id}?limit=${limit}`,
             //url:`http://193.203.174.82:5000/bridge/transfers/${user.customer_id}?limit=${limit}`,
             headers:{
                 "Content-Type":"application/json",

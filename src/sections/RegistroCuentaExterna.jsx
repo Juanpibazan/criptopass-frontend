@@ -75,7 +75,7 @@ const CuentaExternaUSA = (props)=>{
                     }));
                     const externalAccountResponse = await axios({
                         method:'post',
-                        url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts`,
+                        url:`https://criptopass.online/bridge/customers/${customer_id}/external_accounts`,
                         //url:`http://localhost:4000/bridge/customers/${customer_id}/external_accounts`,
                         data:{
                                 type: "raw",
@@ -146,7 +146,7 @@ const CuentaExternaUSA = (props)=>{
                     }));
                     const externalAccountResponse = await axios({
                         method:'post',
-                        url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts`,
+                        url:`https://criptopass.online/bridge/customers/${customer_id}/external_accounts`,
                         data:{
                                 type: "raw",
                                 bank_name, 
@@ -205,7 +205,7 @@ const CuentaExternaUSA = (props)=>{
                 }));
                 const externalAccountResponse = await axios({
                     method:'post',
-                    url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts`,
+                    url:`https://criptopass.online/bridge/customers/${customer_id}/external_accounts`,
                     data:{
                         type: "raw",
                         bank_name, 
@@ -394,7 +394,7 @@ const CuentaExternaSEPA = ()=>{
                     }));
                     const externalAccountResponse = await axios({
                         method:'post',
-                        url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts/sepa`,
+                        url:`https://criptopass.online/bridge/customers/${customer_id}/external_accounts/sepa`,
                         //url:`http://localhost:4000/bridge/customers/${customer_id}/external_accounts`,
                         data:{
                                 bank_name,
@@ -467,7 +467,7 @@ const CuentaExternaSEPA = ()=>{
                     }));
                     const externalAccountResponse = await axios({
                         method:'post',
-                        url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts/sepa`,
+                        url:`https://criptopass.online/bridge/customers/${customer_id}/external_accounts/sepa`,
                         data:{
                                 bank_name,
                                 account_number,
@@ -528,7 +528,7 @@ const CuentaExternaSEPA = ()=>{
                 }));
                 const externalAccountResponse = await axios({
                     method:'post',
-                    url:`https://criptopass.com/bridge/customers/${customer_id}/external_accounts/sepa`,
+                    url:`https://criptopass.online/bridge/customers/${customer_id}/external_accounts/sepa`,
                     data:{
                             bank_name,
                             account_number,

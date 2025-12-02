@@ -26,7 +26,7 @@ const RegistroDestinatarios = ({open})=>{
         if(string.length>=5){
         const foundCustomer = await axios({
             method:'get',
-            url:`https://criptopass.com/bridge/customers/find/${string}`,
+            url:`https://criptopass.online/bridge/customers/find/${string}`,
             headers:{
                 "Content-Type":"application/json",
                 "Authorization":`Bearer ${jwtoken}`
@@ -66,7 +66,7 @@ const RegistroDestinatarios = ({open})=>{
                     setDropdownShowing(!dropdownShowing);
                 const foundCustomer = await axios({
                     method:'get',
-                    url:`https://criptopass.com/bridge/customers/find/${user.email}`,
+                    url:`https://criptopass.online/bridge/customers/find/${user.email}`,
                     headers:{
                         "Content-Type":"application/json",
                         "Authorization":`Bearer ${jwtoken}`
@@ -108,7 +108,7 @@ const RegistroDestinatarios = ({open})=>{
             if(destinyAlias !==''){       
                 const response = await axios({
                     method:'post',
-                    url:'https://criptopass.com/bridge/customers/destinatarios',
+                    url:'https://criptopass.online/bridge/customers/destinatarios',
                     data:{
                         destiny_external_account_id:selectedItem.external_account_id,
                         destiny_customer_id:selectedItem.id,

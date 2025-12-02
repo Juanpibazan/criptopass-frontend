@@ -66,7 +66,7 @@ const TransferSection = ()=>{
             const customer_id = user.customer_id;
             const destinatariosResponse = await axios({
                 method:'get',
-                url:`https://criptopass.com/bridge/customers/destinatarios/${customer_id}`,
+                url:`https://criptopass.online/bridge/customers/destinatarios/${customer_id}`,
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${jwtoken}`
@@ -128,7 +128,7 @@ const TransferSection = ()=>{
                     }));
                     const transferResponse = await axios({
                         method:'post',
-                        url:'https://criptopass.com/bridge/transfers/',
+                        url:'https://criptopass.online/bridge/transfers/',
                         data:{
                             source: {
                                 source_currency:sourceCurrency,
@@ -253,7 +253,7 @@ const TransferSection = ()=>{
                     }));
                     const transferResponse = await axios({
                         method:'post',
-                        url:'https://criptopass.com/bridge/transfers/',
+                        url:'https://criptopass.online/bridge/transfers/',
                         data:{
                             source: {
                                 source_currency: sourceCurrency,
@@ -374,7 +374,7 @@ const TransferSection = ()=>{
                     }));
                     const transferResponse = await axios({
                         method:'post',
-                        url:'https://criptopass.com/bridge/transfers/',
+                        url:'https://criptopass.online/bridge/transfers/',
                         data:{
                             source: {
                                 source_currency: sourceCurrency,
@@ -544,7 +544,7 @@ const TransferSection = ()=>{
                 if(destinationCurrency==='eur'){
             const apiResponse = await axios({
                 method: 'get',
-                url: `https://criptopass.com/bridge/transfers/exchange-rate/${from}?to=${to}`,
+                url: `https://criptopass.online/bridge/transfers/exchange-rate/${from}?to=${to}`,
                 headers:{
                     "Content-Type":"application/json",
                     "Api-Key":import.meta.env.VITE_BRIDGE_API_KEY,

@@ -40,7 +40,7 @@ const Login = ()=>{
             if(email !=='' && pass !== ''){
                 const response = await axios({
                     method:'post',
-                    url:'https://criptopass.com/criptopass/auth/login',
+                    url:'https://criptopass.online/criptopass/auth/login',
                     //url: 'http://193.203.174.82:5000/criptopass/auth/login',
                     data:{
                         email,

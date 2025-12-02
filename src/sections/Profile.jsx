@@ -36,7 +36,7 @@ const Profile = ()=>{
         try{
         const kyc_link_record = await axios({
             method:'get',
-            url:`https://criptopass.com/bridge/customers/kyc_links?email=${email}`,
+            url:`https://criptopass.online/bridge/customers/kyc_links?email=${email}`,
             headers:{
                 "Content-Type":"application/json",
                 "Authorization":`Bearer ${jwtoken}`
@@ -114,7 +114,7 @@ const Profile = ()=>{
             const idempotencyKey = uuidv4();
             const response = await axios({
                 method:'post',
-                url:'https://criptopass.com/bridge/customers/kyc_links',
+                url:'https://criptopass.online/bridge/customers/kyc_links',
                 //url:'http://localhost:4000/bridge/customers/kyc_links',
                 data:{
                     fullName,
@@ -177,7 +177,7 @@ const Profile = ()=>{
             if(!hasRun){
             const kyc_link_record = await axios({
                 method:'get',
-                url:`https://criptopass.com/bridge/customers/kyc_links?email=${email}`,
+                url:`https://criptopass.online/bridge/customers/kyc_links?email=${email}`,
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${jwtoken}`
@@ -252,7 +252,7 @@ const Profile = ()=>{
         try {
             const customerResponse  = await axios({
                 method:'get',
-                url: `https://criptopass.com/bridge/customers/${customerId}`,
+                url: `https://criptopass.online/bridge/customers/${customerId}`,
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization": `Bearer ${jwtoken}`
@@ -302,7 +302,7 @@ const Profile = ()=>{
         try {
             const generatedSepaResponse = await axios({
                 method:'get',
-                url: `https://criptopass.com/bridge/customers/sepa_kyc_links/${customerId}`,
+                url: `https://criptopass.online/bridge/customers/sepa_kyc_links/${customerId}`,
                 headers: {
                     "Content-Type":"application/json",
                     "Authorization": `Bearer ${jwtoken}`
