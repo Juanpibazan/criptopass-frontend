@@ -310,7 +310,7 @@ const CuentaExternaUSA = (props)=>{
                         </div>
                         <div>
                             <label className='font-bold text-[17px] text-secondary'>Estado</label><br/>
-                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='California'
+                            <input className='border-2 border-secondary rounded-sm' type='text' placeholder='CA'
                             value={address.state} onChange={(e)=>setAddress({...address,state:e.target.value})}/>
                         </div>
                         <div>
